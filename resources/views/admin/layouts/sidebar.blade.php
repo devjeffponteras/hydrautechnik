@@ -18,7 +18,7 @@
                 </div>
             @else
                 <div class="d-flex justify-content-center">
-                    <a href="{{ route('account.edit') }}" class="avatar wd-100"><img src="/{{ Auth::user()->avatar }}" class="rounded-circle" alt=""></a>
+                    <a href="{{ route('account.edit') }}" class="avatar wd-100"><img src="{{ asset(Auth::user()->avatar) }}" class="rounded-circle" alt=""></a>
                 </div>
                 <div class="aside-loggedin-user tx-center">
                     <h6 class="tx-semibold mg-b-0">{{ Auth::user()->fullname }}</h6>
