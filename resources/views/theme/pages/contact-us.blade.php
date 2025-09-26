@@ -75,50 +75,6 @@
         </div>
     </div>
     
-    <div class="row contact-details">
-        <div class="col-lg-4 my-2">
-            <div class="feature-box fbox-center fbox-bg fbox-plain">
-                <div class="fbox-icon">
-                    <a href="#"><i class="uil uil-map-marker"></i></a>
-                </div>
-                <div class="fbox-content">
-                    <h3>Main Office
-                        <span class="subtitle">
-                            Rm. 301, 3rd Floor, Right Wing, Electoral Tribunal Building
-                            Commonwealth Avenue, Quezon City
-                        </span>
-                    </h3>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-4 my-2">
-            <div class="feature-box fbox-center fbox-bg fbox-plain">
-                <div class="fbox-icon">
-                    <a href="#"><i class="bi-telephone"></i></a>
-                </div>
-                <div class="fbox-content">
-                    <h3>Speak to Us
-                        <span class="subtitle">(+632) 931 7642</span>
-                    </h3>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-4 my-2">
-            <div class="feature-box fbox-center fbox-bg fbox-plain">
-                <div class="fbox-icon">
-                    <a href="#"><i class="bi-envelope"></i></a>
-                </div>
-                <div class="fbox-content">
-                    <h3>Email Us
-                        <span class="subtitle">isjrms@hret.gov.ph</span>
-                    </h3>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>
 @endsection
 
