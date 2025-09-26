@@ -1,0 +1,556 @@
+/* ----------------------------------------------------------------
+	Custom CSS
+
+	Add all your Custom Styled CSS here for New Styles or
+	Overwriting Default Theme Styles for Better Handling Updates
+-----------------------------------------------------------------*/
+body {
+    font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+@font-face {
+    font-family: 'Old English Text MT';
+}
+
+.old-english {
+    font-family: 'Old English Text MT', serif !important;
+}
+
+#gotoTop {
+    background-color: #f7b716;
+}
+
+#gotoTop:hover {
+    background-color: rgb(0, 55, 87, 0.7);
+}
+
+/* ----------------------------------------------------------------
+    Header Styles
+-----------------------------------------------------------------*/
+
+#header-wrap,
+.top-search-form {
+    background-color: #ffffff !important;
+}
+
+#top-bar {
+    background-color: #000000 !important;
+}
+
+.header-row {
+    justify-content: start;
+}
+
+.header-title h4 {
+    font-weight: normal;
+}
+
+.header-wrap-clone {
+    height: 48px;
+}
+
+/* Logo */
+#main-logo img {
+    height: 75px;
+    padding: 0px 30px;
+}
+
+#header-logo img {
+    height: 50px;
+}
+
+#small-size-logo img {
+    height: 45px;
+}
+
+.sticky-header #header-logo {
+    display: block !important;
+    padding: 5px 0px;
+}
+
+.menu-link {
+    padding: 13px 18px !important;
+    color: #0c0c0c !important;
+}
+
+.menu-link:hover {
+    color: #0c0c0c !important;
+}
+
+.owl-carousel .owl-dots .owl-dot {
+    background-color: #003757 !important;
+}
+
+#slider {
+    min-height: 70vh !important;
+}
+
+.owl-carousel .owl-nav [class*=owl-]:hover   {
+    background-color: #003757 !important;
+}
+
+/* Search Styles */
+.top-search-form input {
+    color: #fff !important;
+    font-size: 16px;
+}
+
+#top-search-trigger i {
+    color: #ffffff !important;
+}
+
+#top-search-trigger i.bi-x-lg {
+    color: #000000 !important;
+}
+
+.top-search-form input::placeholder {
+    color: #0c0c0c !important;
+}
+
+/* Small screen menu Styles */
+.cnvs-hamburger-inner,
+.cnvs-hamburger-inner::before,
+.cnvs-hamburger-inner::after {
+    background-color: #fff !important;
+}
+
+/* ----------------------------------------------------------------
+    Page Titles Styles
+-----------------------------------------------------------------*/
+
+.page-title h1,
+.breadcrumb-item {
+    color: #fff !important;
+}
+
+.page-title {
+    background: url('../images/banners/bg-breadcrumbs.jpg') no-repeat center center;
+    background-size: cover;
+    min-height: 40vh;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+}
+
+/* Position breadcrumbs at the bottom */
+.breadcrumb-container {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: 100%;
+    font-size: 16px;
+}
+
+.breadcrumb a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    color: #003757;
+}
+
+.breadcrumb-item+.breadcrumb-item::before {
+    color: #fff;
+}
+
+/* ----------------------------------------------------------------
+    Footer Styles
+-----------------------------------------------------------------*/
+
+#footer {
+    background-color: #003757 !important;
+}
+
+#footer .row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#footer .col-lg-4 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#footer .widget_links a:hover {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+#copyrights .row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#copyrights {
+    padding: 30px 0px !important;
+}
+
+.contact-info-container {
+    background: url('../images/world-map.png') no-repeat center center;
+    background-size: contain;
+}
+
+.contact-info i {
+    display: flex;
+    align-items: center;
+    height: 24px;
+}
+
+.map-iframe {
+    border: 0;
+    width: inherit;
+    overflow: hidden;
+    min-height: 200px !important;
+}
+
+/* Members CSS*/
+.team-member {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.team-member p {
+    margin-bottom: 0px;
+    font-size: 14px;
+}
+
+.team-member-image {
+    width: 280px;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.team-image img {
+    width: 100%;
+    height: inherit;
+    object-fit: cover;
+}
+
+.team-member h4 {
+    font-size: 18px;
+    margin-bottom: 1px;
+    font-weight: 600;
+    position: relative;
+}
+
+.team-desc {
+    height: 180px; 
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.01);
+}
+
+/* Contact Us CSS */
+#reset-button {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    box-shadow: none;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.09); /* Dark overlay */
+    z-index: 2;
+}
+#reset-button:hover {
+    background-color: #e0e0e0;
+}
+
+#submit-button {
+    color: #fff;
+    background-color: rgb(0, 55, 87);
+    box-shadow: none;
+}
+
+.subtitle {
+    font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-weight: normal !important;
+    font-size: 14px !important;
+}
+
+.contact-details>div {
+    display: flex;
+}
+
+.contact-details .feature-box {
+    width: 100%;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.contact-details .feature-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contact-details .fbox-icon {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.contact-details .fbox-icon a {
+    width: 60px;
+    height: 60px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.03);
+    line-height: 1;
+}
+
+.contact-details .fbox-icon i {
+    font-size: 24px;
+    color: rgb(0, 55, 87);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+    width: 24px;
+}
+
+.contact-details .fbox-content {
+    text-align: center;
+}
+
+.contact-details .fbox-content h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.contact-details .fbox-content .subtitle {
+    color: #666;
+    line-height: 1.5;
+    display: block;
+}
+
+/* Rules CSS */
+
+.section-schedule {
+    font-size: 14px;
+    background: linear-gradient(to bottom, rgba(0, 55, 87, 0) 0%, rgba(0, 55, 87, 0.3) 50%, rgba(0, 55, 87, 0) 100%);
+    padding: 100px 0;
+    background-size: 100% 100%;
+}
+
+
+.section-schedule .nav-link {
+    position: relative;
+    padding: 15px 20px;
+    font-size: 16px;
+    background-color: #FFF;
+    margin-bottom: 10px;
+    box-shadow: 2px 4px 15px 2px rgba(0, 0, 0, 0.05); 
+    border-left: 5px solid transparent;
+    overflow: hidden;
+    color: #444;
+    transition: all .3s ease;
+}
+
+.section-schedule .nav-pills .nav-link.active {
+    box-shadow: 3px 8px 30px 4px rgba(0, 0, 0, 0.2);
+    border-left-color: rgb(0, 55, 87) !important;
+    background-color: #FFF;
+    color: rgb(0, 55, 87) !important;
+}
+
+.section-schedule .nav-link.active::after,
+.section-schedule .nav-link:hover::after {
+    opacity: .6;
+    background-position: 100% 70%;
+}
+
+.schedule-wrap {
+    position: relative;
+    padding: 30px;
+    border-radius: 4px;
+    background-color: #FFF;
+    box-shadow: 2px 4px 15px 2px rgba(0, 0, 0, 0.05); 
+}
+
+.section-schedule p {
+    margin-bottom: 0;
+    margin-top: 15px;
+}
+
+.section-schedule ol {
+    padding-left: 30px;
+    margin-bottom: 0;
+}
+
+.text-bold-italic {
+    font-style: italic;
+    font-weight: bold;
+}
+
+.tab-pane,
+.row>* {
+    text-align: justify;
+}
+
+.no-style {
+    list-style: none;
+    padding-left: 30px;
+}
+
+.no-style li {
+    padding: 8px;
+}
+
+.numbered-list {
+    list-style: none;
+    counter-reset: list-counter;
+    padding-left: 0;
+}
+
+.numbered-list li {
+    counter-increment: list-counter;
+}
+
+.numbered-list li::before {
+    content: "(" counter(list-counter) ") ";
+}
+
+/* ----------------------------------------------------------------
+    Responsive Design Styles
+-----------------------------------------------------------------*/
+
+/* Large Screens (992px and up) */
+@media (min-width: 992px) {
+    .menu-type-primary {
+        font-size: 1.125rem;
+    }
+
+    #main-logo {
+        display: block !important;
+    }
+
+    .header-misc>.header-misc-icon:first-child {
+        border-left: 1px solid #dee2e6;
+    }
+}
+
+/* Tablet & Mobile Screens (Below 992px) */
+@media (max-width: 992px) {
+    #small-size-logo {
+        display: block !important;
+    }
+
+    .header-row {
+        justify-content: flex-end !important;
+    }
+
+    #footer .col-lg-4 {
+        padding-top: 55px;
+    }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media (max-width: 600px) {
+    .header-title h4 {
+        font-size: 12px !important;
+    }
+
+    .header-title h2 {
+        font-size: 16px !important;
+    }
+
+    .page-title, .page-title-row {
+        padding: 0px 5px !important;
+    }
+    
+    .page-title .breadcrumb {
+        padding: 0px 10px !important;
+        justify-content: flex-start !important;
+    }
+    
+    .page-title .page-title-content {
+        text-align: left !important;
+    }
+
+    .section-schedule .container {
+        padding: 0px;
+    }
+
+    .section-schedule .heading-block {
+        padding: 0px 10px;
+    }
+    .section-schedule h3 {
+        margin-bottom: 10px !important;
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .section-schedule .description {
+        font-size: 16px;
+        text-align: center;
+    }
+    .sticky-sidebar-wrap-small-screen {
+        display: block !important;
+    }
+
+    .sticky-sidebar {
+        display: none !important;
+    }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media (min-width: 600px) and (max-width: 991px) {
+
+    .header-title h4 {
+        font-size: 14px !important;
+    }
+
+    .header-title h2 {
+        font-size: 20px !important;
+    }
+
+    #footer .col-lg-3 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* Ipad Pro */
+@media (width: 1024px) {
+
+    #header-wrap,
+    .container {
+        padding: 0px;
+    }
+
+    .menu-link {
+        padding: 10px 15px !important;
+    }
+
+    .header-wrap-clone {
+        height: 43px;
+    }
+
+    #header-logo {
+        padding: 5px 4px !important;
+    }
+}

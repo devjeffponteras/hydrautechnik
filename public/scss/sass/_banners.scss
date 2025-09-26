@@ -1,0 +1,327 @@
+@import "variables";
+
+/*-----------------------------------------------------------------------------------
+
+	banner.scss
+
+-----------------------------------------------------------------------------------*/
+
+
+#preloader,
+#pre-loader {
+  position: absolute !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  text-align: center !important;
+  background-color: #fff !important;
+  z-index: 99 !important;
+}
+
+#preloader #status,
+#pre-loader #status {
+  padding: 0 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  background-image: url(../images/ajax-loader.gif);
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: -100px 0 0 -100px;
+}
+
+#banner, #subbanner {
+  margin-bottom: -8px;
+  overflow: hidden;
+}
+
+#banner img,
+#subbanner img {
+  width: 100%;
+  margin: 0;
+}
+
+#banner .hero-slide,
+#subbanner .hero-slide {
+  overflow: hidden;
+}
+
+.banner-overlay-1 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 5px;
+  z-index: 97;
+  max-width: 100%;
+  opacity: 0.7;
+  background-color: white;
+}
+
+.banner-overlay-2 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 5px;
+  z-index: 97;
+  max-width: 100%;
+  opacity: 0.9;
+  background-image: linear-gradient(rgba(3,145,197,0) 60%, var(--dark-color) 100%);
+}
+
+#banner video {
+  /* width: 100%; */
+}
+
+/* #banner video + .banner-overlay {
+  bottom: 8px;
+} */
+
+.banner-caption {
+  position: relative;
+  z-index: 3;
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -vendor-animation-duration: 3s;
+  -vendor-animation-delay: 0s;
+  -vendor-animation-iteration-count: infinite;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  height: initial;
+  z-index: 98;
+  max-width: 100%;
+  margin: 0 auto;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  padding: 40px 25px;
+
+  @include media-breakpoint-down(sm) {
+    padding: 10px 0px;
+  }
+}
+
+.banner-caption h2 {
+  font-family: $heading-font;
+  font-weight: bold !important;
+  font-size: 4rem;
+  line-height: 1.2;
+  padding: 0;
+  text-transform: uppercase;
+
+  @include media-breakpoint-down(xl) {
+    font-size: 4rem;
+  }
+
+  @include media-breakpoint-down(md) {
+    font-size: 28px;
+    margin-bottom: 15px;
+  }
+
+  @include media-breakpoint-down(sm) {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+}
+
+.banner-caption h6 {
+  font-family: $body-font;
+  font-weight: normal !important;
+  font-size: 20px;
+
+  @include media-breakpoint-down(xl) {
+    font-size: 16px;
+  }
+
+  @include media-breakpoint-down(md) {
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+
+  @include media-breakpoint-down(sm) {
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+}
+
+.banner-caption hr {
+  border-top: 1px solid var(--dark-color);
+  width: 100px;
+  margin: 1.5em 0;
+}
+
+.banner-caption p {
+  font-family: var(--secondary-font);
+  font-size: 1.5rem !important;
+  font-weight: 300;
+  color: var(--theme-color);
+  padding: 0;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  margin-top: 30px;
+}
+
+.banner-caption .button {
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
+}
+
+.sub-banner-overlay-1 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 5px;
+  z-index: 97;
+  opacity: .6;
+  background-color: #333;
+}
+
+.sub-banner-overlay-2 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 5px;
+  z-index: 97;
+  max-width: 100%;
+  opacity: 0.9;
+  background-color: #02647A;
+}
+
+.sub-banner-overlay:after {
+  content: " ";
+  position: absolute;
+  left: 99%;
+  top: 0;
+  bottom: 0;
+  z-index: 97;
+  width: 100vw;
+  opacity: 1;
+  background: #287f31;
+}
+
+.sub-banner-caption {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -vendor-animation-duration: 3s;
+  -vendor-animation-delay: 0s;
+  -vendor-animation-iteration-count: infinite;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 98;
+  max-width: 100%;
+  margin: 0 auto;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  padding: 0 25px;
+
+  // @include media-breakpoint-up(lg) {
+  //   top: 100px;
+  // }
+
+  @include media-breakpoint-down(sm) {
+    padding: 10px 0px;
+  }
+}
+
+.sub-banner-caption .breadcrumb {
+	flex-wrap: nowrap;
+}
+
+.sub-banner-caption h2 {
+  font-family: $heading-font;
+  font-weight: bold !important;
+  font-size: 54px;
+  line-height: 1.2;
+  padding: 0;
+  margin-bottom: 0px;
+
+  @include media-breakpoint-down(xl) {
+    font-size: 40px;
+  }
+
+  @include media-breakpoint-down(md) {
+    font-size: 28px;
+  }
+
+  @include media-breakpoint-down(sm) {
+    font-size: 20px;
+  }
+}
+
+.sub-banner-caption hr {
+  border-top: 2px solid #f7d401;
+  width: 45%;
+  margin: 1em 0 1em auto;
+}
+
+.sub-banner-caption p {
+  font-size: 20px;
+  color: #555;
+  padding: 0;
+  line-height: 1.35;
+}
+
+.sub-banner-caption .breadcrumb {
+	position: relative !important;
+	margin: 0 !important;
+	right: 0 !important;
+  /* justify-content: flex-end; */
+  padding-left: 0;
+  padding-right: 0;
+  align-items: center;
+}
+
+.sub-banner-caption .breadcrumb a, .sub-banner-caption .breadcrumb-item + .breadcrumb-item::before {
+  font-family: $body-font;
+  font-size: 12px;
+  font-weight: normal;
+  color: $body-text-color;
+}
+
+.sub-banner-caption .breadcrumb-item.active {
+  font-family: $body-font;
+  font-size: 12px;
+  color: $theme-color;
+  font-weight: normal;
+  padding-top: 4px;
+}
+
+.sub-banner-caption .sub-banner-flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: flex-start;
+}
+
+.sub-banner-flex {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}

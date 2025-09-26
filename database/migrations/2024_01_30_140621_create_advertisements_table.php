@@ -1,0 +1,35 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateAdvertisementsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('advertisements', function (Blueprint $table) {
+            $table->id();
+            $table->text('file_path');
+            $table->enum('file_type', ['image', 'video']);
+            $table->timestamp('expiration_date')->nullable();
+            $table->enum('display_type', ['float', 'fixed']);
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('advertisements');
+    }
+}
