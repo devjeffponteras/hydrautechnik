@@ -1,7 +1,7 @@
 @php $page = $item->page; @endphp
 @if (!empty($page) && $item->is_page_type() && $page->is_published())
     <li class="menu-item @if( url()->current() == $page->get_url() || ($page->id == 1 && url()->current() == env('APP_URL')) ) current @endif @if($item->has_sub_menus()) @endif @if(Str::contains(url()->current(), $page->get_url())) current @endif">
-        <a href="/{{$page->get_url()}}" class="menu-link">
+        <a href="{{env('APP_URL')}}/{{$page->get_url()}}" class="menu-link">
             <div>
                 @if (!empty($page->label))
                     {{ $page->label }} 
