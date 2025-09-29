@@ -332,4 +332,27 @@ class FrontController extends Controller
 
         return view('theme.pages.portfolio.index', compact('page'));
     }
+
+    public function products() {
+        $page = new Page();
+        $page->name = 'Products';
+
+        return view('theme.pages.products.index', compact('page'));
+    }
+
+    public function equipments() {
+        $page = new Page();
+        $page->name = 'Equipments';
+
+        return view('theme.pages.equipments.index', compact('page'));
+    }
+
+    public function services() {
+        $page = new Page();
+        $page->name = 'Services';
+
+        return view('theme.pages.services.index', compact('page'));
+    }
+
+    
 }

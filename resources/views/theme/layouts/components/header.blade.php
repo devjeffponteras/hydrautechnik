@@ -29,7 +29,7 @@
 
 <!-- Header
 ============================================= -->
-<header id="header" class="header-size-sm transparent-header floating-header" data-sticky-shrink="false">
+<header id="header" class="header-size-sm transparent-header floating-header shadow" data-sticky-shrink="false">
 	<div id="header-wrap border-0">
 
 		<div class="container-fluid" data-class="up-lg:border up-lg:shadow-sm" style="padding-right: 0px;">
@@ -62,7 +62,7 @@
                 <!-- call us btn -->
                 <div class="d-flex call-us-wide-btn d-flex align-items-center">
                     <i class="icon-line-arrow-right" style="font-size: 24px"></i>
-                    <a href="#" class="text-dark ps-1" style="font-size: 24px"> Call us: ﻿+632 8546 8665</a>
+                    <a href="#" class="text-dark ps-1 call-us-header-number" style="font-size: 24px"> Call us: ﻿+632 8546 8665</a>
                 </div>
 
 			</div>

@@ -354,7 +354,8 @@
             transform: translate(0px, 80px);
         }
         nav.primary-menu.with-arrows ul.menu-container li.menu-item.sub-menu ul.sub-menu-container {
-            background-color: rgb(0, 55, 87);
+            background-color: white;
+            border-top: 2px solid #ffcc00;
         }
         div#banner.home-slider:not(.no-slider-banner) .slick-list.draggable .slick-track .slick-slide .hero-slide {
             max-height: 650px;
