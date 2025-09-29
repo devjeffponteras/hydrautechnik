@@ -39,7 +39,7 @@
                     <!-- Logo
     				============================================= -->
                     <div id="header-logo" class="px-3 py-3">
-                        <a href="/">
+                        <a href="/home">
                             <img src="{{ asset('/theme/addons/images/logos/logo-main.png') }}" alt="logo" style="min-height: 70px; padding-right: 18px; border-right: 1px solid #d9d9d9 !important;">
                         </a>
                     </div><!-- #logo end -->
