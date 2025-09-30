@@ -9,7 +9,7 @@
                 <span class="mx-2"><a href="#" class="text-white"><i class="bi-instagram" style="font-size: 18px;"></i></a></span>
             </div>
             <div class="header-title d-flex justify-content-end align-items-center">
-                <p class="text-white mb-0">Sales: (02) 8 441 8116 Marketing: (02) 771 921 34 &nbsp;&nbsp;&nbsp;&nbsp;|</p>
+                <p class="text-white mb-0">Sales: (02) 8840 4532 &nbsp;&nbsp;&nbsp;&nbsp;|</p>
                 <!-- Top Search
                 ============================================= -->
                 <div id="top-search" class="header-misc-icon ps-2">
@@ -62,7 +62,9 @@
                 <!-- call us btn -->
                 <div class="d-flex call-us-wide-btn d-flex align-items-center">
                     <i class="icon-line-arrow-right" style="font-size: 24px"></i>
-                    <a href="#" class="text-dark ps-1 call-us-header-number" style="font-size: 24px"> Call us: ﻿+632 8546 8665</a>
+                    <a href="#" class="text-dark ps-1 call-us-header-number" style="font-size: 24px">
+                        Call us: (﻿+632) 917 189 4532
+                    </a>
                 </div>
 
 			</div>

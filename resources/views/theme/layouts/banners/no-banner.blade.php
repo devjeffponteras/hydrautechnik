@@ -70,11 +70,11 @@
 
 <!-- IF NO BANNER -->
 @if(str_contains(url()->current(), '/search-result'))
-<section id="slider" class="slick-wrapper clearfix no-slider-banner" style="min-height: 10vh !important;">
+<section id="slider" class="slick-wrapper clearfix no-slider-banner" style="min-height: 6vh !important;">
 	<!-- nothing -->
 </section>
 @else
-<section id="slider" class="slick-wrapper clearfix no-slider-banner" style="min-height: 10vh !important;">
+<section id="slider" class="slick-wrapper clearfix no-slider-banner" style="min-height: 6vh !important;">
     <div class="banner-wrapper">
         <div class="container-fluid">
             <div class="row">

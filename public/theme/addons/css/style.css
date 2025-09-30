@@ -33588,11 +33588,15 @@ nav.primary-menu ul.menu-container .menu-item.menu-item.sub-menu ul.sub-menu-con
   color: #ffcc00;
 }
 
-.sub-pages-hyd-container .card:hover {
+.sub-pages-hyd-container .card:not(.side-panel-nav):hover {
   transform: scale(1.02);
   transition: ease .2s all;
 }
 
 .sub-pages-hyd-container .card h5 {
   text-align: start;
+}
+
+.card .card-body{
+  min-height: 138px;
 }
