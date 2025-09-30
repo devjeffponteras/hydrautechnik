@@ -77,6 +77,8 @@ Route::get('/phpinfo', function () {
     /*Extra Pages */
     // products page
     Route::get('/products', [FrontController::class, 'products'])->name('products');
+    Route::get('/sub-products', [FrontController::class, 'subProducts'])->name('sub-products');
+    Route::get('/view-products', [FrontController::class, 'viewProducts'])->name('view-products');
     Route::get('/equipments', [FrontController::class, 'equipments'])->name('equipments');
     Route::get('/services', [FrontController::class, 'services'])->name('services');
 
