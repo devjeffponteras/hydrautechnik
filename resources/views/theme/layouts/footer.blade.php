@@ -36,7 +36,7 @@
 			<div class="row col-mb-50">
 				<div class="col-lg-3">
 					<a href="index.html">
-					    <img src="/theme/addons/images/logos/logo-footer-w.png" alt="logo" style="max-height: 240px;">
+					    <img src="{{ asset('/theme/addons/images/logos/logo-footer-w.png') }}" alt="logo" style="max-height: 240px;">
 					</a>
 				</div>
 

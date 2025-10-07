@@ -4,7 +4,7 @@
 @endsection
 
 @section('content')
-<div class="container topmargin-lg bottommargin-lg">
+<div class="container bottommargin-lg">
     <div class="row">
         <div class="col-lg-4">
             <h3>Leave Us a Message</h3>
@@ -26,12 +26,12 @@
                 <form id="contactUsForm" action="{{ route('contact-us') }}" method="POST">
                     @csrf
                     <div class="form-group">
-                        <label for="fullName" class="fs-6 fw-semibold text-initial nols">Full Name *<span class="text-danger">*</span></label>
+                        <label for="fullName" class="fs-6 fw-semibold text-initial nols">Full Name <span class="text-danger">*</span></label>
                         <input type="text" id="fullName" class="form-control form-input" name="name" placeholder="First and Last Name" />
                     </div>
 
                     <div class="form-group">
-                        <label for="emailAddress" class="fs-6 fw-semibold text-initial nols">E-mail Address *<span class="text-danger">*</span></label>
+                        <label for="emailAddress" class="fs-6 fw-semibold text-initial nols">E-mail Address <span class="text-danger">*</span></label>
                         <input type="email" id="emailAddress" class="form-control form-input" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="hello@email.com" />
                     </div>
                     <div class="form-group">
@@ -39,7 +39,7 @@
                         <input type="number" id="contactNumber" class="form-control form-input" name="contact" placeholder="Landline or Mobile" />
                     </div>
                     <div class="form-group">
-                        <label for="message" class="fs-6 fw-semibold text-initial nols">Message *<span class="text-danger">*</span></label>
+                        <label for="message" class="fs-6 fw-semibold text-initial nols">Message <span class="text-danger">*</span></label>
                         <textarea name="message" id="message" class="form-control form-input textarea" rows="5"></textarea>
                     </div>
 

@@ -82,7 +82,7 @@
             <!-- Image
             ============================================= -->
             <div class="col-lg-6 p-0 hidden-right">
-                <img src="/images/services/hyd1.jpg" style="box-shadow: -20px 20px 0px -5px rgb(0 0 0 / 14%); max-width: 560px; max-height: 350px;">
+                <img src="{{ asset('/images/services/hyd1.jpg') }}" style="box-shadow: -20px 20px 0px -5px rgb(0 0 0 / 14%); max-width: 560px; max-height: 350px;">
             </div>
         </div>
 
@@ -91,7 +91,7 @@
             <!-- Image
             ============================================= -->
             <div class="col-lg-6 p-0 hidden-left">
-                <img src="/images/services/hyd2.jpg" style="box-shadow: -20px 20px 0px -5px rgb(0 0 0 / 14%); max-width: 560px; max-height: 350px;">
+                <img src="{{ asset('/images/services/hyd2.jpg') }}" style="box-shadow: -20px 20px 0px -5px rgb(0 0 0 / 14%); max-width: 560px; max-height: 350px;">
             </div>
 
             <!-- Image Texts
@@ -128,7 +128,7 @@
             <!-- Image
             ============================================= -->
             <div class="col-lg-6 p-0 hidden-right">
-                <img src="/images/services/hyd3.jpg" style="box-shadow: -20px 20px 0px -5px rgb(0 0 0 / 14%); max-width: 560px; max-height: 350px;">
+                <img src="{{ asset('/images/services/hyd3.jpg') }}" style="box-shadow: -20px 20px 0px -5px rgb(0 0 0 / 14%); max-width: 560px; max-height: 350px;">
             </div>
         </div>
 
@@ -137,7 +137,7 @@
             <!-- Image
             ============================================= -->
             <div class="col-lg-6 p-0 hidden-left">
-                <img src="/images/services/hyd4.jpg" style="box-shadow: -20px 20px 0px -5px rgb(0 0 0 / 14%); max-width: 560px; max-height: 350px;">
+                <img src="{{ asset('/images/services/hyd4.jpg') }}" style="box-shadow: -20px 20px 0px -5px rgb(0 0 0 / 14%); max-width: 560px; max-height: 350px;">
             </div>
 
             <!-- Image Texts
@@ -160,7 +160,7 @@
 
     <!-- Parallax Area
     ============================================= -->
-    <div class="section home-bot-prallax parallax dark mb-0" style="background-image: url('/theme/images/banners/footer-hero.jpeg'); padding: 100px 0;" data-bottom-top="background-position:0px 0px;" data-top-bottom="background-position:0px -300px;">
+    <div class="section home-bot-prallax parallax dark mb-0" style="background-image: url({{ asset('/theme/images/banners/footer-hero.jpeg')}}); padding: 100px 0;" data-bottom-top="background-position:0px 0px;" data-top-bottom="background-position:0px -300px;">
 
         <div class="heading-block center mb-2">
             <h3 style="font-size: 50px; font-weight: 400;">Got Questions?</h3>

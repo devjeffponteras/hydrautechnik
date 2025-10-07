@@ -9,7 +9,7 @@
                 <span class="mx-2"><a href="#" class="text-white"><i class="bi-instagram" style="font-size: 18px;"></i></a></span>
             </div>
             <div class="header-title d-flex justify-content-end align-items-center">
-                <p class="text-white mb-0">Sales: (02) 8 441 8116 Marketing: (02) 771 921 34 &nbsp;&nbsp;&nbsp;&nbsp;|</p>
+                <p class="text-white mb-0">Sales: (02) 8840 4532 &nbsp;&nbsp;&nbsp;&nbsp;|</p>
                 <!-- Top Search
                 ============================================= -->
                 <div id="top-search" class="header-misc-icon ps-2">
@@ -29,7 +29,7 @@
 
 <!-- Header
 ============================================= -->
-<header id="header" class="header-size-sm transparent-header floating-header" data-sticky-shrink="false">
+<header id="header" class="header-size-sm transparent-header floating-header shadow" data-sticky-shrink="false">
 	<div id="header-wrap border-0">
 
 		<div class="container-fluid" data-class="up-lg:border up-lg:shadow-sm" style="padding-right: 0px;">
@@ -39,8 +39,8 @@
                     <!-- Logo
     				============================================= -->
                     <div id="header-logo" class="px-3 py-3">
-                        <a href="index.html">
-                            <img src="/theme/addons/images/logos/logo-main.png" alt="logo" style="min-height: 70px; padding-right: 18px; border-right: 1px solid #d9d9d9 !important;">
+                        <a href="{{env('APP_URL')}}/home">
+                            <img src="{{ asset('/theme/addons/images/logos/logo-main.png') }}" alt="logo" style="min-height: 70px; padding-right: 18px; border-right: 1px solid #d9d9d9 !important;">
                         </a>
                     </div><!-- #logo end -->
     				<!-- Primary Navigation
@@ -62,7 +62,9 @@
                 <!-- call us btn -->
                 <div class="d-flex call-us-wide-btn d-flex align-items-center">
                     <i class="icon-line-arrow-right" style="font-size: 24px"></i>
-                    <a href="#" class="text-dark ps-1" style="font-size: 24px"> Call us: ﻿+632 8546 8665</a>
+                    <a href="#" class="text-dark ps-1 call-us-header-number" style="font-size: 24px">
+                        Call us: (﻿+632) 917 189 4532
+                    </a>
                 </div>
 
 			</div>

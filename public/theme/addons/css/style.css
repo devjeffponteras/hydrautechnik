@@ -13278,7 +13278,7 @@ textarea.form-control-lg {
   }
 }
 :root {
-  --cnvs-themecolor:	#1abc9c;
+  --cnvs-themecolor:	#ffcc00; 
   --cnvs-themecolor-rgb:	26, 188, 156;
   --bs-link-color:	var(--cnvs-themecolor);
   --bs-link-color-rgb:	var(--cnvs-themecolor-rgb);
@@ -33569,7 +33569,34 @@ nav.primary-menu ul.menu-container .menu-item.menu-item.sub-menu ul.sub-menu-con
   padding: 0.5 rem;
 }
 nav.primary-menu ul.menu-container .menu-item.menu-item.sub-menu ul.sub-menu-container .menu-item:hover {
-  background-color: #014f7c;
+  background-color: #ededed;
   scale: 1.05;
   transition: all ease 0.2s;
+}
+
+@media only screen and (max-width: 1529px) {
+  .call-us-header-number {
+    font-size: 18px !important;
+  }
+}
+
+.sub-pages-hyd-container a {
+  color: black;
+}
+
+.sub-pages-hyd-container a.more-link {
+  color: #ffcc00;
+}
+
+.sub-pages-hyd-container .card:not(.side-panel-nav):hover {
+  transform: scale(1.02);
+  transition: ease .2s all;
+}
+
+.sub-pages-hyd-container .card h5 {
+  text-align: start;
+}
+
+.card .card-body{
+  min-height: 138px;
 }
