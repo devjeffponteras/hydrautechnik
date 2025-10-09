@@ -4,37 +4,34 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductCategoriesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('product_categories', function (Blueprint $table) {
             $table->id();
-            $table->integer('parent_id');
-            $table->string('name', 250);
-            $table->text('slug');
+            $table->string('name')->unique()->notNullable();
             $table->text('description')->nullable();
-            $table->text('mobile_file_url')->nullable();
-            $table->string('status', 100);
-            $table->integer('menu_order_no');
-            $table->integer('created_by');
             $table->timestamps();
+        });
+
+        Schema::table('product_categories', function (Blueprint $table) {
             $table->softDeletes();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
+        Schema::table('product_categories', function (Blueprint $table) {
+            $table->dropColumn('deleted_at');
+        });
+
         Schema::dropIfExists('product_categories');
     }
-}
+};

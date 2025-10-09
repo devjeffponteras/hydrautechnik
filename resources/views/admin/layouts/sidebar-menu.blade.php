@@ -8,8 +8,8 @@
     <li class="nav-label mg-t-25">CMS</li>
     <li class="nav-item @if (url()->current() == route('dashboard')) active @endif">
         <a href="{{ route('dashboard') }}" class="nav-link"><i data-feather="home"></i><span>Dashboard</span></a>
-    </li>    
-    
+    </li>
+
     @if (auth()->user()->has_access_to_pages_module() || auth()->user()->has_access_to('pages') || auth()->user()->role_id == '9')
         <li class="nav-item with-sub @if (request()->routeIs('pages*')) active show @endif">
             <a href="" class="nav-link"><i data-feather="layers"></i> <span>Pages</span></a>
@@ -77,7 +77,7 @@
                     <li @if (\Route::current()->getName() == 'news-categories.create') class="active" @endif><a href="{{ route('news-categories.create') }}">Create a Category</a></li>
                 @endif
             </ul>
-        </li> 
+        </li>
     @endif
 
     @if (auth()->user()->is_an_admin() || auth()->user()->has_access_to('settings'))
@@ -112,6 +112,24 @@
                 <li @if (request()->routeIs('role*')) class="active" @endif><a href="{{ route('role.index') }}">Roles</a></li>
                 <li @if (request()->routeIs('access*')) class="active" @endif><a href="{{ route('access.index') }}">Access Rights</a></li>
                 <li @if (request()->routeIs('permission*')) class="active" @endif><a href="{{ route('permission.index') }}">Permissions</a></li>
+            </ul>
+        </li>
+        <li class="nav-item with-sub @if (request()->routeIs('products*')) active show @endif">
+            <a href="#" class="nav-link"><i data-feather="package"></i> <span>Products</span></a>
+            <ul>
+                <li @if (request()->routeIs('products.index')) class="active" @endif>
+                    <a href="{{ route('products.index') }}">Manage Products</a>
+                </li>
+                <li @if (request()->routeIs('products.create')) class="active" @endif>
+                    <a href="{{ route('products.create') }}">Create Products</a>
+                </li>
+                <li @if (request()->routeIs('products.create_category')) class="active" @endif>
+                    <a href="{{ route('products.create_category') }}">Create Categories</a>
+                </li>
+                <li @if (request()->routeIs('products.create_subcategory')) class="active" @endif>
+                    <a href="{{ route('products.create_subcategory') }}">Manage Subcategories</a>
+                </li>
+                {{-- You can add more product-related links here --}}
             </ul>
         </li>
     @endif

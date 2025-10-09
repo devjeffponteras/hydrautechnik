@@ -169,11 +169,11 @@ class ProductController extends Controller
         //                 'product_id' => $product->id,
         //                 'attribute_name' => $attr,
         //                 'value' => $requestData['attributeValue'][$key]
-        //             ]); 
-        //         } 
+        //             ]);
+        //         }
         //     }
-        // }        
-        
+        // }
+
         return redirect()->route('products.index')->with('success', __('standard.products.product.create_success'));
 
     }
@@ -199,7 +199,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+    $product = \App\Models\Product::with(['subcategory.category'])->findOrFail($id);
+    return view('admin.products.show', compact('product'));
     }
 
     /**
@@ -318,7 +319,7 @@ class ProductController extends Controller
         //             } else {
         //                 ProductAdditionalInfo::where('product_id', $product->id)->where('attribute_name', $attr)->update([
         //                     'value' => $requestData['attributeValue'][$key]
-        //                 ]);   
+        //                 ]);
         //             }
         //        } else {
         //             if($requestData['attributeValue'][$key] != ""){
@@ -328,7 +329,7 @@ class ProductController extends Controller
         //                     'value' => $requestData['attributeValue'][$key]
         //                 ]);
         //             }
-        //        } 
+        //        }
         //     }
         // }
 
@@ -423,9 +424,9 @@ class ProductController extends Controller
                 $publish = Product::where('status', '!=', $request->status)->whereId((int) $product)->update([
                     'status'  => $request->status,
                     'created_by' => Auth::id()
-                ]);  
+                ]);
             }
-            
+
         }
 
         return back()->with('success',  __('standard.products.product.change_status_success', ['STATUS' => $request->status]));
@@ -705,7 +706,7 @@ class ProductController extends Controller
                     $code = mb_convert_encoding($data[0], "UTF-8");
                     // $name = mb_convert_encoding($data[1], "UTF-8");
                     $slug = Page::convert_to_slug($data[1]);
-                                        
+
                     // Format Description
                     $name = nl2br(iconv(mb_detect_encoding($data[1], mb_detect_order(), true), "UTF-8//IGNORE", $data[1]));
                     $author = nl2br(iconv(mb_detect_encoding($data[2], mb_detect_order(), true), "UTF-8//IGNORE", $data[2]));
@@ -768,7 +769,7 @@ class ProductController extends Controller
 
         // Add new ebook customers
         foreach ($request->customers as $customerId) {
-            
+
             $already_purchased = CustomerLibrary::where('product_id', $id)->where('user_id', $customerId)->where('is_admin_selected', 0)->exists();
 
             if(!$already_purchased){
