@@ -16,32 +16,45 @@
 			<div class="col-12 col-md-10">
 				<p class="pb-2" style="opacity: .8;">
 					<small>
-						<a href="{{ route('products') }}">Hydac Filtration Systems</a>
-						 > 
-						 <a href="{{ route('sub-products') }}">Hydac Dewatering and Other Fluid Conditioning</a>
-						 > 
-						 <span style="text-decoration: underline;">Hydac Fluid Conditioning Systems</span></small>
+						@php
+							$category = $product->category ?? null;
+							$subcategory = $product->subcategory ?? null;
+						@endphp
+						@if($category)
+							<a href="{{ route('products') }}">{{ $category->name }}</a>
+						@else
+							<a href="{{ route('products') }}">Product Categories</a>
+						@endif
+						&gt;
+						@if($subcategory)
+							<a href="{{ route('sub-products') }}">{{ $subcategory->name }}</a>
+						@else
+							<a href="{{ route('sub-products') }}">Sub Categories</a>
+						@endif
+						&gt;
+						<span style="text-decoration: underline;">{{ $product->name ?? 'Product' }}</span>
+					</small>
 					<h3>
-						Hydac Dewatering and Other Fluid Conditioning
+						{{ $product->name ?? '' }}
 					</h3>
 				</p>
 
 				<div class="row col-12">
 					<div class="col-12 col-md-6 p-3 pt-0">
-						<div class="view-sub-heading">
-							<small>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim. Pellentesque ornare, augue maximus finibus congue, nisl nunc gravida sem, a venenatis massa quam id nisl. Fusce eleifend ullamcorper lacinia.
-							</small>
+						<div class="view-sub-heading mb-3">
+							<small>{{ $product->description ?? '' }}</small>
 						</div>
-						<div class="view-bullets px-3 pt-3">
-							<ul>
-								<li>Massa venenatis sapien</li>
-								<li>Enenatis massa</li>
-								<li>Fusce eleifend</li>
-								<li>Finibus congue</li>
-							</ul>
-						</div>
-
+											@if($product->specification)
+											<div class="view-bullets px-3 pt-3">
+												<ul>
+												@foreach(preg_split('/\r?\n/', $product->specification) as $spec)
+                                                @if(trim($spec) !== '')
+                                                    <li>{{ $spec }}</li>
+                                                @endif
+												@endforeach
+												</ul>
+											</div>
+											@endif
 						<div class="view-accordion">
 							<div class="toggle toggle-border">
 								<div class="toggle-header">
@@ -53,7 +66,7 @@
 										IXU
 									</div>
 								</div>
-								<div class="toggle-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, dolorum, vero ipsum molestiae minima odio quo voluptate illum excepturi quam cum voluptates doloribus quae nisi tempore necessitatibus dolores ducimus enim libero eaque explicabo suscipit animi at quaerat aliquid ex expedita perspiciatis? Saepe, aperiam, nam unde quas beatae vero vitae nulla.</div>
+								<div class="toggle-content">{!! nl2br(e($product->ixu ?? 'No information available')) !!}</div>
 							</div>
 							<div class="toggle toggle-border">
 								<div class="toggle-header">
@@ -65,7 +78,7 @@
 										OLX
 									</div>
 								</div>
-								<div class="toggle-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, dolorum, vero ipsum molestiae minima odio quo voluptate illum excepturi quam cum voluptates doloribus quae nisi tempore necessitatibus dolores ducimus enim libero eaque explicabo suscipit animi at quaerat aliquid ex expedita perspiciatis? Saepe, aperiam, nam unde quas beatae vero vitae nulla.</div>
+								<div class="toggle-content">{!! nl2br(e($product->olx ?? 'No information available')) !!}</div>
 							</div>
 							<div class="toggle toggle-border">
 								<div class="toggle-header">
@@ -77,7 +90,7 @@
 										FAM ATEX
 									</div>
 								</div>
-								<div class="toggle-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, dolorum, vero ipsum molestiae minima odio quo voluptate illum excepturi quam cum voluptates doloribus quae nisi tempore necessitatibus dolores ducimus enim libero eaque explicabo suscipit animi at quaerat aliquid ex expedita perspiciatis? Saepe, aperiam, nam unde quas beatae vero vitae nulla.</div>
+								<div class="toggle-content">{!! nl2br(e($product->fam_atex ?? 'No information available')) !!}</div>
 							</div>
 							<div class="toggle toggle-border">
 								<div class="toggle-header">
@@ -89,21 +102,45 @@
 										OLSW
 									</div>
 								</div>
-								<div class="toggle-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, dolorum, vero ipsum molestiae minima odio quo voluptate illum excepturi quam cum voluptates doloribus quae nisi tempore necessitatibus dolores ducimus enim libero eaque explicabo suscipit animi at quaerat aliquid ex expedita perspiciatis? Saepe, aperiam, nam unde quas beatae vero vitae nulla.</div>
+								<div class="toggle-content">{!! nl2br(e($product->olsw ?? 'No information available')) !!}</div>
 							</div>
 						</div>
-
 					</div>
 					<div class="col-12 col-md-6">
 						<div class="card side-panel-nav rounded bg-white shadow p-4">
-							<img src="images/products/prd4.jpg">
+							@if($product->image)
+								@php
+									$rawPath = str_replace('\\', '/', $product->image ?? '');
+									$isFull = \Illuminate\Support\Str::startsWith($rawPath, ['http://', 'https://', '//']);
+									if (!$isFull) {
+										// If path already points to public storage (e.g. storage/products/...), use it directly
+										if (\Illuminate\Support\Str::startsWith($rawPath, 'public/')) {
+											$rawPath = 'storage/' . substr($rawPath, 7);
+											$finalUrl = asset($rawPath);
+										} elseif (\Illuminate\Support\Str::startsWith($rawPath, 'storage/') || \Illuminate\Support\Str::startsWith($rawPath, 'storage/')) {
+											$finalUrl = asset(ltrim($rawPath, '/'));
+										} else {
+											// Fallback: assume it's a path relative to public/
+											$rawPath = ltrim($rawPath, '/');
+											$finalUrl = asset($rawPath);
+										}
+									} else {
+										$finalUrl = $rawPath;
+									}
+								@endphp
+
+
+								<img src="{{ $finalUrl }}" alt="{{ $product->name }}" style="width:100%; height:600px; object-fit:cover;">
+							@else
+								<img src="{{ asset('storage/products/prd1.jpg') }}" alt="{{ $product->name }}" style="width:100%; height:300px; object-fit:cover;">
+							@endif
 						</div>
 					</div>
 				</div>
 
 			</div>
 		</div>
-		
+
 	</div>
 </div>
 @endsection
