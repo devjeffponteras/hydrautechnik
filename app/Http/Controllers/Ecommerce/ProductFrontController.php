@@ -26,10 +26,10 @@ class ProductFrontController extends Controller
     public function product_list(Request $request, $category = null)
     {
         // $page = new Page();
-        $page = Page::where('slug', 'books')->where('status', 'PUBLISHED')->where('parent_page_id', 0)->first();
-        $pageLimit = 12;
+    $page = Page::where('slug', 'books')->where('parent_page_id', 0)->first();
+    $pageLimit = 12;
 
-        $products = Product::where('status','PUBLISHED')->whereRaw('LOWER(book_type) NOT IN (?, ?)', ['ebook', 'e-book']);
+    $products = Product::whereRaw('LOWER(book_type) NOT IN (?, ?)', ['ebook', 'e-book']);
 
         if($category){
             $productCategory  = ProductCategory::where('slug', $category)->first();
@@ -55,7 +55,7 @@ class ProductFrontController extends Controller
                 });
             }
 
-            if(!empty($request->sort)){            
+            if(!empty($request->sort)){
                 if($request->sort == 'Price low to high'){
                     $products = $products->orderBy('price','asc');
                 }
@@ -64,9 +64,9 @@ class ProductFrontController extends Controller
                 }
             }
 
-            if(!empty($request->limit)){ 
+            if(!empty($request->limit)){
                 if($request->limit=='All')
-                    $pageLimit = 100000000;      
+                    $pageLimit = 100000000;
                 else
                     $pageLimit = $request->limit;
             }
@@ -101,22 +101,21 @@ class ProductFrontController extends Controller
         ));
     }
 
-    
+
     public function search_product(Request $request)
     {
         $page = new Page();
         $page->name = 'Search Product';
         $pageLimit = 20;
 
-        $products = Product::select('products.*')->leftJoin('product_additional_infos', 'products.id', '=', 'product_additional_infos.product_id')
-        ->where('products.status', 'PUBLISHED')
-        ->whereRaw('LOWER(book_type) NOT IN (?, ?)', ['ebook', 'e-book']);
+    $products = Product::select('products.*')->leftJoin('product_additional_infos', 'products.id', '=', 'product_additional_infos.product_id')
+    ->whereRaw('LOWER(book_type) NOT IN (?, ?)', ['ebook', 'e-book']);
 
         $searchtxt = $request->get('keyword', false);
         $sortBy = $request->get('sort_by', false);
 
-        if(!empty($searchtxt)){  
-            $keyword = Str::lower($request->keyword); 
+        if(!empty($searchtxt)){
+            $keyword = Str::lower($request->keyword);
 
             $products = $products->where(function($query) use ($keyword){
                 $query->orWhereRaw('LOWER(products.name) like LOWER(?)', ["%{$keyword}%"])
@@ -194,14 +193,14 @@ class ProductFrontController extends Controller
         return view('theme.ecommerce.product.order',compact('products','page','miscs'));
 
     }
-    
+
 
     public function brands(Request $request)
     {
         $page = new Page();
         $page->name = 'Brands';
         $pageLimit = 20;
-        $brands = Brand::whereStatus('Active')->orderBy('menu_order_no','asc')->paginate($pageLimit);
+        // $brands = Brand::whereStatus('Active')->orderBy('menu_order_no','asc')->paginate($pageLimit);
 
         return view('theme.pages.ecommerce.product-brands',compact('brands','page','request'));
     }
@@ -217,8 +216,8 @@ class ProductFrontController extends Controller
 
     //     $searchtxt = $request->get('keyword', false);
 
-    //     if(!empty($searchtxt)){  
-    //         $keyword = Str::lower($request->keyword); 
+    //     if(!empty($searchtxt)){
+    //         $keyword = Str::lower($request->keyword);
 
     //         $products = $products->where(function($query) use ($keyword){
     //             $query->orWhereRaw('LOWER(products.name) like LOWER(?)', ["%{$keyword}%"])
@@ -241,8 +240,8 @@ class ProductFrontController extends Controller
         $pages     = Page::select('id','name','slug','contents as description')->where('status', 'PUBLISHED');
         $products  = Product::select('id','name','slug','description')->where('status', 'PUBLISHED');
 
-        if(!empty($request->keyword)){  
-            $keyword = Str::lower($request->keyword); 
+        if(!empty($request->keyword)){
+            $keyword = Str::lower($request->keyword);
 
             $pages = $pages->where(function($query) use ($keyword){
                 $query->orWhereRaw('LOWER(name) like LOWER(?)', ["%{$keyword}%"])
@@ -257,7 +256,7 @@ class ProductFrontController extends Controller
 
         $pages   = $pages->get();
         $product = $products->get();
-        
+
 
         $data = $pages->merge($product)->paginate(10);
 
@@ -297,7 +296,7 @@ class ProductFrontController extends Controller
 
         $products = Product::where('category_id', $id)->where('status','PUBLISHED')->paginate($pageLimit);
 
-        return view('theme.pages.ecommerce.product-sub-categories',compact('products','page', 'category'));
+        return view('theme.pages.products.sub-categories',compact('products','page', 'category'));
     }
 
 
@@ -309,14 +308,14 @@ class ProductFrontController extends Controller
         $page->name = $brand->name;
         $pageLimit = 20;
 
-        $products = Product::where('brand_id', $id)->where('status','PUBLISHED')->paginate($pageLimit);
+    $products = Product::where('brand_id', $id)->paginate($pageLimit);
 
         return view('theme.pages.ecommerce.brand-product-list',compact('products','page'));
     }
 
-    public function category_products($slug)
+    public function category_products($id)
     {
-        $cat = ProductCategory::where('slug', $slug)->first();
+        $cat = ProductCategory::find($id);
         $page = new Page();
         $page->name = $cat->name;
 
@@ -326,15 +325,15 @@ class ProductFrontController extends Controller
             array_push($arr_categories, $category->id);
         }
 
-        $products = Product::whereIn('category_id', $arr_categories)->where('status', 'PUBLISHED')->paginate(10);
+    // $products = Product::whereIn('category_id', $arr_categories)->paginate(10);
 
         return view('theme.pages.ecommerce.category-product-list',compact('products','page'));
     }
 
-    
 
-    
-  
+
+
+
     public function get_sub_categories_ids($ids, $categories)
     {
         $categoryIds = $categories->pluck('id');

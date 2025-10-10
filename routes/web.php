@@ -6,7 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\SocialiteController;
 
 // CMS Controllers
-use App\Http\Controllers\{FileDownloadCategoryController, FileDownloadController, MemberController, PageModalController, SitemapController, FacebookDataDeletionController, GoogleDataDeletionController, FacebookController, QrCodeController, ResourceCategoryController, ResourceController};
+use App\Http\Controllers\{FileDownloadCategoryController, FileDownloadController, MemberController, PageModalController, SitemapController, FacebookDataDeletionController, GoogleDataDeletionController, FacebookController, QrCodeController, ResourceCategoryController, ResourceController, ProductsController};
 
 use App\Http\Controllers\Cms4Controllers\{
     ArticleCategoryController, ArticleFrontController, ArticleController, AlbumController, MobileAlbumController, PageController, MenuController, FileManagerController
@@ -68,7 +68,7 @@ Route::get('/phpinfo', function () {
     // Sitemap
         Route::get('/sitemap', [FrontController::class, 'sitemap'])->name('sitemap');
         // Route::get('/sitemap', [SitemapController::class, 'index'])->name('sitemap');
-    // 
+    //
 
     // Portfolio
     Route::get('/portfolio', [FrontController::class, 'portfolio'])->name('portfolio');
@@ -77,6 +77,9 @@ Route::get('/phpinfo', function () {
     /*Extra Pages */
     // products page
     Route::get('/products', [FrontController::class, 'products'])->name('products');
+    // NEW: Route for filtered products by category
+    Route::get('/products/category/{id}', [FrontController::class, 'productsByCategory'])->name('products.by-category');
+    // Updated: Route for sub-products with subcategory filter
     Route::get('/sub-products', [FrontController::class, 'subProducts'])->name('sub-products');
     Route::get('/view-products', [FrontController::class, 'viewProducts'])->name('view-products');
     Route::get('/equipments', [FrontController::class, 'equipments'])->name('equipments');
@@ -109,20 +112,20 @@ Route::get('/phpinfo', function () {
 
     Route::post('facebook/data-deletion', [FacebookDataDeletionController::class, 'handle'])->name('facebook.data-deletion');
     Route::post('google/data-deletion', [GoogleDataDeletionController::class, 'handle'])->name('google.data-deletion');
-    
+
     //Chat Plugin
     Route::post('/setup-chat-plugin', [FacebookController::class, 'setupChatPlugin']);
 
     // Ecommerce Pages
-    
+
     Route::get('/brands', [ProductFrontController::class, 'brands'])->name('product.brands');
     Route::get('/brand-product-categories/{id}', [ProductFrontController::class, 'brand_product_categories'])->name('brand.product-category-list');
     Route::get('/product-sub-categories/{id}', [ProductFrontController::class, 'product_sub_categories'])->name('product.sub-categories');
 
     // Route::get('/brand-products/{id}', [ProductFrontController::class, 'brand_products'])->name('brand.product-list');
     Route::get('/category-products/{id}', [ProductFrontController::class, 'category_products'])->name('category.product-list');
-    
-    
+
+
     // Cart Management
     Route::get('/cart',                [CartController::class, 'cart'])->name('cart.front.show');
     Route::post('add-to-cart',         [CartController::class, 'add_to_cart'])->name('product.add-to-cart');
@@ -138,7 +141,7 @@ Route::get('/phpinfo', function () {
 
 // ADMIN ROUTES
 Route::get('/admin-panel', [DashboardController::class, 'index'])->name('dashboard');
-        
+
 Route::group(['prefix' => 'admin-panel'], function (){
     Route::get('/', [LoginController::class, 'showLoginForm'])->name('panel.login');
 
@@ -149,7 +152,7 @@ Route::group(['prefix' => 'admin-panel'], function (){
         Route::get('/admin-panel', [DashboardController::class, 'index'])->name('dashboard');
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-        
+
         Route::get('/admin/ecommerce-dashboard', [DashboardController::class, 'ecommerce'])->name('ecom-dashboard');
 
         // Account
@@ -291,7 +294,7 @@ Route::group(['prefix' => 'admin-panel'], function (){
         ###### CMS4 Standard Routes ######
 
 
-        ###### Ecommerce Routes ######   
+        ###### Ecommerce Routes ######
             // Page Modals
                 Route::resource('page-modals', PageModalController::class);
                 Route::get('modal/{id}/{status}', [PageModalController::class, 'update_status'])->name('modal.change-status');
@@ -300,6 +303,24 @@ Route::group(['prefix' => 'admin-panel'], function (){
                 Route::post('modals-multiple-change-status',[PageModalController::class, 'multiple_change_status'])->name('modals.multiple.change.status');
                 Route::post('modals-multiple-delete',[PageModalController::class, 'multiple_delete'])->name('modals.multiple.delete');
         ###### Ecommerce Routes ######
+
+        // Product Categories
+        Route::get('products/create_category', [ProductsController::class, 'createCategory'])->name('products.create_category');
+        Route::post('products/store_category', [ProductsController::class, 'storeCategory'])->name('products.store_category');
+        Route::get('products/edit_category/{id}', [ProductsController::class, 'editCategory'])->name('products.edit_category');
+        Route::put('products/update_category/{id}', [ProductsController::class, 'updateCategory'])->name('products.update_category');
+        Route::delete('products/destroy_category/{id}', [ProductsController::class, 'destroyCategory'])->name('products.destroy_category');
+
+        // Subcategories
+        Route::get('products/create_subcategory', [ProductsController::class, 'createSubcategory'])->name('products.create_subcategory');
+        Route::post('products/store_subcategory', [ProductsController::class, 'storeSubcategory'])->name('products.store_subcategory');
+        Route::get('products/edit_subcategory/{id}', [ProductsController::class, 'editSubcategory'])->name('products.edit_subcategory');
+        Route::put('products/update_subcategory/{id}', [ProductsController::class, 'updateSubcategory'])->name('products.update_subcategory');
+        Route::delete('products/destroy_subcategory/{id}', [ProductsController::class, 'destroySubcategory'])->name('products.destroy_subcategory');
+
+        // Products
+        Route::resource('products', ProductsController::class);
+        Route::get('products/{id}/details', [App\Http\Controllers\Ecommerce\ProductController::class, 'show']);
     });
 });
 

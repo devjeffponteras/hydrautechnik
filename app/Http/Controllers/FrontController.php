@@ -44,7 +44,7 @@ class FrontController extends Controller
     public function request_for_demo($id)
     {
         $template = Template::find($id);
-        
+
         return view('theme.demo',compact('template'));
     }
 
@@ -77,13 +77,13 @@ class FrontController extends Controller
         $breadcrumb = $this->breadcrumb($page);
 
         $customPages = Page::where('name', '<>', 'footer')->where('status', 'PUBLISHED')->where('parent_page_id', 0)->orderBy('id','asc')->get();
-        
+
         $articleCategories = ArticleCategory::with('articles')->get();
 
         return view('theme.pages.sitemap', compact(
-            'page', 
-            'breadcrumb', 
-            'articleCategories', 
+            'page',
+            'breadcrumb',
+            'articleCategories',
             'customPages'
         ));
     }
@@ -97,7 +97,7 @@ class FrontController extends Controller
         $breadcrumb = $this->breadcrumb($page);
         $pageLimit = 10;
 
-        $searchtxt = $request->searchtxt; 
+        $searchtxt = $request->searchtxt;
         session(['searchtxt' => $searchtxt]);
 
         $pages = Page::where('status', 'PUBLISHED')
@@ -189,7 +189,7 @@ class FrontController extends Controller
         return view('theme.page', compact('footer', 'page', 'parentPage', 'breadcrumb', 'currentPageItems', 'parentPageName'));
     }
 
-    
+
     public function contact_us(Request $request)
     {
         // dd($request);
@@ -239,7 +239,7 @@ class FrontController extends Controller
 
         //dd(Session::get('menuName'));
         $filterYear = $request->get('year',false);
-        
+
         $page = Page::where('slug', 'cases')->first();
         $page->name = "Cases";
 
@@ -252,7 +252,7 @@ class FrontController extends Controller
 
         $categories = ResourceCategory::where('status', 'Active')->get();
         $searchCategories = ResourceCategory::where('id', '<>', 3)->where('status', 'Active')->orderBy('name', 'asc')->get();
-        
+
 
         $resources = Resource::where('status', 'Active');
 
@@ -332,26 +332,81 @@ class FrontController extends Controller
 
         return view('theme.pages.portfolio.index', compact('page'));
     }
-
-    public function products() {
+     public function products() {
         $page = new Page();
         $page->name = 'Products';
 
         return view('theme.pages.products.index', compact('page'));
     }
 
-    public function subProducts() {
+    // NEW METHOD: Show products filtered by category
+    public function productsByCategory($categoryId) {
+        $page = new Page();
+
+        // Get the selected category
+        $selectedCategory = \App\Models\ProductCategory::find($categoryId);
+
+        // Handle if category doesn't exist
+        if (!$selectedCategory) {
+            return redirect()->route('products')->with('error', 'Category not found');
+        }
+
+        $page->name = $selectedCategory->name;
+
+        // Check if this category has subcategories
+        $hasSubcategories = \App\Models\ProductSubcategory::where('category_id', $categoryId)->exists();
+
+        if (!$hasSubcategories) {
+            // If no subcategories, redirect to products list with category filter
+            // This will show ONLY products directly attached to this category
+            return redirect()->route('sub-products', ['category' => $categoryId]);
+        }
+
+        // Has subcategories - show the subcategories grid
+        return view('theme.pages.products.index', compact('page', 'selectedCategory'));
+    }
+
+    public function subProducts(Request $request) {
         $page = new Page();
         $page->name = 'Sub Products';
 
-        return view('theme.pages.products.sub-index', compact('page'));
+        // Get all categories (simple list)
+        $mainCategories = \App\Models\ProductCategory::getAllCategories()->get();
+
+        // Get subcategory ID or category ID from request
+        $subcategoryId = $request->get('subcategory');
+        $categoryId = $request->get('category');
+        $selectedSubcategory = null;
+        $selectedCategory = null;
+
+        if ($subcategoryId) {
+            // Viewing products from a specific subcategory
+            $selectedSubcategory = \App\Models\ProductSubcategory::find($subcategoryId);
+            if ($selectedSubcategory) {
+                $page->name = $selectedSubcategory->name . ' - Products';
+                $selectedCategory = $selectedSubcategory->category;
+            }
+        } elseif ($categoryId) {
+            // Viewing products from a category that has NO subcategories
+            $selectedCategory = \App\Models\ProductCategory::find($categoryId);
+            if ($selectedCategory) {
+                $page->name = $selectedCategory->name . ' - Products';
+            }
+        }
+
+        return view('theme.pages.products.sub-index', compact('page', 'mainCategories', 'selectedSubcategory', 'selectedCategory'));
     }
 
-    public function viewProducts() {
+    public function viewProducts(Request $request) {
         $page = new Page();
         $page->name = 'View Product';
 
-        return view('theme.pages.products.view', compact('page'));
+        $product = null;
+        if ($request->has('id')) {
+            $product = \App\Models\Product::with(['subcategory', 'category'])->find($request->id);
+        }
+
+        return view('theme.pages.products.view', compact('page', 'product'));
     }
 
     public function equipments() {
@@ -368,5 +423,5 @@ class FrontController extends Controller
         return view('theme.pages.services.index', compact('page'));
     }
 
-    
+
 }
