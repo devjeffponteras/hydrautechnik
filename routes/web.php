@@ -22,6 +22,9 @@ use App\Http\Controllers\Ecommerce\{
     CustomerController, CustomerFrontController, ProductCategoryController, ProductController, ProductFrontController, InventoryReceiverHeaderController, PromoController, DeliverablecitiesController, CouponController, CouponFrontController, CartController, MyAccountController, SalesController, ReportsController, BrandController, FormAttributeController, ProductReviewController, CustomerFavoriteController, CustomerWishlistController, BannerAdController, ProductCatalogHeaderController
 };
 
+// Equipments Controller (scaffolded)
+use App\Http\Controllers\EquipmentsController;
+
 use App\Http\Controllers\MailingList\{SubscriberController, GroupController, CampaignController, SubscriberFrontController};
 
 
@@ -321,6 +324,9 @@ Route::group(['prefix' => 'admin-panel'], function (){
         // Products
         Route::resource('products', ProductsController::class);
         Route::get('products/{id}/details', [App\Http\Controllers\Ecommerce\ProductController::class, 'show']);
+
+        // Equipments
+            Route::resource('equipments', EquipmentsController::class);
     });
 });
 
