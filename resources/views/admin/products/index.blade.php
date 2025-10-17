@@ -83,7 +83,6 @@ Manage Products
                         <th>Name</th>
                         <th>Category</th>
                         <th>Subcategory</th>
-                        <th>Image</th>
                         <th>Description</th>
                         <th>Specifications</th>
                         <th>IXU</th>
@@ -100,33 +99,6 @@ Manage Products
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->productCategory ? $product->productCategory->name : ($product->subcategory && $product->subcategory->category ? $product->subcategory->category->name : '-') }}</td>
                         <td>{{ $product->subcategory ? $product->subcategory->name : '-' }}</td>
-                        <td>
-                            @if($product->image)
-                                <img src="{{ asset($product->image) }}" alt="Product Image" style="width:60px; height:60px; object-fit:cover; border-radius:4px; border:1px solid #ddd; cursor: pointer;"
-                                     onclick="zoomImage('{{ asset($product->image) }}')"
-                                     onerror="this.src='{{ asset('storage/no-image.png') }}'; this.alt='No Image Available';">
-                            @else
-                                <div style="width:60px; height:60px; background-color:#f8f9fa; border:1px solid #ddd; border-radius:4px; display:flex; align-items:center; justify-content:center; color:#6c757d; font-size:12px;">
-                                    No Image
-                                </div>
-                            @endif
-<!-- Image Zoom Modal -->
-<div class="modal fade" id="imageZoomModal" tabindex="-1" role="dialog" aria-labelledby="imageZoomModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="imageZoomModalLabel">Product Image</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center">
-                <img id="zoomedImage" src="" alt="Zoomed Product Image" style="max-width:100%; max-height:70vh; border-radius:8px; border:1px solid #ddd;">
-            </div>
-        </div>
-    </div>
-</div>
-                        </td>
                         <td>
                             {{ \Illuminate\Support\Str::limit($product->description, 30) }}
                         </td>

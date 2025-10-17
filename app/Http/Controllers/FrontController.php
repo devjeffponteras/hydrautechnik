@@ -25,6 +25,8 @@ use App\Models\EmailRecipient;
 use App\Models\ArticleCategory;
 use App\Models\Ecommerce\{BannerAd, BannerAdPage, Product};
 
+use App\Models\ProductCategory;
+
 use Auth;
 use DB;
 use Session;
@@ -332,16 +334,25 @@ class FrontController extends Controller
 
         return view('theme.pages.portfolio.index', compact('page'));
     }
-     public function products() {
+
+    public function products() {
         $page = new Page();
         $page->name = 'Products';
 
-        return view('theme.pages.products.index', compact('page'));
+        $mainCategories = ProductCategory::all();
+        $otherProducts = Product::where('tag', 2)->get();
+
+        // dd($otherProducts);
+
+        return view('theme.pages.products.index', compact('page', 'mainCategories', 'otherProducts'));
     }
 
     // NEW METHOD: Show products filtered by category
     public function productsByCategory($categoryId) {
         $page = new Page();
+
+        $mainCategories = ProductCategory::all();
+        $otherProducts = Product::where('tag', 2)->get();
 
         // Get the selected category
         $selectedCategory = \App\Models\ProductCategory::find($categoryId);
@@ -363,12 +374,14 @@ class FrontController extends Controller
         }
 
         // Has subcategories - show the subcategories grid
-        return view('theme.pages.products.index', compact('page', 'selectedCategory'));
+        return view('theme.pages.products.index', compact('page', 'selectedCategory', 'mainCategories', 'otherProducts'));
     }
 
     public function subProducts(Request $request) {
         $page = new Page();
         $page->name = 'Sub Products';
+
+        $otherProducts = Product::where('tag', 2)->get();
 
         // Get all categories (simple list)
         $mainCategories = \App\Models\ProductCategory::getAllCategories()->get();
@@ -394,19 +407,24 @@ class FrontController extends Controller
             }
         }
 
-        return view('theme.pages.products.sub-index', compact('page', 'mainCategories', 'selectedSubcategory', 'selectedCategory'));
+        return view('theme.pages.products.sub-index', compact('page', 'mainCategories', 'selectedSubcategory', 'selectedCategory', 'otherProducts'));
     }
 
-    public function viewProducts(Request $request) {
+    public function viewProducts(Request $request, $id) {
         $page = new Page();
         $page->name = 'View Product';
+
+        $mainCategories = ProductCategory::all();
+        $otherProducts = Product::where('tag', 2)->get();
 
         $product = null;
         if ($request->has('id')) {
             $product = \App\Models\Product::with(['subcategory', 'category'])->find($request->id);
+        } else {
+            $product = Product::find($id);
         }
 
-        return view('theme.pages.products.view', compact('page', 'product'));
+        return view('theme.pages.products.view', compact('page', 'product', 'mainCategories', 'otherProducts'));
     }
 
     public function equipments() {
@@ -418,7 +436,7 @@ class FrontController extends Controller
 
     public function services() {
         $page = new Page();
-        $page->name = 'Services';
+        $page->name = 'Company Capabilities';
 
         return view('theme.pages.services.index', compact('page'));
     }

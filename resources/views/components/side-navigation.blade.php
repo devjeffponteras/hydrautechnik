@@ -1,9 +1,9 @@
-@props(['selectedCategory' => null, 'mainCategories' => null])
+@props(['selectedCategory' => null, 'mainCategories' => null, 'otherProducts' => []])
 
 <div class="col-12 col-md-2 p-2">
 	<div class="position-sticky" style="top: 20px;">
 		<div class="card shadow side-panel-nav d-flex align-items-center mb-2">
-			<h5 class="mt-2 mb-0 pb-2">Products Category</h5>
+			<h5 class="mt-2 mb-0 pb-2">Main Poducts</h5>
 		</div>
 		<nav class="card shadow nav-tree side-panel-nav mb-0 p-3 pb-4" style="max-height: calc(100vh - 120px); overflow-y: auto;">
 			@php
@@ -28,6 +28,25 @@
 						No categories available
 					</li>
 				@endforelse
+			</ul>
+		</nav>
+
+
+		<div class="card shadow side-panel-nav d-flex align-items-center mb-2 mt-5">
+			<h5 class="mt-2 mb-0 pb-2">Other Products</h5>
+		</div>
+		<nav class="card shadow nav-tree side-panel-nav mb-0 p-3 pb-4">
+			
+			<ul>
+				@foreach($otherProducts as $otherProduct)
+					<li>
+						<i class="bi-chevron-right" style="margin-right: 8px; flex-shrink: 0;"></i>
+						<a href="{{ route('view-products', $otherProduct->id) }}"
+						   style="text-transform: capitalize !important; text-align: start; font-weight: 500; font-size: 14px; text-decoration: none; color: inherit; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;">
+							{{ $otherProduct->name }}
+						</a>
+					</li>
+				@endforeach
 			</ul>
 		</nav>
 	</div>

@@ -78,7 +78,7 @@ body {
 }
 
 .owl-carousel .owl-dots .owl-dot {
-    background-color: #003757 !important;
+    background-color: #ffc107 !important;
 }
 
 #slider {
@@ -86,7 +86,7 @@ body {
 }
 
 .owl-carousel .owl-nav [class*=owl-]:hover   {
-    background-color: #003757 !important;
+    background-color: #ffc107 !important;
 }
 
 /* Search Styles */

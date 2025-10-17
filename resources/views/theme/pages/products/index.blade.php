@@ -10,13 +10,19 @@
 		<div class="row col-12 px-3">
 
 			<!-- left side nav -->
-			@php
-				$mainCategories = \App\Models\ProductCategory::all();
-			@endphp
-			<x-side-navigation :mainCategories="$mainCategories" :selectedCategory="$selectedCategory ?? null" />
+			<x-side-navigation 
+				:mainCategories="$mainCategories" 
+				:selectedCategory="$selectedCategory ?? null" 
+				:otherProducts="$otherProducts"
+			/>
 
 			<!-- main content -->
 			<div class="col-12 col-md-10">
+
+				<p class="py-3" style="opacity: .8;">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim. Pellentesque ornare, augue maximus finibus congue, nisl nunc gravida sem, a venenatis massa quam id nisl. Fusce eleifend ullamcorper lacinia.
+				</p>
+
 				@php
 					$categories = \App\Models\ProductCategory::all();
 

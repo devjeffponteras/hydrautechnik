@@ -5,7 +5,7 @@
 
 @section('content')
 <div class="section sub-pages-hyd-container mt-0 pt-0" style="background-color: white;">
-	<div class="container">
+	<div class="container-fluid px-4 mx-4">
 
 		<h3>Equipments</h3>
 		<p class="pb-4" style="opacity: .8;">
@@ -22,10 +22,9 @@
 					<div class="card-body">
 						<div class="grid-info">
 							<h5><a href="#">Hydraulic Gantries</a></h5>
-							<small>Php 22,900.00</small>
-							<br />
-							<br />
-							<button class="btn btn-warning btn-sm">Shop Now</button>
+							<p style="opacity: .8">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim.
+							</p>
 						</div>
 					</div>
 				</div>
@@ -39,10 +38,9 @@
 					<div class="card-body">
 						<div class="grid-info">
 							<h5><a href="#">Hydraulic Strand Jacks</a></h5>
-							<small>Php 17,900.00</small>
-							<br />
-							<br />
-							<button class="btn btn-warning btn-sm">Shop Now</button>
+							<p style="opacity: .8">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim.
+							</p>
 						</div>
 					</div>
 				</div>
@@ -56,10 +54,9 @@
 					<div class="card-body">
 						<div class="grid-info">
 							<h5><a href="#">Jack-Up Systems</a></h5>
-							<small>Php 100,100.00</small>
-							<br />
-							<br />
-							<button class="btn btn-warning btn-sm">Shop Now</button>
+							<p style="opacity: .8">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim.
+							</p>
 						</div>
 					</div>
 				</div>
@@ -73,15 +70,14 @@
 					<div class="card-body">
 						<div class="grid-info">
 							<h5><a href="#">Self-Propelled Modular Transporters</a></h5>
-							<small>Php 147,000.00</small>
-							<br />
-							<br />
-							<button class="btn btn-warning btn-sm">Shop Now</button>
+							<p style="opacity: .8">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim.
+							</p>
 						</div>
 					</div>
 				</div>
 			</div>
-			
+
 		</div>
 
 		<div class="row col-12 mt-4">
@@ -94,10 +90,9 @@
 					<div class="card-body">
 						<div class="grid-info">
 							<h5><a href="#">Trolley Systems</a></h5>
-							<small>Php 79,500.00</small>
-							<br />
-							<br />
-							<button class="btn btn-warning btn-sm">Shop Now</button>
+							<p style="opacity: .8">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim.
+							</p>
 						</div>
 					</div>
 				</div>
@@ -111,10 +106,9 @@
 					<div class="card-body">
 						<div class="grid-info">
 							<h5><a href="#">Hydraulic Skidding Systems</a></h5>
-							<small>Php 55,500.00</small>
-							<br />
-							<br />
-							<button class="btn btn-warning btn-sm">Shop Now</button>
+							<p style="opacity: .8">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim.
+							</p>
 						</div>
 					</div>
 				</div>

@@ -73,18 +73,22 @@
 <section id="slider" class="slick-wrapper clearfix no-slider-banner" style="min-height: 6vh !important;">
 	<!-- nothing -->
 </section>
-@else
+@elseif(!str_contains(url()->current(), '/about-us'))
 <section id="slider" class="slick-wrapper clearfix no-slider-banner" style="min-height: 6vh !important;">
+	<!-- nothing -->
+</section>
+@else
+<section id="slider" class="slick-wrapper clearfix no-slider-banner" style="min-height: 6vh !important; margin-bottom: 35px;">
     <div class="banner-wrapper">
         <div class="container-fluid">
             <div class="row">
-                {{-- <div class="col-lg-12" style="padding:0;">
+                <div class="col-lg-12" style="padding:0;">
                     <div class="sub-banner-caption">
                         <div class="container" style="position: relative;">
                             <h2 class="text-center excerpt-1 text-light">{{$page->name}}</h2>
                             <div class="sub-banner-flex">
                                 <ol class="breadcrumb nobottommargin flex-nowrap justify-content-center">
-                                    <li class="breadcrumb-item text-nowrap"><a href="index.htm" class="text-light"><i class="icon-home"></i></a></li>
+                                    <li class="breadcrumb-item text-nowrap"><a href="{{ route('home') }}" class="text-light"><i class="icon-home"></i></a></li>
                                     <li class="breadcrumb-item active excerpt-1 text-light" aria-current="page">{{$page->name}}</li>
                                 </ol>
                             </div>
@@ -95,7 +99,7 @@
                             <img src="{{asset('storage/banners/no-banner.jpg')}}" />
                         </div>
                     </div>
-                </div> --}}
+                </div>
             </div>
         </div>
     </div>

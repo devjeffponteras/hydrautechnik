@@ -19,6 +19,7 @@ class Product extends Model
         'fam_atex',
         'olsw',
         'category_id',
+        'tag',
     ];
 
     // Relationship with ProductSubcategory
