@@ -29,7 +29,14 @@
 <div class="section sub-pages-hyd-container mt-0 pt-0" style="background-color: rgb(255, 255, 255);">
 	<div class="container-fluid">
 		<div class="row col-12 px-3">
-			<x-side-navigation :mainCategories="$mainCategories" :selectedCategory="$category ?? null"></x-side-navigation>
+
+			<!-- left side nav -->
+			<x-side-navigation 
+				:mainCategories="$mainCategories" 
+				:selectedCategory="$selectedCategory ?? null" 
+				:otherProducts="$otherProducts"
+			/>
+			
 			<div class="col-12 col-md-10">
 				<div class="mb-3">
 					<small>

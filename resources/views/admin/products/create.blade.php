@@ -52,6 +52,14 @@
                     <label for="olsw" class="form-label">OLSW</label>
                     <input type="text" name="olsw" class="form-control" value="{{ old('olsw') }}" placeholder="Enter OLSW value">
                 </div>
+
+                <!-- add tagging -->
+                <label class="form-label">Tag</label>
+                <select class="form-control mb-3" name="tag">
+                    <option value="1">Main</option>
+                    <option value="2">Others</option>
+                </select>
+
                 <div class="mb-3">
                     <label for="image" class="form-label">Product Image</label>
                     <input type="file" name="image" class="form-control" accept="image/*" onchange="previewImage(this)">

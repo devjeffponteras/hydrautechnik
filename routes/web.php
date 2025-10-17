@@ -81,9 +81,9 @@ Route::get('/phpinfo', function () {
     Route::get('/products/category/{id}', [FrontController::class, 'productsByCategory'])->name('products.by-category');
     // Updated: Route for sub-products with subcategory filter
     Route::get('/sub-products', [FrontController::class, 'subProducts'])->name('sub-products');
-    Route::get('/view-products', [FrontController::class, 'viewProducts'])->name('view-products');
+    Route::get('/view-products/{id}', [FrontController::class, 'viewProducts'])->name('view-products');
     Route::get('/equipments', [FrontController::class, 'equipments'])->name('equipments');
-    Route::get('/services', [FrontController::class, 'services'])->name('services');
+    Route::get('/company-capabilities', [FrontController::class, 'services'])->name('company-capabilities');
 
     // Resources
         Route::get('/case-details/{slug}', [FrontController::class, 'resource_details'])->name('resource-details.front.show');

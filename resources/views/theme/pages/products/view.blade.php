@@ -10,7 +10,11 @@
 		<div class="row col-12 px-3">
 
 			<!-- left side nav -->
-			<x-side-navigation></x-side-navigation>
+			<x-side-navigation 
+				:mainCategories="$mainCategories" 
+				:selectedCategory="$selectedCategory ?? null" 
+				:otherProducts="$otherProducts"
+			/>
 
 			<!-- main content -->
 			<div class="col-12 col-md-10">
@@ -44,7 +48,7 @@
 						<div class="view-sub-heading mb-3">
 							<small>{{ $product->description ?? '' }}</small>
 						</div>
-											@if($product->specification)
+											@if(!empty($product->specification))
 											<div class="view-bullets px-3 pt-3">
 												<ul>
 												@foreach(preg_split('/\r?\n/', $product->specification) as $spec)
@@ -108,31 +112,10 @@
 					</div>
 					<div class="col-12 col-md-6">
 						<div class="card side-panel-nav rounded bg-white shadow p-4">
-							@if($product->image)
-								@php
-									$rawPath = str_replace('\\', '/', $product->image ?? '');
-									$isFull = \Illuminate\Support\Str::startsWith($rawPath, ['http://', 'https://', '//']);
-									if (!$isFull) {
-										// If path already points to public storage (e.g. storage/products/...), use it directly
-										if (\Illuminate\Support\Str::startsWith($rawPath, 'public/')) {
-											$rawPath = 'storage/' . substr($rawPath, 7);
-											$finalUrl = asset($rawPath);
-										} elseif (\Illuminate\Support\Str::startsWith($rawPath, 'storage/') || \Illuminate\Support\Str::startsWith($rawPath, 'storage/')) {
-											$finalUrl = asset(ltrim($rawPath, '/'));
-										} else {
-											// Fallback: assume it's a path relative to public/
-											$rawPath = ltrim($rawPath, '/');
-											$finalUrl = asset($rawPath);
-										}
-									} else {
-										$finalUrl = $rawPath;
-									}
-								@endphp
-
-
-								<img src="{{ $finalUrl }}" alt="{{ $product->name }}" style="width:100%; height:600px; object-fit:cover;">
+							@if(!empty($product->image))
+								<img src="{{ asset($product->image) }}" alt="{{ $product->name }}" style="width:100%; height:600px; object-fit:cover;">
 							@else
-								<img src="{{ asset('storage/products/prd1.jpg') }}" alt="{{ $product->name }}" style="width:100%; height:300px; object-fit:cover;">
+								<img src="{{ asset('storage/products/prd1.jpg') }}" alt="{{ !empty($product->name) ? $product->name : 'Product Image' }}" style="width:100%; height:300px; object-fit:cover;">
 							@endif
 						</div>
 					</div>

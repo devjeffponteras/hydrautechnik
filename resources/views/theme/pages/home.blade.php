@@ -1,7 +1,21 @@
 @extends('theme.main')
 
 @section('pagecss')
-
+<style>
+    .title-tile {
+        background-color: #252525;
+        color: white;
+        font-size: 28px;
+        font-weight: 600;
+        min-height: 150px;
+        padding: 10px;
+    }
+    .owl-carousel .owl-stage-outer .owl-stage {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+    }
+</style>
 @endsection
 
 @php
@@ -158,9 +172,31 @@
 
     </div>
 
+    <!-- Clients Carousel -->
+    <div class="d-flex" style="margin-top: 120px;">
+        <div class="col-2 title-tile d-flex justify-content-center align-items-center">
+            Our Clients
+        </div>
+        <div id="oc-clients-full" class="col-10 owl-carousel owl-carousel-full image-carousel carousel-widget" data-margin="30" data-nav="true" data-pagi="false" data-autoplay="5000" data-items-xs="3" data-items-sm="3" data-items-md="5" data-items-lg="6" data-items-xl="7" style="width: 83.33333333%;">
+
+            <div class="oc-item"><a href="#"><img src="images/clients/lg1.png" alt="Brands" style="width: 85%; padding-left: 30px;"></a></div>
+            <div class="oc-item"><a href="#"><img src="images/clients/lg4.png" alt="Brands"></a></div>
+            <div class="oc-item"><a href="#"><img src="images/clients/lg5.png" alt="Brands"></a></div>
+            <div class="oc-item"><a href="#"><img src="images/clients/lg6.png" alt="Brands"></a></div>
+            <div class="oc-item"><a href="#"><img src="images/clients/lg7.png" alt="Brands"></a></div>
+            <div class="oc-item"><a href="#"><img src="images/clients/lg8.png" alt="Brands"></a></div>
+            <div class="oc-item"><a href="#"><img src="images/clients/lg9.png" alt="Brands"></a></div>
+            <div class="oc-item"><a href="#"><img src="images/clients/lg2.png" alt="Brands" style="width: 68%;"></a></div>
+            <div class="oc-item"><a href="#"><img src="images/clients/lg10.png" alt="Brands"></a></div>
+            <div class="oc-item"><a href="#"><img src="images/clients/lg11.png" alt="Brands"></a></div>
+            <div class="oc-item"><a href="#"><img src="images/clients/lg3.png" alt="Brands" style="width: 68%;"></a></div>
+
+        </div>
+    </div>
+
     <!-- Parallax Area
     ============================================= -->
-    <div class="section home-bot-prallax parallax dark mb-0" style="background-image: url({{ asset('/theme/images/banners/footer-hero.jpeg')}}); padding: 100px 0;" data-bottom-top="background-position:0px 0px;" data-top-bottom="background-position:0px -300px;">
+    <div class="section home-bot-prallax parallax dark mb-0 mt-0" style="background-image: url({{ asset('/theme/images/banners/footer-hero.jpeg')}}); padding: 100px 0;" data-bottom-top="background-position:0px 0px;" data-top-bottom="background-position:0px -300px;">
 
         <div class="heading-block center mb-2">
             <h3 style="font-size: 50px; font-weight: 400;">Got Questions?</h3>
