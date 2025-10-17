@@ -132,6 +132,16 @@
                 {{-- You can add more product-related links here --}}
             </ul>
         </li>
+        <li class="nav-item with-sub @if (request()->routeIs('equipments*')) active show @endif">
+            <a href="#" class="nav-link"><i data-feather="cpu"></i> <span>Equipments</span></a>
+            <ul>
+                <li @if (request()->routeIs('equipments.index')) class="active" @endif>
+                    <a href="{{ route('equipments.index') }}">Manage Equipments</a>
+                </li>
+                <li @if (request()->routeIs('equipments.create')) class="active" @endif>
+                    <a href="{{ route('equipments.create') }}">Create Equipment</a>
+                </li>
+            </ul>
+        </li>
     @endif
-
 </ul>
