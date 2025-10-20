@@ -196,7 +196,7 @@
 
     <!-- Parallax Area
     ============================================= -->
-    <div class="section home-bot-prallax parallax dark mb-0 mt-0" style="background-image: url({{ asset('/theme/images/banners/footer-hero.jpeg')}}); padding: 100px 0;" data-bottom-top="background-position:0px 0px;" data-top-bottom="background-position:0px -300px;">
+    <div class="section home-bot-prallax parallax dark mb-0 mt-0" style="background-image: url({{ asset('/theme/images/banners/footer-hero.jpeg')}}); padding: 100px 0; background-size: cover;" data-bottom-top="background-position:0px 0px;" data-top-bottom="background-position:0px -300px;">
 
         <div class="heading-block center mb-2">
             <h3 style="font-size: 50px; font-weight: 400;">Got Questions?</h3>
