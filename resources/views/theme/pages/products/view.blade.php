@@ -10,9 +10,9 @@
 		<div class="row col-12 px-3">
 
 			<!-- left side nav -->
-			<x-side-navigation 
-				:mainCategories="$mainCategories" 
-				:selectedCategory="$selectedCategory ?? null" 
+			<x-side-navigation
+				:mainCategories="$mainCategories"
+				:selectedCategory="$selectedCategory ?? null"
 				:otherProducts="$otherProducts"
 			/>
 
@@ -59,7 +59,14 @@
 												</ul>
 											</div>
 											@endif
+
+						@php
+							$hasAdditionalFields = $product->ixu || $product->olx || $product->fam_atex || $product->olsw;
+						@endphp
+
+						@if($hasAdditionalFields)
 						<div class="view-accordion">
+							@if($product->ixu)
 							<div class="toggle toggle-border">
 								<div class="toggle-header">
 									<div class="toggle-icon">
@@ -70,8 +77,11 @@
 										IXU
 									</div>
 								</div>
-								<div class="toggle-content">{!! nl2br(e($product->ixu ?? 'No information available')) !!}</div>
+								<div class="toggle-content">{!! nl2br(e($product->ixu)) !!}</div>
 							</div>
+							@endif
+
+							@if($product->olx)
 							<div class="toggle toggle-border">
 								<div class="toggle-header">
 									<div class="toggle-icon">
@@ -82,8 +92,11 @@
 										OLX
 									</div>
 								</div>
-								<div class="toggle-content">{!! nl2br(e($product->olx ?? 'No information available')) !!}</div>
+								<div class="toggle-content">{!! nl2br(e($product->olx)) !!}</div>
 							</div>
+							@endif
+
+							@if($product->fam_atex)
 							<div class="toggle toggle-border">
 								<div class="toggle-header">
 									<div class="toggle-icon">
@@ -94,8 +107,11 @@
 										FAM ATEX
 									</div>
 								</div>
-								<div class="toggle-content">{!! nl2br(e($product->fam_atex ?? 'No information available')) !!}</div>
+								<div class="toggle-content">{!! nl2br(e($product->fam_atex)) !!}</div>
 							</div>
+							@endif
+
+							@if($product->olsw)
 							<div class="toggle toggle-border">
 								<div class="toggle-header">
 									<div class="toggle-icon">
@@ -106,9 +122,11 @@
 										OLSW
 									</div>
 								</div>
-								<div class="toggle-content">{!! nl2br(e($product->olsw ?? 'No information available')) !!}</div>
+								<div class="toggle-content">{!! nl2br(e($product->olsw)) !!}</div>
 							</div>
+							@endif
 						</div>
+						@endif
 					</div>
 					<div class="col-12 col-md-6">
 						<div class="card side-panel-nav rounded bg-white shadow p-4">

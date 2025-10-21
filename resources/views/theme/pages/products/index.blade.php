@@ -10,9 +10,9 @@
 		<div class="row col-12 px-3">
 
 			<!-- left side nav -->
-			<x-side-navigation 
-				:mainCategories="$mainCategories" 
-				:selectedCategory="$selectedCategory ?? null" 
+			<x-side-navigation
+				:mainCategories="$mainCategories"
+				:selectedCategory="$selectedCategory ?? null"
 				:otherProducts="$otherProducts"
 			/>
 
@@ -32,9 +32,10 @@
 							->where('category_id', $selectedCategory->id)
 							->get();
 
-						// Also get products directly attached to this category that have no subcategory
+						// Also get PUBLISHED products directly attached to this category that have no subcategory
 						$categoryProducts = \App\Models\Product::where('category_id', $selectedCategory->id)
 							->whereNull('subcategory_id')
+							->where('status', 'PUBLISHED')
 							->get();
 					} else {
 						$subCategories = \App\Models\ProductSubcategory::with('category')->get();

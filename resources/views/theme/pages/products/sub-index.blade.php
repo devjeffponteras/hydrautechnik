@@ -6,9 +6,12 @@
 @section('content')
 @php
 	// Filter products based on selected subcategory or selected category
+	// Only show PUBLISHED products on frontend
 	if (isset($selectedSubcategory)) {
 		// Show products from specific subcategory
-		$products = \App\Models\Product::where('subcategory_id', $selectedSubcategory->id)->get();
+		$products = \App\Models\Product::where('subcategory_id', $selectedSubcategory->id)
+			->where('status', 'PUBLISHED')
+			->get();
 		$category = $selectedSubcategory->category;
 		$subcategory = $selectedSubcategory;
 	} elseif (isset($selectedCategory)) {
@@ -16,12 +19,13 @@
 		// Show ONLY products that have category_id matching AND no subcategory_id
 		$products = \App\Models\Product::where('category_id', $selectedCategory->id)
 			->whereNull('subcategory_id')
+			->where('status', 'PUBLISHED')
 			->get();
 		$category = $selectedCategory;
 		$subcategory = null;
 	} else {
-		// Show all products
-		$products = \App\Models\Product::all();
+		// Show all published products
+		$products = \App\Models\Product::where('status', 'PUBLISHED')->get();
 		$category = $products->first() && $products->first()->category ? $products->first()->category : null;
 		$subcategory = $products->first() && $products->first()->subcategory ? $products->first()->subcategory : null;
 	}
@@ -31,12 +35,12 @@
 		<div class="row col-12 px-3">
 
 			<!-- left side nav -->
-			<x-side-navigation 
-				:mainCategories="$mainCategories" 
-				:selectedCategory="$selectedCategory ?? null" 
+			<x-side-navigation
+				:mainCategories="$mainCategories"
+				:selectedCategory="$selectedCategory ?? null"
 				:otherProducts="$otherProducts"
 			/>
-			
+
 			<div class="col-12 col-md-10">
 				<div class="mb-3">
 					<small>

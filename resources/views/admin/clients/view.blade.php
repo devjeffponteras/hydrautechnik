@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('pagetitle')
-{{ $equipment->name }} - Equipment Details
+{{ $client->name }} - Client Details
 @endsection
 
 @section('content')
@@ -11,17 +11,17 @@
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <h3 class="mb-1">Equipment Details</h3>
-                    <p class="text-muted mb-0">View complete information for this hydraulic equipment</p>
+                    <h3 class="mb-1">Client Details</h3>
+                    <p class="text-muted mb-0">View complete information for this client</p>
                 </div>
                 <div class="d-flex gap-2">
-                    <a href="{{ route('equipments.edit', $equipment->id) }}" class="btn btn-outline-primary">
+                    <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-outline-primary">
                         <i data-feather="edit-2" class="me-1"></i>
-                        Edit Equipment
+                        Edit Client
                     </a>
-                    <a href="{{ route('equipments.index') }}" class="btn btn-outline-secondary">
+                    <a href="{{ route('clients.index') }}" class="btn btn-outline-secondary">
                         <i data-feather="arrow-left" class="me-1"></i>
-                        Back to Equipment
+                        Back to Clients
                     </a>
                 </div>
             </div>
@@ -29,47 +29,43 @@
     </div>
 
     <div class="row">
-        <!-- Equipment Image -->
+        <!-- Client Logo -->
         <div class="col-lg-4 mb-4">
             <div class="card shadow-sm h-100">
                 <div class="card-header">
                     <h6 class="card-title mb-0">
                         <i data-feather="image" class="me-2"></i>
-                        Equipment Image
+                        Client Logo
                     </h6>
                 </div>
                 <div class="card-body text-center d-flex align-items-center justify-content-center">
-                    @if($equipment->image)
+                    @if($client->logo)
                         <div>
-                            <img src="{{ asset($equipment->image) }}"
-                                 alt="{{ $equipment->name }}"
+                            <img src="{{ asset($client->logo) }}"
+                                 alt="{{ $client->name }}"
                                  class="img-fluid rounded shadow"
-                                 style="max-width: 100%; max-height: 300px; object-fit: cover; cursor: zoom-in;"
-                                 onclick="zoomImage(this)">
-                            <div class="mt-3">
-                                <small class="text-muted">Click to zoom</small>
-                            </div>
+                                 style="max-width: 100%; max-height: 300px; object-fit: cover;">
                         </div>
                     @else
                         <div class="text-center py-5">
                             <div class="mb-3">
                                 <i data-feather="image" style="width: 48px; height: 48px;" class="text-muted"></i>
                             </div>
-                            <h6 class="text-muted">No Image Available</h6>
-                            <p class="text-muted small mb-0">This equipment doesn't have an image</p>
+                            <h6 class="text-muted">No Logo Available</h6>
+                            <p class="text-muted small mb-0">This client doesn't have a logo</p>
                         </div>
                     @endif
                 </div>
             </div>
         </div>
 
-        <!-- Equipment Information -->
+        <!-- Client Information -->
         <div class="col-lg-8 mb-4">
             <div class="card shadow-sm h-100">
                 <div class="card-header">
                     <h5 class="card-title mb-0">
-                        <i data-feather="tool" class="me-2"></i>
-                        {{ $equipment->name }}
+                        <i data-feather="user" class="me-2"></i>
+                        {{ $client->name }}
                     </h5>
                 </div>
                 <div class="card-body">
@@ -77,43 +73,87 @@
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label fw-bold text-muted">Equipment Name</label>
+                                <label class="form-label fw-bold text-muted">Client Name</label>
                                 <div class="p-2 bg-light rounded">
-                                    <i data-feather="tool" class="me-2"></i>
-                                    {{ $equipment->name }}
+                                    <i data-feather="user" class="me-2"></i>
+                                    {{ $client->name }}
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label fw-bold text-muted">Category</label>
+                                <label class="form-label fw-bold text-muted">Email Address</label>
                                 <div class="p-2 bg-light rounded">
-                                    <i data-feather="folder" class="me-2"></i>
-                                    {{ $equipment->category ? $equipment->category->name : 'No Category' }}
+                                    <i data-feather="mail" class="me-2"></i>
+                                    {{ $client->email ?: 'No email provided' }}
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Description -->
-                    @if($equipment->description)
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold text-muted">Phone Number</label>
+                                <div class="p-2 bg-light rounded">
+                                    <i data-feather="phone" class="me-2"></i>
+                                    {{ $client->phone ?: 'No phone number provided' }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold text-muted">Company</label>
+                                <div class="p-2 bg-light rounded">
+                                    <i data-feather="building" class="me-2"></i>
+                                    {{ $client->company ?: 'No company specified' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Address -->
+                    @if($client->address)
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-muted">
+                                <i data-feather="map-pin" class="me-1"></i>
+                                Address
+                            </label>
+                            <div class="p-3 bg-light rounded">
+                                {{ $client->address }}
+                            </div>
+                        </div>
+                    @else
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-muted">
+                                <i data-feather="map-pin" class="me-1"></i>
+                                Address
+                            </label>
+                            <div class="p-3 bg-light rounded text-muted">
+                                <em>No address provided for this client.</em>
+                            </div>
+                        </div>
+                    @endif
+
+                    <!-- Notes -->
+                    @if($client->notes)
                         <div class="mb-4">
                             <label class="form-label fw-bold text-muted">
                                 <i data-feather="file-text" class="me-1"></i>
-                                Description
+                                Notes
                             </label>
                             <div class="p-3 bg-light rounded">
-                                {{ $equipment->description }}
+                                {{ $client->notes }}
                             </div>
                         </div>
                     @else
                         <div class="mb-4">
                             <label class="form-label fw-bold text-muted">
                                 <i data-feather="file-text" class="me-1"></i>
-                                Description
+                                Notes
                             </label>
                             <div class="p-3 bg-light rounded text-muted">
-                                <em>No description provided for this equipment.</em>
+                                <em>No notes available for this client.</em>
                             </div>
                         </div>
                     @endif
@@ -125,7 +165,7 @@
                                 <label class="form-label fw-bold text-muted small">Created</label>
                                 <div class="text-muted small">
                                     <i data-feather="calendar" class="me-1"></i>
-                                    {{ $equipment->created_at->format('M d, Y \a\t g:i A') }}
+                                    {{ $client->created_at->format('M d, Y \a\t g:i A') }}
                                 </div>
                             </div>
                         </div>
@@ -134,7 +174,7 @@
                                 <label class="form-label fw-bold text-muted small">Last Updated</label>
                                 <div class="text-muted small">
                                     <i data-feather="clock" class="me-1"></i>
-                                    {{ $equipment->updated_at->format('M d, Y \a\t g:i A') }}
+                                    {{ $client->updated_at->format('M d, Y \a\t g:i A') }}
                                 </div>
                             </div>
                         </div>
@@ -146,16 +186,6 @@
 </div>
 
 <script>
-function zoomImage(img) {
-    if (img.style.transform === 'scale(1.5)') {
-        img.style.transform = 'scale(1)';
-        img.style.cursor = 'zoom-in';
-    } else {
-        img.style.transform = 'scale(1.5)';
-        img.style.cursor = 'zoom-out';
-    }
-}
-
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize Feather icons
     if (typeof feather !== 'undefined') {
