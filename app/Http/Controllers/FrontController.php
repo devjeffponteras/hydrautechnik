@@ -52,9 +52,50 @@ class FrontController extends Controller
 
     public function home()
     {
-        // condition here? by jeff p.
+        // Load home page explicitly so we can pass additional data (clients)
+        if (Auth::guest()) {
+            $page = Page::where('slug', 'home')->where('status', 'PUBLISHED')->first();
+        } else {
+            $page = Page::where('slug', 'home')->first();
+        }
 
-        return $this->page('home');
+        if ($page == null) {
+            abort(404);
+        }
+
+        $breadcrumb = $this->breadcrumb($page);
+        $footer = Page::where('slug', 'footer')->where('name', 'footer')->first();
+
+        // Fetch clients to display on home carousel (only those with logos)
+        $clients = \App\Models\Client::whereNotNull('logo')
+            ->where('logo', '<>', '')
+            ->orderBy('company')
+            ->get();
+
+        if (!empty($page->template)) {
+            return view('theme.pages.' . $page->template, compact('footer', 'page', 'breadcrumb', 'clients'));
+        }
+
+        $parentPage = null;
+        $parentPageName = $page->name;
+        $currentPageItems = [];
+        $currentPageItems[] = $page->id;
+        if ($page->has_parent_page() || $page->has_sub_pages()) {
+            if ($page->has_parent_page()) {
+                $parentPage = $page->parent_page;
+                $parentPageName = $parentPage->name;
+                $currentPageItems[] = $parentPage->id;
+                while ($parentPage->has_parent_page()) {
+                    $parentPage = $parentPage->parent_page;
+                    $currentPageItems[] = $parentPage->id;
+                }
+            } else {
+                $parentPage = $page;
+                $currentPageItems[] = $parentPage->id;
+            }
+        }
+
+        return view('theme.page', compact('footer', 'page', 'parentPage', 'breadcrumb', 'currentPageItems', 'parentPageName', 'clients'));
     }
 
     public function privacy_policy(){
@@ -340,7 +381,7 @@ class FrontController extends Controller
         $page->name = 'Products';
 
         $mainCategories = ProductCategory::all();
-        $otherProducts = Product::where('tag', 2)->get();
+        $otherProducts = Product::where('tag', 2)->where('status', 'PUBLISHED')->get();
 
         // dd($otherProducts);
 
@@ -381,7 +422,7 @@ class FrontController extends Controller
         $page = new Page();
         $page->name = 'Sub Products';
 
-        $otherProducts = Product::where('tag', 2)->get();
+        $otherProducts = Product::where('tag', 2)->where('status', 'PUBLISHED')->get();
 
         // Get all categories (simple list)
         $mainCategories = \App\Models\ProductCategory::getAllCategories()->get();
@@ -415,13 +456,18 @@ class FrontController extends Controller
         $page->name = 'View Product';
 
         $mainCategories = ProductCategory::all();
-        $otherProducts = Product::where('tag', 2)->get();
+        $otherProducts = Product::where('tag', 2)->where('status', 'PUBLISHED')->get();
 
         $product = null;
         if ($request->has('id')) {
-            $product = \App\Models\Product::with(['subcategory', 'category'])->find($request->id);
+            $product = \App\Models\Product::with(['subcategory', 'category'])->where('status', 'PUBLISHED')->find($request->id);
         } else {
-            $product = Product::find($id);
+            $product = Product::where('status', 'PUBLISHED')->find($id);
+        }
+
+        // If product is not found or not published, show 404
+        if (!$product) {
+            abort(404, 'Product not found or not available');
         }
 
         return view('theme.pages.products.view', compact('page', 'product', 'mainCategories', 'otherProducts'));
@@ -431,7 +477,10 @@ class FrontController extends Controller
         $page = new Page();
         $page->name = 'Equipments';
 
-        return view('theme.pages.equipments.index', compact('page'));
+        // fetch equipments from database, include category if needed
+        $equipments = \App\Models\Equipment::orderBy('name', 'asc')->get();
+
+        return view('theme.pages.equipments.index', compact('page', 'equipments'));
     }
 
     public function services() {

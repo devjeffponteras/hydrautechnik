@@ -11,10 +11,12 @@ class ProductsController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Product::with(['subcategory.category']);
+        // Base query for both Main and Other products
+        $baseQuery = Product::with(['subcategory.category']);
 
+        // Apply search filters to base query
         if ($request->search) {
-            $query->where(function($q) use ($request) {
+            $baseQuery->where(function($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->search . '%')
                   ->orWhere('description', 'like', '%' . $request->search . '%')
                   ->orWhere('specification', 'like', '%' . $request->search . '%');
@@ -22,20 +24,35 @@ class ProductsController extends Controller
         }
 
         if ($request->category) {
-            $query->whereHas('subcategory', function($q) use ($request) {
+            $baseQuery->whereHas('subcategory', function($q) use ($request) {
                 $q->where('category_id', $request->category);
             });
         }
 
         if ($request->subcategory) {
-            $query->where('subcategory_id', $request->subcategory);
+            $baseQuery->where('subcategory_id', $request->subcategory);
         }
 
-        $products = $query->paginate(10);
+        if ($request->status) {
+            $baseQuery->where('status', $request->status);
+        }
+
+        // Separate queries for Main Products (exclude tag = 2) and Other Products (tag = 2 only)
+        $mainProductsQuery = clone $baseQuery;
+        $otherProductsQuery = clone $baseQuery;
+
+        // Main Products: Show all products EXCEPT those with tag = 2 (with pagination)
+        $mainProducts = $mainProductsQuery->where(function($q) {
+            $q->whereNull('tag')->orWhere('tag', '!=', 2);
+        })->orderBy('name', 'asc')->paginate(10, ['*'], 'main_page');
+
+        // Other Products: Show only products with tag = 2 (with pagination)
+        $otherProducts = $otherProductsQuery->where('tag', 2)->orderBy('name', 'asc')->paginate(10, ['*'], 'other_page');
+
         $categories = ProductCategory::getAllCategories()->get();
         $subcategories = ProductSubcategory::with('category')->get();
 
-        return view('admin.products.index', compact('products', 'categories', 'subcategories'));
+        return view('admin.products.index', compact('mainProducts', 'otherProducts', 'categories', 'subcategories'));
     }
 
     public function create()
@@ -43,6 +60,12 @@ class ProductsController extends Controller
         $categories = ProductCategory::all();
         $subcategories = ProductSubcategory::with('category')->get();
         return view('admin.products.create', compact('categories', 'subcategories'));
+    }
+
+    public function show($id)
+    {
+        $product = Product::with(['subcategory.category', 'productCategory'])->findOrFail($id);
+        return view('admin.products.show', compact('product'));
     }
 
     public function store(Request $request)
@@ -54,9 +77,18 @@ class ProductsController extends Controller
             'description' => 'nullable|string',
             'specification' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'status' => 'required|in:PUBLISHED,PRIVATE,DRAFT',
+            'is_published' => 'nullable|boolean',
         ]);
 
         $data = $request->all();
+
+        // Ensure status is set correctly based on toggle
+        if ($request->has('is_published') && $request->is_published) {
+            $data['status'] = 'PUBLISHED';
+        } else {
+            $data['status'] = 'PRIVATE';
+        }
 
         // If subcategory not provided but category is, set category_id directly on product
         if (empty($data['subcategory_id']) && !empty($data['category_id'])) {
@@ -71,6 +103,9 @@ class ProductsController extends Controller
             $imagePath = $image->storeAs('public/products', $imageName);
             $data['image'] = 'storage/products/' . $imageName;
         }
+
+        // Remove the is_published field as it's not in the database
+        unset($data['is_published']);
 
         Product::create($data);
 
@@ -94,10 +129,19 @@ class ProductsController extends Controller
             'description' => 'nullable|string',
             'specification' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'status' => 'required|in:PUBLISHED,PRIVATE,DRAFT',
+            'is_published' => 'nullable|boolean',
         ]);
 
         $product = Product::findOrFail($id);
         $data = $request->all();
+
+        // Ensure status is set correctly based on toggle
+        if ($request->has('is_published') && $request->is_published) {
+            $data['status'] = 'PUBLISHED';
+        } else {
+            $data['status'] = 'PRIVATE';
+        }
 
         if (empty($data['subcategory_id']) && !empty($data['category_id'])) {
             $data['subcategory_id'] = null;
@@ -119,6 +163,9 @@ class ProductsController extends Controller
             // Keep existing image if no new image uploaded
             unset($data['image']);
         }
+
+        // Remove the is_published field as it's not in the database
+        unset($data['is_published']);
 
         $product->update($data);
 
@@ -225,6 +272,13 @@ class ProductsController extends Controller
 
         return redirect()->route('products.create_subcategory')->with('success', 'Subcategory deleted successfully.');
     }
+
+    public function indexCategory()
+    {
+        $categories = ProductCategory::getAllCategories()->get();
+        return view('admin.products.index_category', compact('categories'));
+    }
+
     public function createCategory()
     {
         $categories = ProductCategory::getAllCategories()->get();

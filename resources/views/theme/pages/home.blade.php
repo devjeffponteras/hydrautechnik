@@ -32,7 +32,7 @@
         foreach ($featuredArticles as $index => $article) {
             $imageUrl = (empty($article->thumbnail_url)) ? asset('theme/images/misc/no-image.jpg') : $article->thumbnail_url;
 
-            
+
             $featuredArticlesHTML .= '
 
                 <div class="slide" data-thumb="'. $imageUrl .'">
@@ -62,8 +62,8 @@
 
     } else {
         $featuredArticlesHTML = '';
-    } 
-    
+    }
+
     $keywords   = ['{Featured Articles}'];
     $variables  = [$featuredArticlesHTML];
     $contents = str_replace($keywords,$variables,$contents);
@@ -87,7 +87,7 @@
                     <h3 class="nott" style="font-size: 36px; font-weight: 500; text-align: left;">Lubrication and Hydraulic Pipes System Flushing</h3>
                 </div>
                 <p class="fw-normal faded-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim. Pellentesque ornare, augue maximus finibus congue, nisl nunc gravida sem, a venenatis massa quam id nisl. Fusce eleifend ullamcorper lacinia.</p>
-                
+
                 <button class="btn btn-lg btn-warning" style="border-radius: 0px; font-weight: 500; padding: 14px 18px;">
                     Learn More <i class="icon-line-arrow-right"></i>
                 </button>
@@ -116,7 +116,7 @@
                     <h3 class="nott" style="font-size: 36px; font-weight: 500; text-align: left;">Troubleshooting of Hydraulics</h3>
                 </div>
                 <p class="fw-normal faded-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim. Pellentesque ornare, augue maximus finibus congue, nisl nunc gravida sem, a venenatis massa quam id nisl. Fusce eleifend ullamcorper lacinia.</p>
-                
+
                 <button class="btn btn-lg btn-warning" style="border-radius: 0px; font-weight: 500; padding: 14px 18px;">
                     Learn More <i class="icon-line-arrow-right"></i>
                 </button>
@@ -133,7 +133,7 @@
                     <h3 class="nott" style="font-size: 36px; font-weight: 500; text-align: left;">Repair of Hydraulics and Design  Fabrication</h3>
                 </div>
                 <p class="fw-normal faded-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim. Pellentesque ornare, augue maximus finibus congue, nisl nunc gravida sem, a venenatis massa quam id nisl. Fusce eleifend ullamcorper lacinia.</p>
-                
+
                 <button class="btn btn-lg btn-warning" style="border-radius: 0px; font-weight: 500; padding: 14px 18px;">
                     Learn More <i class="icon-line-arrow-right"></i>
                 </button>
@@ -162,7 +162,7 @@
                     <h3 class="nott" style="font-size: 36px; font-weight: 500; text-align: left;">Failure & Damage Analysis Repair of Hydraulics</h3>
                 </div>
                 <p class="fw-normal faded-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim. Pellentesque ornare, augue maximus finibus congue, nisl nunc gravida sem, a venenatis massa quam id nisl. Fusce eleifend ullamcorper lacinia.</p>
-                
+
                 <button class="btn btn-lg btn-warning" style="border-radius: 0px; font-weight: 500; padding: 14px 18px;">
                     Learn More <i class="icon-line-arrow-right"></i>
                 </button>
@@ -179,17 +179,57 @@
         </div>
         <div id="oc-clients-full" class="col-10 owl-carousel owl-carousel-full image-carousel carousel-widget" data-margin="30" data-nav="true" data-pagi="false" data-autoplay="5000" data-items-xs="3" data-items-sm="3" data-items-md="5" data-items-lg="6" data-items-xl="7" style="width: 83.33333333%;">
 
-            <div class="oc-item"><a href="#"><img src="images/clients/lg1.png" alt="Brands" style="width: 85%; padding-left: 30px;"></a></div>
-            <div class="oc-item"><a href="#"><img src="images/clients/lg4.png" alt="Brands"></a></div>
-            <div class="oc-item"><a href="#"><img src="images/clients/lg5.png" alt="Brands"></a></div>
-            <div class="oc-item"><a href="#"><img src="images/clients/lg6.png" alt="Brands"></a></div>
-            <div class="oc-item"><a href="#"><img src="images/clients/lg7.png" alt="Brands"></a></div>
-            <div class="oc-item"><a href="#"><img src="images/clients/lg8.png" alt="Brands"></a></div>
-            <div class="oc-item"><a href="#"><img src="images/clients/lg9.png" alt="Brands"></a></div>
-            <div class="oc-item"><a href="#"><img src="images/clients/lg2.png" alt="Brands" style="width: 68%;"></a></div>
-            <div class="oc-item"><a href="#"><img src="images/clients/lg10.png" alt="Brands"></a></div>
-            <div class="oc-item"><a href="#"><img src="images/clients/lg11.png" alt="Brands"></a></div>
-            <div class="oc-item"><a href="#"><img src="images/clients/lg3.png" alt="Brands" style="width: 68%;"></a></div>
+            @php
+                // Fallback: if controller didn't pass $clients, try to fetch here to avoid empty carousel
+                if (!isset($clients)) {
+                    try {
+                        $clients = \App\Models\Client::whereNotNull('logo')->where('logo', '<>', '')->orderBy('company')->get();
+                    } catch (\Throwable $e) {
+                        $clients = collect();
+                    }
+                }
+            @endphp
+
+            @forelse(($clients ?? collect()) as $client)
+                @php
+                    $logo = isset($client->logo) ? trim($client->logo) : '';
+                    $src = '';
+                    if ($logo !== '') {
+                        if (preg_match('#^https?://#i', $logo)) {
+                            $src = $logo;
+                        } else {
+                            // Normalize possible stored values
+                            // 1) public/clients/... -> storage/clients/...
+                            $logo = preg_replace('#^/?public/#', 'storage/', $logo);
+                            // 2) clients/... -> storage/clients/...
+                            if (preg_match('#^/?clients/#', $logo)) {
+                                $src = asset('storage/' . ltrim($logo, '/'));
+                            } elseif (preg_match('#^/?storage/#', $logo)) {
+                                $src = asset(ltrim($logo, '/'));
+                            } else {
+                                $src = asset(ltrim($logo, '/'));
+                            }
+                        }
+                    }
+                @endphp
+
+                @if(!empty($src))
+                    <div class="oc-item">
+                        <a href="#">
+                            <img src="{{ $src }}" alt="{{ $client->company ?? $client->name ?? 'Client' }}" style="width: 85%; padding-left: 30px;" onerror="
+                                if(!this.dataset.retry){
+                                    this.dataset.retry = '1';
+                                    // If path accidentally ends with .pn, try .png automatically
+                                    if(this.src.toLowerCase().endsWith('.pn')){ this.src = this.src + 'g'; return; }
+                                }
+                                this.onerror=null; this.src='{{ asset('images/clients/lg1.png') }}';
+                            " loading="lazy">
+                        </a>
+                    </div>
+                @endif
+            @empty
+
+            @endforelse
 
         </div>
     </div>
@@ -208,7 +248,7 @@
                     <div class="slide">
                         <p class="text-center" style="font-weight: 300; font-size: 24px;">Contact Us about our services by sending us an inquiry.</p>
                     </div>
-                    
+
                 </div>
             </div>
         </div>

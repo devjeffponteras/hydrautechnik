@@ -327,6 +327,9 @@ Route::group(['prefix' => 'admin-panel'], function (){
 
         // Equipments
             Route::resource('equipments', EquipmentsController::class);
+
+        // Clients
+            Route::resource('clients', App\Http\Controllers\ClientsController::class);
     });
 });
 

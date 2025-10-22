@@ -114,6 +114,7 @@
                 <li @if (request()->routeIs('permission*')) class="active" @endif><a href="{{ route('permission.index') }}">Permissions</a></li>
             </ul>
         </li>
+                   <li class="nav-label mg-t-25">Products</li>
         <li class="nav-item with-sub @if (request()->routeIs('products*')) active show @endif">
             <a href="#" class="nav-link"><i data-feather="package"></i> <span>Products</span></a>
             <ul>
@@ -124,10 +125,10 @@
                     <a href="{{ route('products.create') }}">Create Products</a>
                 </li>
                 <li @if (request()->routeIs('products.create_category')) class="active" @endif>
-                    <a href="{{ route('products.create_category') }}">Create Categories</a>
+                    <a href="{{ route('products.create_category') }}">Manage/Create Categories</a>
                 </li>
                 <li @if (request()->routeIs('products.create_subcategory')) class="active" @endif>
-                    <a href="{{ route('products.create_subcategory') }}">Manage Subcategories</a>
+                    <a href="{{ route('products.create_subcategory') }}">Manage/Create Subcategories</a>
                 </li>
                 {{-- You can add more product-related links here --}}
             </ul>
@@ -143,5 +144,18 @@
                 </li>
             </ul>
         </li>
+        <li class="nav-item with-sub @if (request()->routeIs('clients*')) active show @endif">
+            <a href="#" class="nav-link"><i data-feather="users"></i> <span>Clients</span></a>
+            <ul>
+                <li @if (request()->routeIs('clients.index')) class="active" @endif>
+                    <a href="{{ route('clients.index') }}">Manage Clients</a>
+                </li>
+                <li @if (request()->routeIs('clients.create')) class="active" @endif>
+                    <a href="{{ route('clients.create') }}">Create Client</a>
+                </li>
+            </ul>
+        </li>
+
+
     @endif
 </ul>

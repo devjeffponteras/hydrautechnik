@@ -5,92 +5,349 @@ Edit Product
 @endsection
 
 @section('content')
+<style>
+.collapse:not(.show) {
+    display: none;
+}
+.collapse.show {
+    display: block;
+}
+</style>
 <div class="container">
-    <h4 class="mb-3">Edit Product</h4>
-    <div class="card">
-        <div class="card-body">
-            <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                <div class="mb-3">
-                    <label for="name" class="form-label">Product Name</label>
-                    <input type="text" name="name" class="form-control" value="{{ $product->name }}" required>
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="mb-1">Edit Product</h3>
+                    <p class="text-muted mb-0">Update product information for your hydraulic catalog</p>
                 </div>
-                <div class="mb-3">
-                    <label for="subcategory_id" class="form-label">Subcategory</label>
-                    <select name="category_id" id="categorySelect" class="form-control">
-                        <option value="">Select Category</option>
-                        @foreach($categories as $category)
-                            <option value="{{ $category->id }}" @if(($product->productCategory && $product->productCategory->id == $category->id) || ($product->subcategory && $product->subcategory->category && $product->subcategory->category->id == $category->id)) selected @endif>{{ $category->name }}</option>
-                        @endforeach
-                    </select>
+                <a href="{{ route('products.index') }}" class="btn btn-outline-secondary">
+                    <i data-feather="arrow-left" class="me-1"></i>
+                    Back to Products
+                </a>
+            </div>
+        </div>
+    </div>
 
-                    <select name="subcategory_id" id="subcategorySelect" class="form-control mt-2">
-                        <option value="">Select Subcategory</option>
-                        @foreach($subcategories as $subcategory)
-                            <option value="{{ $subcategory->id }}" data-category="{{ $subcategory->category->id }}" @if($product->subcategory_id == $subcategory->id) selected @endif>{{ $subcategory->category->name }} - {{ $subcategory->name }}</option>
-                        @endforeach
-                    </select>
-                    <small id="noSubInfo" class="form-text text-muted mt-1" style="display:none;">Selected category has no subcategories. Product will be saved without subcategory.</small>
-                </div>
-                <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea name="description" class="form-control">{{ $product->description }}</textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="specification" class="form-label">Specifications</label>
-                    <textarea name="specification" class="form-control">{{ $product->specification }}</textarea>
-                    @if($product->specification)
-                        <ul class="mt-2">
-                        @foreach(preg_split('/\r?\n/', $product->specification) as $spec)
-                    @if(trim($spec) !== '')
-                        <li>{{ $spec }}</li>
-                    @endif
-                        @endforeach
-                        </ul>
-                    @endif
-                </div>
-
-                <div class="mb-3">
-                    <label for="ixu" class="form-label">IXU</label>
-                    <input type="text" name="ixu" class="form-control" value="{{ $product->ixu ?? old('ixu') }}" placeholder="Enter IXU value">
-                </div>
-
-                <div class="mb-3">
-                    <label for="olx" class="form-label">OLX</label>
-                    <input type="text" name="olx" class="form-control" value="{{ $product->olx ?? old('olx') }}" placeholder="Enter OLX value">
-                </div>
-
-                <div class="mb-3">
-                    <label for="fam_atex" class="form-label">FAM ATEX</label>
-                    <input type="text" name="fam_atex" class="form-control" value="{{ $product->fam_atex ?? old('fam_atex') }}" placeholder="Enter FAM ATEX value">
-                </div>
-
-                <div class="mb-3">
-                    <label for="olsw" class="form-label">OLSW</label>
-                    <input type="text" name="olsw" class="form-control" value="{{ $product->olsw ?? old('olsw') }}" placeholder="Enter OLSW value">
-                </div>
-
-                <div class="mb-3">
-                    <label for="image" class="form-label">Product Image</label>
-                    <input type="file" name="image" class="form-control" accept="image/*" onchange="previewImage(this)">
-
-                    @if($product->image)
-                        <div class="mt-2">
-                            <p class="text-muted">Current Image:</p>
-                            <img src="{{ asset($product->image) }}" alt="Current Product Image" style="max-width: 200px; max-height: 200px; border: 1px solid #ddd; border-radius: 4px;">
-                        </div>
-                    @endif
-
-                    <div id="imagePreview" class="mt-2" style="display: none;">
-                        <p class="text-muted">New Image Preview:</p>
-                        <img id="previewImg" src="" alt="Preview" style="max-width: 200px; max-height: 200px; border: 1px solid #ddd; border-radius: 4px;">
+    <!-- Helpful Information -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="alert alert-info border-0">
+                <div class="d-flex">
+                    <div class="me-3">
+                        <i data-feather="edit-3" style="width: 20px; height: 20px;"></i>
                     </div>
-                    <small class="form-text text-muted">Supported formats: JPEG, PNG, JPG, GIF. Max size: 2MB</small>
+                    <div>
+                        <h6 class="mb-1">Product Update Guide</h6>
+                        <p class="mb-2">Update the form below to modify this hydraulic product in your catalog.</p>
+                        <small><strong>Current Product:</strong> {{ $product->name }}</small>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-success">Update Product</button>
-                <a href="{{ route('products.index') }}" class="btn btn-secondary">Cancel</a>
-            </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i data-feather="edit" class="me-2"></i>
+                        Product Information
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+
+                        <!-- Product Name -->
+                        <div class="mb-3">
+                            <label for="name" class="form-label fw-bold">
+                                Product Name <span class="text-danger">*</span>
+                            </label>
+                            <input type="text"
+                                   id="name"
+                                   name="name"
+                                   class="form-control"
+                                   value="{{ $product->name }}"
+                                   placeholder="e.g., Hydraulic Gear Pump HP-2000"
+                                   required>
+                            <div class="form-text">Enter a clear, descriptive name for the product</div>
+                        </div>
+                        <!-- Category & Subcategory Selection -->
+                        <div class="mb-4">
+                            <h6 class="fw-bold text-muted mb-3">
+                                <i data-feather="folder" class="me-2"></i>
+                                Category & Classification
+                            </h6>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="categorySelect" class="form-label fw-bold">
+                                        Category <span class="text-danger">*</span>
+                                    </label>
+                                    <select name="category_id" id="categorySelect" class="form-control" required>
+                                        <option value="">Choose main category...</option>
+                                        @foreach($categories as $category)
+                                            <option value="{{ $category->id }}" @if(($product->productCategory && $product->productCategory->id == $category->id) || ($product->subcategory && $product->subcategory->category && $product->subcategory->category->id == $category->id)) selected @endif>{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="form-text">Select the main product category</div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="subcategorySelect" class="form-label fw-bold">
+                                        Subcategory <span class="text-muted">(Optional)</span>
+                                    </label>
+                                    <select name="subcategory_id" id="subcategorySelect" class="form-control">
+                                        <option value="">Choose subcategory...</option>
+                                        @foreach($subcategories as $subcategory)
+                                            <option value="{{ $subcategory->id }}" data-category="{{ $subcategory->category->id }}" @if($product->subcategory_id == $subcategory->id) selected @endif>{{ $subcategory->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="form-text">Select a more specific subcategory</div>
+                                </div>
+                            </div>
+
+                            <div id="noSubInfo" class="alert alert-warning border-0" style="display:none;">
+                                <div class="d-flex">
+                                    <i data-feather="alert-circle" class="me-2 mt-1" style="width: 16px; height: 16px;"></i>
+                                    <div>
+                                        <strong>No subcategories available</strong><br>
+                                        <small>The selected category doesn't have subcategories. Product will be saved without subcategory.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Product Description -->
+                        <div class="mb-4">
+                            <label for="description" class="form-label fw-bold">
+                                Product Description <span class="text-muted">(Optional)</span>
+                            </label>
+                            <textarea id="description"
+                                      name="description"
+                                      class="form-control"
+                                      rows="4"
+                                      placeholder="Provide a detailed description of the product, its features, and benefits...">{{ $product->description }}</textarea>
+                            <div class="form-text">
+                                <i data-feather="file-text" class="me-1"></i>
+                                Write a comprehensive description to help customers understand the product
+                            </div>
+                        </div>
+
+                        <!-- Product Specifications -->
+                        <div class="mb-4">
+                            <label for="specification" class="form-label fw-bold">
+                                Technical Specifications <span class="text-muted">(Optional)</span>
+                            </label>
+                            <textarea id="specification"
+                                      name="specification"
+                                      class="form-control"
+                                      rows="5"
+                                      placeholder="Enter specifications (one per line)&#10;e.g.&#10;Operating Pressure: 250 bar&#10;Flow Rate: 45 L/min&#10;Temperature Range: -20°C to +80°C&#10;Connection Size: 1/2&quot; BSP">{{ $product->specification }}</textarea>
+                            <div class="form-text">
+                                <i data-feather="list" class="me-1"></i>
+                                Enter each specification on a new line for clear formatting
+                            </div>
+                            @if($product->specification)
+                                <div class="mt-2">
+                                    <small class="text-muted">Current specifications:</small>
+                                    <ul class="mt-1 small">
+                                    @foreach(preg_split('/\r?\n/', $product->specification) as $spec)
+                                        @if(trim($spec) !== '')
+                                            <li>{{ $spec }}</li>
+                                        @endif
+                                    @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                        </div>
+
+                        <!-- Additional Technical Fields -->
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6 class="fw-bold text-muted mb-0">
+                                    <i data-feather="settings" class="me-2"></i>
+                                    Additional Technical Fields
+                                </h6>
+                                <button type="button"
+                                        class="btn btn-outline-info btn-sm"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#additionalFields"
+                                        aria-expanded="@if($product->ixu || $product->olx || $product->fam_atex || $product->olsw)true @else false @endif"
+                                        aria-controls="additionalFields">
+                                    <i data-feather="@if($product->ixu || $product->olx || $product->fam_atex || $product->olsw)minus @else plus @endif" class="me-1"></i>
+                                    @if($product->ixu || $product->olx || $product->fam_atex || $product->olsw)Hide Fields @else Show Fields @endif
+                                </button>
+                            </div>
+
+                            <div class="collapse @if($product->ixu || $product->olx || $product->fam_atex || $product->olsw)show @endif" id="additionalFields">
+                                <div class="alert alert-light border">
+                                    <div class="mb-3">
+                                        <small class="text-muted">
+                                            <i data-feather="info" class="me-1"></i>
+                                            These fields are for specialized hydraulic product specifications. Leave empty if not applicable.
+                                        </small>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="ixu" class="form-label fw-bold">IXU</label>
+                                                <input type="text"
+                                                       id="ixu"
+                                                       name="ixu"
+                                                       class="form-control"
+                                                       value="{{ $product->ixu ?? old('ixu') }}"
+                                                       placeholder="Enter IXU specification">
+                                                <div class="form-text">IXU technical parameter</div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="olx" class="form-label fw-bold">OLX</label>
+                                                <input type="text"
+                                                       id="olx"
+                                                       name="olx"
+                                                       class="form-control"
+                                                       value="{{ $product->olx ?? old('olx') }}"
+                                                       placeholder="Enter OLX specification">
+                                                <div class="form-text">OLX technical parameter</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="fam_atex" class="form-label fw-bold">FAM ATEX</label>
+                                                <input type="text"
+                                                       id="fam_atex"
+                                                       name="fam_atex"
+                                                       class="form-control"
+                                                       value="{{ $product->fam_atex ?? old('fam_atex') }}"
+                                                       placeholder="Enter FAM ATEX specification">
+                                                <div class="form-text">FAM ATEX certification details</div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="olsw" class="form-label fw-bold">OLSW</label>
+                                                <input type="text"
+                                                       id="olsw"
+                                                       name="olsw"
+                                                       class="form-control"
+                                                       value="{{ $product->olsw ?? old('olsw') }}"
+                                                       placeholder="Enter OLSW specification">
+                                                <div class="form-text">OLSW technical parameter</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Classification & Settings -->
+                        <div class="mb-4">
+                            <h6 class="fw-bold text-muted mb-3">
+                                <i data-feather="tag" class="me-2"></i>
+                                Product Classification & Settings
+                            </h6>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="tag" class="form-label fw-bold">Product Type</label>
+                                    <select id="tag" name="tag" class="form-control">
+                                        <option value="">Main Product</option>
+                                        <option value="2" @if($product->tag == 2) selected @endif>Other Product</option>
+                                    </select>
+                                    <div class="form-text">
+                                        <strong>Main Products:</strong> Featured products<br>
+                                        <strong>Other Products:</strong> Additional catalog items
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Publication Status</label>
+                                    <div class="form-check form-switch">
+                                        <input type="checkbox"
+                                               class="form-check-input"
+                                               id="statusSwitch"
+                                               name="is_published"
+                                               value="1"
+                                               @if($product->status == 'PUBLISHED') checked @endif>
+                                        <input type="hidden" name="status" id="statusValue" value="{{ $product->status }}">
+                                        <label class="form-check-label" for="statusSwitch">
+                                            <span id="statusText" class="fw-semibold @if($product->status == 'PUBLISHED') text-success @else text-muted @endif">
+                                                @if($product->status == 'PUBLISHED')
+                                                    Published
+                                                @else
+                                                    Unpublished
+                                                @endif
+                                            </span>
+                                        </label>
+                                    </div>
+                                    <div class="form-text">Publish or Private this product</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Image -->
+                        <div class="mb-4">
+                            <label for="image" class="form-label fw-bold">
+                                Product Image <span class="text-muted">(Optional)</span>
+                            </label>
+                            <input type="file"
+                                   id="image"
+                                   name="image"
+                                   class="form-control"
+                                   accept="image/*"
+                                   onchange="previewImage(this)">
+
+                            @if($product->image)
+                                <div class="mt-3">
+                                    <div class="d-flex align-items-center">
+                                        <img src="{{ asset($product->image) }}"
+                                             alt="Current Product Image"
+                                             class="img-thumbnail me-3"
+                                             style="max-width: 150px; max-height: 150px; object-fit: cover;">
+                                        <div>
+                                            <h6 class="mb-1 text-primary">Current Image</h6>
+                                            <p class="text-muted mb-0">This is the current product image</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+
+                            <div id="imagePreview" class="mt-3" style="display: none;">
+                                <div class="d-flex align-items-center">
+                                    <img id="previewImg"
+                                         src=""
+                                         alt="Preview"
+                                         class="img-thumbnail me-3"
+                                         style="max-width: 150px; max-height: 150px; object-fit: cover;">
+                                    <div>
+                                        <h6 class="mb-1 text-success">New Image Preview</h6>
+                                        <p class="text-muted mb-0">This will replace the current image</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-text">
+                                <i data-feather="upload" class="me-1"></i>
+                                Supported: JPEG, PNG, JPG, GIF (Max: 2MB)
+                            </div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{{ route('products.index') }}" class="btn btn-outline-secondary me-md-2">
+                                <i data-feather="x" class="me-1"></i>
+                                Cancel
+                            </a>
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i data-feather="save" class="me-2"></i>
+                                Update Product
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -110,39 +367,114 @@ function previewImage(input) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Feather icons
+    if (typeof feather !== 'undefined') {
+        feather.replace();
+    }
+
     const categorySelect = document.getElementById('categorySelect');
     const subcategorySelect = document.getElementById('subcategorySelect');
     const noSubInfo = document.getElementById('noSubInfo');
 
     function updateSubcategories() {
         const selectedCat = categorySelect.value;
-        let has = false;
+        let hasSubcategories = false;
+
+        // Reset subcategory select
+        subcategorySelect.selectedIndex = 0;
 
         Array.from(subcategorySelect.options).forEach(opt => {
             const cat = opt.getAttribute('data-category');
-            if (!opt.value) return; // keep placeholder
+            if (!opt.value) { // keep placeholder visible
+                opt.style.display = '';
+                return;
+            }
             if (cat === selectedCat) {
                 opt.style.display = '';
-                has = true;
+                hasSubcategories = true;
             } else {
                 opt.style.display = 'none';
             }
         });
 
-        if (!has) {
-            subcategorySelect.style.display = 'none';
-            subcategorySelect.removeAttribute('required');
-            noSubInfo.style.display = '';
+        // Show/hide subcategory field and warning
+        if (!hasSubcategories && selectedCat) {
+            noSubInfo.style.display = 'block';
         } else {
-            subcategorySelect.style.display = '';
-            subcategorySelect.required = true;
             noSubInfo.style.display = 'none';
         }
     }
 
-    categorySelect.addEventListener('change', updateSubcategories);
-    // Trigger on load to set initial state
-    updateSubcategories();
+    if (categorySelect) {
+        categorySelect.addEventListener('change', updateSubcategories);
+        // Initialize on page load
+        updateSubcategories();
+    }
+
+    // Handle status toggle
+    const statusSwitch = document.getElementById('statusSwitch');
+    const statusValue = document.getElementById('statusValue');
+    const statusText = document.getElementById('statusText');
+
+    if (statusSwitch) {
+        statusSwitch.addEventListener('change', function() {
+            if (this.checked) {
+                statusValue.value = 'PUBLISHED';
+                statusText.textContent = 'Published';
+                statusText.className = 'fw-semibold text-success';
+            } else {
+                statusValue.value = 'PRIVATE';
+                statusText.textContent = 'Unpublished';
+                statusText.className = 'fw-semibold text-muted';
+            }
+        });
+    }
+
+    // Handle additional fields toggle button
+    const additionalFieldsCollapse = document.getElementById('additionalFields');
+    const toggleBtn = document.querySelector('[data-bs-target="#additionalFields"]');
+
+    if (additionalFieldsCollapse && toggleBtn) {
+        // Manual toggle functionality in case Bootstrap is not working
+        toggleBtn.addEventListener('click', function() {
+            const isCollapsed = additionalFieldsCollapse.classList.contains('show');
+
+            if (isCollapsed) {
+                // Hide the fields
+                additionalFieldsCollapse.classList.remove('show');
+                toggleBtn.innerHTML = '<i data-feather="plus" class="me-1"></i>Show Fields';
+            } else {
+                // Show the fields
+                additionalFieldsCollapse.classList.add('show');
+                toggleBtn.innerHTML = '<i data-feather="minus" class="me-1"></i>Hide Fields';
+            }
+
+            // Refresh feather icons
+            if (typeof feather !== 'undefined') {
+                feather.replace();
+            }
+        });
+
+        // Bootstrap collapse events (if Bootstrap is loaded)
+        additionalFieldsCollapse.addEventListener('show.bs.collapse', function () {
+            toggleBtn.innerHTML = '<i data-feather="minus" class="me-1"></i>Hide Fields';
+            if (typeof feather !== 'undefined') {
+                feather.replace();
+            }
+        });
+
+        additionalFieldsCollapse.addEventListener('hide.bs.collapse', function () {
+            toggleBtn.innerHTML = '<i data-feather="plus" class="me-1"></i>Show Fields';
+            if (typeof feather !== 'undefined') {
+                feather.replace();
+            }
+        });
+    }
+
+    // Initialize Feather icons
+    if (typeof feather !== 'undefined') {
+        feather.replace();
+    }
 });
 </script>
 @endsection

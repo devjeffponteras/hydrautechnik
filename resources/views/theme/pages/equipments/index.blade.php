@@ -14,105 +14,37 @@
 
 		<div class="row col-12">
 
-			<div class="col-md-3">
-				<div class="card">
-					<div class="card-header p-3 shadow bg-white">
-						<img src="images/equipments/he1.jpg" alt="Image 1">
-					</div>
-					<div class="card-body">
-						<div class="grid-info">
-							<h5><a href="#">Hydraulic Gantries</a></h5>
-							<p style="opacity: .8">
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim.
-							</p>
+			@forelse($equipments ?? collect() as $equipment)
+				<div class="col-md-3">
+					<div class="card">
+						<div class="card-header p-3 shadow bg-white">
+							@php
+								$img = $equipment->image ?? '';
+								// if image is a storage path, use asset() helper; otherwise fallback to theme image
+								if($img && (str_contains($img, 'storage/') || str_starts_with($img, 'storage/'))){
+									$imgUrl = asset($img);
+								} elseif($img) {
+									$imgUrl = asset($img);
+								} else {
+									$imgUrl = asset('images/equipments/he1.jpg');
+								}
+							@endphp
+							<img src="{{ $imgUrl }}" alt="{{ $equipment->name }}">
+						</div>
+						<div class="card-body">
+							<div class="grid-info">
+								<h5><a href="#">{{ $equipment->name }}</a></h5>
+								<p style="opacity: .8">{{ $equipment->description }}</p>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-
-			<div class="col-md-3">
-				<div class="card">
-					<div class="card-header p-3 shadow bg-white">
-						<img src="images/equipments/he2.jpg" alt="Image 1">
-					</div>
-					<div class="card-body">
-						<div class="grid-info">
-							<h5><a href="#">Hydraulic Strand Jacks</a></h5>
-							<p style="opacity: .8">
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim.
-							</p>
-						</div>
-					</div>
+			@empty
+				<div class="col-12">
+					<p>No equipments found.</p>
 				</div>
-			</div>
+			@endforelse
 
-			<div class="col-md-3">
-				<div class="card">
-					<div class="card-header p-3 shadow bg-white">
-						<img src="images/equipments/he3.jpg" alt="Image 1">
-					</div>
-					<div class="card-body">
-						<div class="grid-info">
-							<h5><a href="#">Jack-Up Systems</a></h5>
-							<p style="opacity: .8">
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim.
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-3">
-				<div class="card">
-					<div class="card-header p-3 shadow bg-white">
-						<img src="images/equipments/he4.jpg" alt="Image 1">
-					</div>
-					<div class="card-body">
-						<div class="grid-info">
-							<h5><a href="#">Self-Propelled Modular Transporters</a></h5>
-							<p style="opacity: .8">
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim.
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
-
-		</div>
-
-		<div class="row col-12 mt-4">
-
-			<div class="col-md-3">
-				<div class="card">
-					<div class="card-header p-3 shadow bg-white">
-						<img src="images/equipments/he5.jpg" alt="Image 1">
-					</div>
-					<div class="card-body">
-						<div class="grid-info">
-							<h5><a href="#">Trolley Systems</a></h5>
-							<p style="opacity: .8">
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim.
-							</p>
-						</div>
-					</div>
-				</div>
-
-			</div>
-			<div class="col-md-3">
-				<div class="card">
-					<div class="card-header p-3 shadow bg-white">
-						<img src="images/equipments/he6.jpg" alt="Image 1">
-					</div>
-					<div class="card-body">
-						<div class="grid-info">
-							<h5><a href="#">Hydraulic Skidding Systems</a></h5>
-							<p style="opacity: .8">
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim.
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 
 	</div>
