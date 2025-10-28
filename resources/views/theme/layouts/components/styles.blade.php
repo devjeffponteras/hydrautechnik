@@ -18,7 +18,7 @@
 
     <!-- Construction Demo Specific Stylesheet -->
     <!-- / -->
-    
+
     <link rel="stylesheet" href="{{ asset('theme/css/dark.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ asset('theme/css/font-icons.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ asset('theme/css/animate.css') }}" type="text/css" />
@@ -29,13 +29,13 @@
     <link rel="stylesheet" href="{{ asset('theme/css/cookiealert.css') }}" type="text/css"  />
     <link rel="stylesheet" href="{{ asset('theme/css/fonts.css') }}" type="text/css"  />
     <!-- <link rel="stylesheet" href="{{ asset('theme/css/cafe.css') }}" type="text/css"  /> -->
-    
+
     <link rel="stylesheet" href="{{ asset('theme/css/custom.css') }}" type="text/css" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    
+
     <link rel="icon" href="{{ asset('storage').'/icons/'.Setting::getFaviconLogo()->website_favicon }}" type="image/x-icon">
     <!-- <link rel="stylesheet" href="{{ asset('theme/extra/drone.css') }}" type="text/css"  /> -->
- 
+
     <link rel="stylesheet" href="{{ asset('theme/addons/css/style.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ asset('theme/addons/css/font-icons.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ asset('theme/addons/css/swiper.css') }}" type="text/css" />
@@ -251,8 +251,8 @@
         .col-md-6.text-center.flex-center-center .position-relative.overflow-hidden a .card {
             position: absolute;
             z-index: 1;
-            min-width: 50%; 
-            max-width: 50%; 
+            min-width: 50%;
+            max-width: 50%;
             min-height: 60%;
             left: 5%;
             top: 10%;
@@ -274,7 +274,7 @@
         .modair-primary-logo {
             min-width: 210px;
         }
-        
+
         /*our services animations*/
         a.img-services-wrapper {
             position: relative;
@@ -294,17 +294,17 @@
             -moz-animation:spin 50s linear infinite;
             animation:spin 50s linear infinite;
         }
-        @-moz-keyframes spin { 
-            100% { -moz-transform: rotate(360deg); } 
+        @-moz-keyframes spin {
+            100% { -moz-transform: rotate(360deg); }
         }
-        @-webkit-keyframes spin { 
-            100% { -webkit-transform: rotate(360deg); } 
+        @-webkit-keyframes spin {
+            100% { -webkit-transform: rotate(360deg); }
         }
-        @keyframes spin { 
-            100% { 
-                -webkit-transform: rotate(360deg); 
-                transform:rotate(360deg); 
-            } 
+        @keyframes spin {
+            100% {
+                -webkit-transform: rotate(360deg);
+                transform:rotate(360deg);
+            }
         }
         .position-relative.overflow-hidden.img-services-container {
             padding: 15px;
@@ -313,7 +313,7 @@
             transform: scale(1.30);
             transition: all .2s;
         }
-        
+
         .services-list li.list-style-none {
             font-size: 32px;
         }

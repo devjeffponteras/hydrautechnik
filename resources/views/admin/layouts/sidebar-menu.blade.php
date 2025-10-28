@@ -125,10 +125,10 @@
                     <a href="{{ route('products.create') }}">Create Products</a>
                 </li>
                 <li @if (request()->routeIs('products.create_category')) class="active" @endif>
-                    <a href="{{ route('products.create_category') }}">Manage/Create Categories</a>
+                    <a href="{{ route('products.create_category') }}">Create Categories</a>
                 </li>
                 <li @if (request()->routeIs('products.create_subcategory')) class="active" @endif>
-                    <a href="{{ route('products.create_subcategory') }}">Manage/Create Subcategories</a>
+                    <a href="{{ route('products.create_subcategory') }}">Create Subcategories</a>
                 </li>
                 {{-- You can add more product-related links here --}}
             </ul>
@@ -155,6 +155,21 @@
                 </li>
             </ul>
         </li>
+
+                <li class="nav-label mg-t-25">Services</li>
+        <li class="nav-item with-sub @if (request()->routeIs('services*')) active show @endif">
+            <a href="#" class="nav-link"><i data-feather="settings"></i> <span>Services</span></a>
+            <ul>
+                <li @if (request()->routeIs('services.index')) class="active" @endif>
+                    <a href="{{ route('services.index') }}">Manage Services</a>
+                </li>
+                <li @if (request()->routeIs('services.create')) class="active" @endif>
+                    <a href="{{ route('services.create') }}">Create Service</a>
+                </li>
+            </ul>
+        </li>
+
+
 
 
     @endif

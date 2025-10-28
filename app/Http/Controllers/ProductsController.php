@@ -107,6 +107,11 @@ class ProductsController extends Controller
         // Remove the is_published field as it's not in the database
         unset($data['is_published']);
 
+        // Set default value for tag if not provided
+        if (!isset($data['tag']) || $data['tag'] === null) {
+            $data['tag'] = 1; // Default tag value
+        }
+
         Product::create($data);
 
         return redirect()->route('products.index')->with('success', 'Product created successfully.');
@@ -166,6 +171,11 @@ class ProductsController extends Controller
 
         // Remove the is_published field as it's not in the database
         unset($data['is_published']);
+
+        // Set default value for tag if not provided
+        if (!isset($data['tag']) || $data['tag'] === null) {
+            $data['tag'] = 1; // Default tag value
+        }
 
         $product->update($data);
 
