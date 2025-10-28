@@ -53,7 +53,7 @@
 						@if($subcategory)
 							<span style="font-weight: 600;">{{ $subcategory->name }}</span>
 						@elseif($category)
-							<span style="font-weight: 600;">{{ $category->name }} Products</span>
+							<span style="font-weight: 600;">{{ $category->name }}</span>
 						@else
 							<span>All Products</span>
 						@endif

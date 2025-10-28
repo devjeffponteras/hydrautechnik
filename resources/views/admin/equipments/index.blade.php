@@ -23,8 +23,8 @@ Manage Equipments
     </div>
 
     <!-- Equipment Statistics -->
-    <div class="row mb-4">
-        <div class="col-md-3">
+    <div class="row mb-4 justify-content-center">
+        <div class="col-md-3 col-lg-3">
             <div class="card bg-primary text-white">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
@@ -37,7 +37,7 @@ Manage Equipments
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 col-lg-3">
             <div class="card bg-success text-white">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
@@ -50,7 +50,7 @@ Manage Equipments
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 col-lg-3">
             <div class="card bg-info text-white">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
@@ -59,19 +59,6 @@ Manage Equipments
                             <h3 class="mb-0">{{ isset($equipments) ? $equipments->pluck('category')->unique()->filter()->count() : 0 }}</h3>
                         </div>
                         <i data-feather="folder" style="width: 32px; height: 32px;"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card bg-warning text-white">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="card-title">Recent Items</h6>
-                            <h3 class="mb-0">{{ isset($equipments) ? $equipments->where('created_at', '>=', now()->subDays(30))->count() : 0 }}</h3>
-                        </div>
-                        <i data-feather="calendar" style="width: 32px; height: 32px;"></i>
                     </div>
                 </div>
             </div>

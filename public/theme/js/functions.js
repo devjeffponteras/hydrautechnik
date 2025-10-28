@@ -2602,7 +2602,7 @@ var SEMICOLON = SEMICOLON || {};
 	$(".side-menu li").each(function () {
 		$(this).find("ul").css("display", "none");
 	});
-	
+
 	$(".side-menu li.active").each(function () {
 		$(this).find("ul").css("display", "block");
 	});
@@ -2617,10 +2617,10 @@ var SEMICOLON = SEMICOLON || {};
 		showCount: false,
 		shares: ["facebook", "linkedin"],
 	});
-	
+
 	$(".share_link").each(function( index ) {
 		let href = $(".share_link:eq(" + index + ")").attr("data-href");
-		
+
 			$(".share_link:eq(" + index + ")").jsSocials({
 			showLabel: false,
 			showCount: false,
@@ -2716,4 +2716,3 @@ $("#rowAdder").click(function () {
 $("body #newinput").on("click", "#DeleteRow", function () {
 	$(this).parents("#row").remove();
 })
- 

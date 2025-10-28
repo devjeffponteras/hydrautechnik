@@ -106,12 +106,18 @@
                             <div class="mb-3">
                                 <label class="form-label fw-bold text-muted">Publication Status</label>
                                 <div class="p-2 bg-light rounded">
-                                    @if($product->is_published)
+                                    @if($product->status == 'PUBLISHED')
                                         <i data-feather="eye" class="me-2 text-success"></i>
-                                        <span class="text-success">Published</span>
-                                    @else
+                                        <span class="badge bg-success">Published</span>
+                                    @elseif($product->status == 'PRIVATE')
                                         <i data-feather="eye-off" class="me-2 text-warning"></i>
-                                        <span class="text-warning">Draft</span>
+                                        <span class="badge bg-warning">Private</span>
+                                    @elseif($product->status == 'DRAFT')
+                                        <i data-feather="edit" class="me-2 text-secondary"></i>
+                                        <span class="badge bg-secondary">Draft</span>
+                                    @else
+                                        <i data-feather="help-circle" class="me-2 text-muted"></i>
+                                        <span class="badge bg-secondary">{{ $product->status ?? 'Unknown' }}</span>
                                     @endif
                                 </div>
                             </div>

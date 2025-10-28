@@ -21,22 +21,51 @@
 				<p class="pb-2" style="opacity: .8;">
 					<small>
 						@php
-							$category = $product->category ?? null;
-							$subcategory = $product->subcategory ?? null;
+							// Debug: Let's see what we have
+							$category = null;
+							$subcategory = null;
+
+							// Try multiple ways to get the category
+							if (isset($product->category) && $product->category) {
+								$category = $product->category;
+							}
+							// Try through subcategory
+							elseif (isset($product->subcategory) && $product->subcategory && isset($product->subcategory->category)) {
+								$category = $product->subcategory->category;
+							}
+							// Try direct category_id lookup
+							elseif (isset($product->category_id) && $product->category_id) {
+								$category = \App\Models\ProductCategory::find($product->category_id);
+							}
+
+							// Get subcategory
+							if (isset($product->subcategory) && $product->subcategory) {
+								$subcategory = $product->subcategory;
+							}
+							// Try direct subcategory_id lookup
+							elseif (isset($product->subcategory_id) && $product->subcategory_id) {
+								$subcategory = \App\Models\ProductSubcategory::find($product->subcategory_id);
+								if ($subcategory && $subcategory->category && !$category) {
+									$category = $subcategory->category;
+								}
+							}
 						@endphp
+
 						@if($category)
-							<a href="{{ route('products') }}">{{ $category->name }}</a>
+							<a href="{{ route('products') }}?category={{ $category->id }}">{{ $category->name }}</a>
+							&gt;
+							@if($subcategory)
+								<a href="{{ route('sub-products') }}?subcategory={{ $subcategory->id }}">{{ $subcategory->name }}</a>
+								&gt;
+							@endif
+							<span style="text-decoration: underline;">{{ $product->name ?? 'Product' }}</span>
 						@else
-							<a href="{{ route('products') }}">Product Categories</a>
+							{{-- Debug: Show what we have if no category --}}
+							<span style="text-decoration: underline;">{{ $product->name ?? 'Product' }}</span>
+							{{-- Uncomment below for debugging
+							<br><small style="color: red;">Debug: No category found. Product ID: {{ $product->id ?? 'N/A' }}, Category ID: {{ $product->category_id ?? 'N/A' }}, Subcategory ID: {{ $product->subcategory_id ?? 'N/A' }}</small>
+							--}}
 						@endif
-						&gt;
-						@if($subcategory)
-							<a href="{{ route('sub-products') }}">{{ $subcategory->name }}</a>
-						@else
-							<a href="{{ route('sub-products') }}">Sub Categories</a>
-						@endif
-						&gt;
-						<span style="text-decoration: underline;">{{ $product->name ?? 'Product' }}</span>
 					</small>
 					<h3>
 						{{ $product->name ?? '' }}

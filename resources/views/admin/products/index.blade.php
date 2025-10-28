@@ -123,15 +123,15 @@ Manage Products
                     Main Products
                 </h5>
                 <div class="d-flex align-items-center">
-                    <span class="badge bg-success me-2">{{ $mainProducts->count() }} products</span>
-                    @if($mainProducts->count() == 0)
+                    <span class="badge bg-success me-2">{{ $mainProducts->total() }} products</span>
+                    @if($mainProducts->total() == 0)
                         <small class="text-muted">No main products yet</small>
                     @endif
                 </div>
             </div>
         </div>
         <div class="card-body">
-            @if($mainProducts->count() > 0)
+            @if($mainProducts->total() > 0)
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">
                         <thead class="table-light">
@@ -220,6 +220,13 @@ Manage Products
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Main Products Pagination -->
+                @if($mainProducts->hasPages())
+                    <div class="d-flex justify-content-center mt-3">
+                        {{ $mainProducts->appends(request()->query())->links() }}
+                    </div>
+                @endif
             @else
                 <div class="text-center py-5">
                     <div class="mb-3">
@@ -245,15 +252,15 @@ Manage Products
                     Other Products
                 </h5>
                 <div class="d-flex align-items-center">
-                    <span class="badge bg-info me-2">{{ $otherProducts->count() }} products</span>
-                    @if($otherProducts->count() == 0)
+                    <span class="badge bg-info me-2">{{ $otherProducts->total() }} products</span>
+                    @if($otherProducts->total() == 0)
                         <small class="text-muted">No other products yet</small>
                     @endif
                 </div>
             </div>
         </div>
         <div class="card-body">
-            @if($otherProducts->count() > 0)
+            @if($otherProducts->total() > 0)
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">
                         <thead class="table-light">
@@ -342,6 +349,13 @@ Manage Products
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Other Products Pagination -->
+                @if($otherProducts->hasPages())
+                    <div class="d-flex justify-content-center mt-3">
+                        {{ $otherProducts->appends(request()->query())->links() }}
+                    </div>
+                @endif
             @else
                 <div class="text-center py-5">
                     <div class="mb-3">

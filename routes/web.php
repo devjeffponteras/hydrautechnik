@@ -330,6 +330,9 @@ Route::group(['prefix' => 'admin-panel'], function (){
 
         // Clients
             Route::resource('clients', App\Http\Controllers\ClientsController::class);
+
+        // Services
+            Route::resource('services', App\Http\Controllers\ServicesController::class);
     });
 });
 

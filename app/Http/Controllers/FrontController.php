@@ -127,60 +127,7 @@ class FrontController extends Controller
             'page',
             'breadcrumb',
             'articleCategories',
-            'customPages'
         ));
-    }
-
-    public function seach_result(Request $request)
-    {
-        // dd($request->searchtxt);
-        $page = new Page();
-        $page->name = 'Search Results';
-
-        $breadcrumb = $this->breadcrumb($page);
-        $pageLimit = 10;
-
-        $searchtxt = $request->searchtxt;
-        session(['searchtxt' => $searchtxt]);
-
-        $pages = Page::where('status', 'PUBLISHED')
-            ->whereNotIn('slug', ['footer', 'home'])
-            ->where(function ($query) use ($searchtxt) {
-                $query->where('name', 'like', '%' . $searchtxt . '%')
-                    ->orWhere('contents', 'like', '%' . $searchtxt . '%');
-            })
-            ->select('name', 'slug')
-            ->orderBy('name', 'asc')
-            ->get();
-
-        $news = Article::where('status', 'PUBLISHED')
-            ->where(function ($query) use ($searchtxt) {
-                $query->where('name', 'like', '%' . $searchtxt . '%')
-                    ->orWhere('contents', 'like', '%' . $searchtxt . '%');
-            })
-            ->select('name', 'slug')
-            ->orderBy('name', 'asc')
-            ->get();
-
-        // $products = Product::where('status', 'PUBLISHED')
-        //     ->whereRaw('LOWER(book_type) NOT IN (?, ?)', ['ebook', 'e-book'])
-        //     ->where(function ($query) use ($searchtxt) {
-        //         $query->where('name', 'like', '%' . $searchtxt . '%')
-        //         ->orWhere('author', 'like', '%' . $searchtxt . '%');
-        //     })
-        //     // ->select('name', "book-details/".'slug')
-        //     ->select('name', DB::raw("CONCAT('book-details/', slug) as slug"))
-        //     ->orderBy('name', 'asc')
-        //     ->get();
-
-        // $products = Product::select('products.*')->leftJoin('product_additional_infos', 'products.id', '=', 'product_additional_infos.product_id')
-        // ->where('products.status', 'PUBLISHED')->get();
-
-        $totalItems = $pages->count()+$news->count();
-
-        $searchResult = collect($pages)->merge($news)->paginate(10);
-
-        return view('theme.pages.search-result', compact('searchResult', 'totalItems', 'page','breadcrumb'));
     }
 
     public function page($slug = "home")
@@ -381,11 +328,21 @@ class FrontController extends Controller
         $page->name = 'Products';
 
         $mainCategories = ProductCategory::all();
+        // Only get main products (exclude products with tag = 2)
+        $allProducts = Product::select('products.*')
+            ->where('status', 'PUBLISHED')
+            ->where(function($q) {
+                $q->whereNull('tag')->orWhere('tag', '!=', 2);
+            })
+            ->orderBy('name', 'asc')
+            ->get();
         $otherProducts = Product::where('tag', 2)->where('status', 'PUBLISHED')->get();
 
-        // dd($otherProducts);
+        // Debug: Log the actual count
+        \Log::info('Main Products Count: ' . $allProducts->count());
+        \Log::info('Other Products Count: ' . $otherProducts->count());
 
-        return view('theme.pages.products.index', compact('page', 'mainCategories', 'otherProducts'));
+        return view('theme.pages.products.index', compact('page', 'mainCategories', 'allProducts', 'otherProducts'));
     }
 
     // NEW METHOD: Show products filtered by category
@@ -456,13 +413,13 @@ class FrontController extends Controller
         $page->name = 'View Product';
 
         $mainCategories = ProductCategory::all();
-        $otherProducts = Product::where('tag', 2)->where('status', 'PUBLISHED')->get();
+        $otherProducts = \App\Models\Product::where('tag', 2)->where('status', 'PUBLISHED')->get();
 
         $product = null;
         if ($request->has('id')) {
             $product = \App\Models\Product::with(['subcategory', 'category'])->where('status', 'PUBLISHED')->find($request->id);
         } else {
-            $product = Product::where('status', 'PUBLISHED')->find($id);
+            $product = \App\Models\Product::with(['subcategory', 'category'])->where('status', 'PUBLISHED')->find($id);
         }
 
         // If product is not found or not published, show 404
