@@ -156,7 +156,7 @@
             </ul>
         </li>
 
-                <li class="nav-label mg-t-25">Services</li>
+        <li class="nav-label mg-t-25">Services</li>
         <li class="nav-item with-sub @if (request()->routeIs('services*')) active show @endif">
             <a href="#" class="nav-link"><i data-feather="settings"></i> <span>Services</span></a>
             <ul>
@@ -170,6 +170,18 @@
         </li>
 
 
+        <li class="nav-label mg-t-25">Projects</li>
+        <li class="nav-item with-sub @if (request()->routeIs('projects*')) active show @endif">
+            <a href="#" class="nav-link"><i data-feather="briefcase"></i> <span>Projects</span></a>
+            <ul>
+                <li @if (request()->routeIs('projects.index')) class="active" @endif>
+                    <a href="{{ route('projects.index') }}">Manage Projects</a>
+                </li>
+                <li @if (request()->routeIs('projects.create')) class="active" @endif>
+                    <a href="{{ route('projects.create') }}">Create Project</a>
+                </li>
+            </ul>
+        </li>
 
 
     @endif

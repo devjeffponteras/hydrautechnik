@@ -357,7 +357,7 @@ class FrontController extends Controller
 
         // Handle if category doesn't exist
         if (!$selectedCategory) {
-            return redirect()->route('products')->with('error', 'Category not found');
+            return redirect()->route('products');
         }
 
         $page->name = $selectedCategory->name;
@@ -435,7 +435,8 @@ class FrontController extends Controller
         $page->name = 'Equipments';
 
         // fetch equipments from database, include category if needed
-        $equipments = \App\Models\Equipment::orderBy('name', 'asc')->get();
+        // paginate public equipments listing to 5 items per page
+        $equipments = \App\Models\Equipment::orderBy('name', 'asc')->paginate(5);
 
         return view('theme.pages.equipments.index', compact('page', 'equipments'));
     }
@@ -444,7 +445,63 @@ class FrontController extends Controller
         $page = new Page();
         $page->name = 'Company Capabilities';
 
-        return view('theme.pages.services.index', compact('page'));
+        // load published services to display on the front page; paginate to 5 per page
+        $services = \App\Models\Service::where('status', 'PUBLISHED')->orderBy('name', 'asc')->paginate(5);
+
+        return view('theme.pages.services.index', compact('page', 'services'));
+    }
+
+    /**
+     * Show a single service detail page.
+     */
+    public function serviceShow($id) {
+        $page = new Page();
+        $page->name = 'Company Capabilities';
+
+        $service = \App\Models\Service::where('status', 'PUBLISHED')->find($id);
+        if (!$service) {
+            abort(404);
+        }
+
+        return view('theme.pages.services.show', compact('page', 'service'));
+    }
+
+
+    /**
+     * Projects listing (front)
+     */
+    public function projects()
+    {
+        $page = new Page();
+        $page->name = 'Projects';
+
+        // load published projects
+        $projects = [];
+        if (\Illuminate\Support\Facades\Schema::hasTable('projects')) {
+            $projects = \App\Models\Project::where('status', 'PUBLISHED')->orderByDesc('created_at')->get();
+        }
+
+        return view('theme.pages.projects.index', compact('page', 'projects'));
+    }
+
+    /**
+     * Show a single project detail page.
+     */
+    public function projectShow($id)
+    {
+        $page = new Page();
+        $page->name = 'Projects';
+
+        if (!\Illuminate\Support\Facades\Schema::hasTable('projects')) {
+            abort(404);
+        }
+
+        $project = \App\Models\Project::where('status', 'PUBLISHED')->find($id);
+        if (!$project) {
+            abort(404);
+        }
+
+        return view('theme.pages.projects.show', compact('page', 'project'));
     }
 
 

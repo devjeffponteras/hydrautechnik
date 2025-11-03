@@ -1,6 +1,77 @@
 @extends('theme.main')
 
 @section('pagecss')
+<style>
+/* Pagination tweaks scoped to this page for a compact, theme-friendly pager */
+.pagination {
+	display: inline-flex;
+	padding-left: 0;
+	margin: 0;
+	list-style: none;
+	border-radius: .25rem;
+}
+.pagination .page-item { margin: 0 .18rem; }
+.pagination .page-link {
+	color: #0b2e4a;
+	background: #fff;
+	border: 1px solid #e9ecef;
+	padding: .38rem .62rem;
+	font-size: .95rem;
+	border-radius: .35rem;
+}
+.pagination .page-link:hover {
+	background: #f1f5f8;
+	color: #0b2e4a;
+}
+.pagination .page-item.active .page-link {
+	background-color: #163a5b;
+	border-color: #163a5b;
+	color: #fff;
+}
+.pagination .page-item.disabled .page-link {
+	color: #6c757d;
+	pointer-events: none;
+	background: transparent;
+	border-color: transparent;
+}
+
+/* Keep the pager compact on small screens */
+@media (max-width: 576px) {
+	.pagination .page-link { padding: .28rem .48rem; font-size: .88rem; }
+}
+/* Simple enter animation for service rows */
+.animate-item { opacity: 0; transform: translateY(18px); transition: opacity .6s ease-out, transform .6s ease-out; will-change: opacity, transform; }
+.animate-item.show { opacity: 1; transform: translateY(0); }
+.animate-item.show-left { opacity: 1; transform: translateX(0); }
+.animate-item.show-right { opacity: 1; transform: translateX(0); }
+.hidden-left { transform: translateX(-28px); }
+.hidden-right { transform: translateX(28px); }
+</style>
+@endsection
+
+@section('pagejs')
+<script>
+// Intersection observer to add .show class when elements enter viewport
+document.addEventListener('DOMContentLoaded', function () {
+	const items = document.querySelectorAll('.animate-item');
+	if (!items || items.length === 0) return;
+
+	const observer = new IntersectionObserver((entries, obs) => {
+		entries.forEach(entry => {
+			if (entry.isIntersecting) {
+				const el = entry.target;
+				// If element contains .flex-row-reverse or similar we can choose direction
+				const reverse = el.querySelector('.feature-box')?.classList.contains('flex-row-reverse');
+				el.classList.add('show');
+				if (reverse) el.classList.add('show-right'); else el.classList.add('show-left');
+				obs.unobserve(el);
+			}
+		});
+	}, { threshold: 0.12 });
+
+	items.forEach(i => observer.observe(i));
+});
+</script>
 @endsection
 
 @section('content')
@@ -8,7 +79,7 @@
 	<div class="container-fluid px-4 mx-4">
 
 		<div class="d-flex">
-			
+
 			<div class="col-2">
 				<div class="side-panel-wrap">
 
@@ -19,116 +90,117 @@
 						</div>
 
 						<nav class="nav-tree mb-0 mt-2 card shadow p-3" style="min-height: 160px;">
-							<ul>
-								<li><a href="#">Services</a>
-									<ul>
-										<li><a href="#">Services 1</a></li>
-										<li><a href="#">Services 2</a></li>
-										<li><a href="#">Services 3</a></li>
-										<li><a href="#">Services 4</a></li>
-									</ul>
-								</li>
+							@if($services->count())
+								<ul>
+									<li><a href="#">Services</a>
+										<ul>
+											@foreach($services as $s)
+												<li><a href="{{ route('company-capabilities.show', $s->id) }}">{{ $s->name }}</a></li>
+											@endforeach
+										</ul>
+									</li>
+								</ul>
+							@else
+								<div class="text-muted">No services available yet.</div>
+							@endif
+
+							<!-- Projects (dynamic from DB) -->
+							@php
+							use App\Models\Project;
+							use Illuminate\Support\Facades\Schema;
+							use Illuminate\Support\Facades\Route;
+
+							$projectsByCategory = collect();
+							if (Schema::hasTable('projects')) {
+								$projectsByCategory = Project::orderByDesc('created_at')->get()->groupBy(function($p){ return $p->category ?? 'OTHER'; });
+							}
+							@endphp
+
+							<ul class="mt-3">
 								<li><a href="#">Projects</a>
 									<ul>
 										<li><a href="#">Completed Projects</a>
 											<ul>
-												<li><a href="#">1 Completed</a></li>
-												<li><a href="#">2 Completed</a></li>
-												<li><a href="#">3 Completed</a></li>
+												@forelse($projectsByCategory['COMPLETED'] ?? [] as $p)
+													<li><a href="{{ url('/projects/'.$p->id) }}">{{ $p->name }}</a></li>
+												@empty
+													<li><a href="#">No completed projects</a></li>
+												@endforelse
 											</ul>
 										</li>
 										<li><a href="#">On Going Projects</a>
 											<ul>
-												<li><a href="#">1  On Going</a></li>
-												<li><a href="#">2  On Going</a></li>
-												<li><a href="#">3  On Going</a></li>
+												@forelse($projectsByCategory['ONGOING'] ?? [] as $p)
+													<li><a href="{{ url('/projects/'.$p->id) }}">{{ $p->name }}</a></li>
+												@empty
+													<li><a href="#">No ongoing projects</a></li>
+												@endforelse
 											</ul>
 										</li>
 									</ul>
 								</li>
 								<li><a href="#">Other Projects</a>
 									<ul>
-										<li><a href="#">Others 1</a></li>
-										<li><a href="#">Others 2</a></li>
-										<li><a href="#">Others 3</a></li>
-										<li><a href="#">Others 4</a></li>
+										@forelse($projectsByCategory['OTHER'] ?? [] as $p)
+											<li><a href="{{ url('/projects/'.$p->id) }}">{{ $p->name }}</a></li>
+										@empty
+											<li><a href="#">No other projects</a></li>
+										@endforelse
 									</ul>
 								</li>
 							</ul>
 						</nav>
 
 					</div>
-					
+
 				</div>
 			</div>
 			<div class="col-10" style="padding: 0px 7%;">
 
-				<p class="pb-2" style="opacity: .8;">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim. Pellentesque ornare, augue maximus finibus congue, nisl nunc gravida sem, a venenatis massa quam id nisl. Fusce eleifend ullamcorper lacinia.
-				</p>
+				<div class="mb-4">
+					<h3 class="mb-2">Our Services</h3>
+					<p class="text-muted" style="line-height:1.6; text-align:justify;">
+						Hydrautechnik provides comprehensive hydraulic and mechanical engineering services tailored to industrial and mobile applications. Our expertise includes system design and integration, fabrication and installation of hydraulic systems, troubleshooting and repair of hydraulic components, preventive maintenance, and customized hydraulic power units. We combine experienced engineers with on-site support to deliver reliable, efficient, and safe solutions that minimize downtime and extend equipment life.
+					</p>
+				</div>
 
 				<div class="row align-items-center">
-					<div class="col-12">
-						<div class="feature-box fbox-effect fbox-xl d-flex align-items-center">
-							<div class="fbox-icon me-3" style="width: 400px; height: 100%;">
-								<a href="#">
-									<img src="images/products/prd3.jpg" alt="Feature Icon" class="bg-transparent rounded-0">
-								</a>
+					@if($services->count())
+						@foreach($services as $service)
+							<div class="col-12 animate-item">
+								<div class="feature-box fbox-effect fbox-xl {{ $loop->iteration % 2 == 0 ? 'flex-row-reverse' : '' }} d-flex align-items-center">
+									<div class="fbox-icon {{ $loop->iteration % 2 == 0 ? 'ms-3' : 'me-3' }}" style="width: 400px; height: 100%;">
+										<a href="#service-{{ $service->id }}">
+											@if(!empty($service->image))
+												<img src="{{ asset($service->image) }}" alt="{{ $service->name }}" class="bg-transparent rounded-0" style="width:100%; height:100%; object-fit:cover;">
+											@else
+												<img src="{{ asset('images/products/prd1.jpg') }}" alt="{{ $service->name }}" class="bg-transparent rounded-0" style="width:100%; height:100%; object-fit:cover;">
+											@endif
+										</a>
+									</div>
+									<div class="fbox-content">
+										<h2 id="service-{{ $service->id }}">{{ $service->name }}</h2>
+										<p>{!! \Illuminate\Support\Str::limit($service->description ?? '', 400) !!}</p>
+									</div>
+								</div>
 							</div>
-							<div class="fbox-content">
-								<h2>Piping and Fabrication Works</h2>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim. Pellentesque ornare, augue maximus finibus congue, nisl nunc gravida sem, a venenatis massa quam id nisl.</p>
-							</div>
+							@if(!$loop->last)
+								<div class="line my-5"></div>
+							@endif
+						@endforeach
+					@else
+						<div class="col-12 text-center">
+							<p class="text-muted">No services to display at the moment.</p>
 						</div>
-					</div>
-
-					<div class="line my-5"></div>
-
-					<div class="col-12">
-						<div class="feature-box fbox-effect fbox-xl flex-row-reverse d-flex align-items-center">
-							<div class="fbox-icon ms-3" style="width: 400px; height: 100%;">
-								<a href="#">
-									<img src="images/products/prd4.jpg" alt="Feature Icon" class="bg-transparent rounded-0">
-								</a>
-							</div>
-							<div class="fbox-content">
-								<h2>On Site Offline Filtration and Dewatering</h2>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim. Pellentesque ornare, augue maximus finibus congue, nisl nunc gravida sem, a venenatis massa quam id nisl.</p>
-							</div>
-						</div>
-					</div>
-
-					<div class="line my-5"></div>
-
-					<div class="col-12">
-						<div class="feature-box fbox-effect fbox-xl d-flex align-items-center">
-							<div class="fbox-icon me-3" style="width: 400px; height: 100%;">
-								<a href="#">
-									<img src="images/products/prd2.jpg" alt="Feature Icon" class="bg-transparent rounded-0">
-								</a>
-							</div>
-							<div class="fbox-content">
-								<h2>Debri Filters and Preventive Maintenance</h2>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim. Pellentesque ornare, augue maximus finibus congue, nisl nunc gravida sem, a venenatis massa quam id nisl.</p>
-							</div>
-						</div>
-					</div>
-
-					<div class="line my-5"></div>
-					<div class="col-12">
-						<div class="feature-box fbox-effect fbox-xl flex-row-reverse d-flex align-items-center">
-							<div class="fbox-icon ms-3" style="width: 400px; height: 100%;">
-								<a href="#">
-									<img src="images/products/prd1.jpg" alt="Feature Icon" class="bg-transparent rounded-0">
-								</a>
-							</div>
-							<div class="fbox-content">
-								<h2>Hydraulic System Flushing</h2>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim. Pellentesque ornare, augue maximus finibus congue, nisl nunc gravida sem, a venenatis massa quam id nisl.</p>
-							</div>
-						</div>
-					</div>
+					@endif
 				</div>
+
+					{{-- Pagination links for services --}}
+					<div class="row">
+						<div class="col-12 d-flex justify-content-center mt-4">
+							{!! $services->links('pagination::bootstrap-4') !!}
+						</div>
+					</div>
 
 				<!-- shop like -->
 				<!-- <div id="oc-posts" class="owl-carousel posts-carousel carousel-widget posts-md" data-pagi="false" data-items-xs="1" data-items-sm="2" data-items-md="3" data-items-lg="4">

@@ -75,6 +75,9 @@ Route::get('/phpinfo', function () {
 
     // Portfolio
     Route::get('/portfolio', [FrontController::class, 'portfolio'])->name('portfolio');
+    // Projects listing and detail
+    Route::get('/projects', [FrontController::class, 'projects'])->name('projects');
+    Route::get('/projects/{id}', [FrontController::class, 'projectShow'])->name('projects.show');
 
 
     /*Extra Pages */
@@ -84,9 +87,15 @@ Route::get('/phpinfo', function () {
     Route::get('/products/category/{id}', [FrontController::class, 'productsByCategory'])->name('products.by-category');
     // Updated: Route for sub-products with subcategory filter
     Route::get('/sub-products', [FrontController::class, 'subProducts'])->name('sub-products');
+    // Redirect accidental link that points to the view route with literal "products"
+    Route::get('/view-products/products', function() {
+        return redirect()->route('products');
+    });
     Route::get('/view-products/{id}', [FrontController::class, 'viewProducts'])->name('view-products');
     Route::get('/equipments', [FrontController::class, 'equipments'])->name('equipments');
     Route::get('/company-capabilities', [FrontController::class, 'services'])->name('company-capabilities');
+    // Service detail page
+    Route::get('/company-capabilities/{id}', [FrontController::class, 'serviceShow'])->name('company-capabilities.show');
 
     // Resources
         Route::get('/case-details/{slug}', [FrontController::class, 'resource_details'])->name('resource-details.front.show');
@@ -330,6 +339,9 @@ Route::group(['prefix' => 'admin-panel'], function (){
 
         // Clients
             Route::resource('clients', App\Http\Controllers\ClientsController::class);
+
+        // Projects (admin)
+            Route::resource('projects', App\Http\Controllers\ProjectsController::class);
 
         // Services
             Route::resource('services', App\Http\Controllers\ServicesController::class);
