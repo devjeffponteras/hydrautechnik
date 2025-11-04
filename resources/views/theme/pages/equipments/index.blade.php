@@ -1,6 +1,35 @@
 @extends('theme.main')
 
 @section('pagecss')
+<style>
+/* Compact pagination styling for equipments page */
+.pagination {
+	display: inline-flex;
+	padding-left: 0;
+	margin: 0;
+	list-style: none;
+}
+.pagination .page-item { margin: 0 .18rem; }
+.pagination .page-link {
+	color: #0b2e4a;
+	background: #fff;
+	border: 1px solid #e9ecef;
+	padding: .38rem .62rem;
+	font-size: .95rem;
+	border-radius: .35rem;
+}
+.pagination .page-link:hover { background: #f1f5f8; color: #0b2e4a; }
+.pagination .page-item.active .page-link {
+	background-color: #163a5b;
+	border-color: #163a5b;
+	color: #fff;
+}
+.pagination .page-item.disabled .page-link { color: #6c757d; pointer-events: none; background: transparent; border-color: transparent; }
+
+@media (max-width: 576px) {
+	.pagination .page-link { padding: .28rem .48rem; font-size: .88rem; }
+}
+</style>
 @endsection
 
 @section('content')
@@ -8,8 +37,8 @@
 	<div class="container-fluid px-4 mx-4">
 
 		<h3>Equipments</h3>
-		<p class="pb-4" style="opacity: .8;">
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim. Pellentesque ornare, augue maximus finibus congue, nisl nunc gravida sem, a venenatis massa quam id nisl. Fusce eleifend ullamcorper lacinia.
+		<p class="text-muted" style="line-height:1.6; text-align:justify;">
+			Hydrautechnik supplies and services a wide range of industrial and mobile equipment for hydraulic and lubrication systems. We offer equipment procurement, on-site installation, preventive maintenance, testing and inspection, and certified repair services. Our inventory includes pumps, power units, filtration systems, valves, and related accessories — all supported by experienced technicians and genuine spare parts to ensure reliable operation and long-term performance.
 		</p>
 
 		<div class="row col-12">
@@ -45,6 +74,13 @@
 				</div>
 			@endforelse
 
+		</div>
+
+		{{-- Pagination links for equipments (5 per page) --}}
+		<div class="row">
+			<div class="col-12 d-flex justify-content-center mt-4">
+				{!! $equipments->links('pagination::bootstrap-4') !!}
+			</div>
 		</div>
 
 	</div>

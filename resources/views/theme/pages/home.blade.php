@@ -77,98 +77,78 @@
             <p class="text-center topmargin-lg faded-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim. Pellentesque ornare, augue maximus finibus congue, nisl nunc gravida sem, a venenatis massa quam id nisl. Fusce eleifend ullamcorper lacinia..</p>
         </div>
 
-        <!-- row per services -->
-        <div class="row topmargin-lg clearfix" style="padding-bottom: 30px;">
-            <!-- Image Texts
-            ============================================= -->
-            <div class="col-lg-6 hidden-left" style="padding-right: 80px;">
-                <div class="heading-block topmargin-sm bottommargin-sm border-0">
-                    <p class="mb-0 faded-text">Services</p>
-                    <h3 class="nott" style="font-size: 36px; font-weight: 500; text-align: left;">Lubrication and Hydraulic Pipes System Flushing</h3>
-                </div>
-                <p class="fw-normal faded-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim. Pellentesque ornare, augue maximus finibus congue, nisl nunc gravida sem, a venenatis massa quam id nisl. Fusce eleifend ullamcorper lacinia.</p>
+        <!-- row per services (dynamic from DB; preserve design and alternation) -->
+        @php
+            try {
+                // Load all published services for home page
+                $homeServices = \App\Models\Service::where('status', 'PUBLISHED')->orderBy('name', 'asc')->get();
+            } catch (\Throwable $e) {
+                $homeServices = collect();
+            }
 
-                <button class="btn btn-lg btn-warning" style="border-radius: 0px; font-weight: 500; padding: 14px 18px;">
-                    Learn More <i class="icon-line-arrow-right"></i>
-                </button>
+            // Default images to fall back to (match original order)
+            $defaultImgs = [
+                asset('/images/services/hyd1.jpg'),
+                asset('/images/services/hyd2.jpg'),
+                asset('/images/services/hyd3.jpg'),
+                asset('/images/services/hyd4.jpg'),
+            ];
+        @endphp
+
+        @forelse($homeServices as $index => $service)
+            @php
+                $i = $index; // zero-based
+                $img = '';
+                if (!empty($service->image)) {
+                    $img = asset($service->image);
+                } else {
+                    $img = $defaultImgs[$i % count($defaultImgs)];
+                }
+                $title = $service->name ?? 'Service';
+                $desc = \Illuminate\Support\Str::limit(strip_tags($service->description ?? ''), 180);
+                $reverse = ($i % 2 == 1);
+            @endphp
+
+            <div class="row topmargin-lg clearfix" style="padding-bottom: 30px;">
+
+                @if(!$reverse)
+                    <!-- Image Texts (left text, right image) -->
+                    <div class="col-lg-6 hidden-left" style="padding-right: 80px;">
+                        <div class="heading-block topmargin-sm bottommargin-sm border-0">
+                            <p class="mb-0 faded-text">Services</p>
+                            <h3 class="nott" style="font-size: 36px; font-weight: 500; text-align: left;">{{ $title }}</h3>
+                        </div>
+                        <p class="fw-normal faded-text">{{ $desc }}</p>
+
+                        <a href="{{ url('/about-us') }}" class="btn btn-lg btn-warning" style="border-radius: 0px; font-weight: 500; padding: 14px 18px;">Learn More <i class="icon-line-arrow-right"></i></a>
+                    </div>
+
+                    <!-- Image (right) -->
+                    <div class="col-lg-6 p-0 hidden-right">
+                        <img src="{{ $img }}" style="box-shadow: -20px 20px 0px -5px rgb(0 0 0 / 14%); max-width: 560px; max-height: 350px;">
+                    </div>
+                @else
+                    <!-- Image (left) -->
+                    <div class="col-lg-6 p-0 hidden-left">
+                        <img src="{{ $img }}" style="box-shadow: -20px 20px 0px -5px rgb(0 0 0 / 14%); max-width: 560px; max-height: 350px;">
+                    </div>
+
+                    <!-- Image Texts (right text) -->
+                    <div class="col-lg-6 hidden-right" style="padding-right: 80px;">
+                        <div class="heading-block topmargin-sm bottommargin-sm border-0">
+                            <p class="mb-0 faded-text">Services</p>
+                            <h3 class="nott" style="font-size: 36px; font-weight: 500; text-align: left;">{{ $title }}</h3>
+                        </div>
+                        <p class="fw-normal faded-text">{{ $desc }}</p>
+
+                        <a href="{{ url('/about-us') }}" class="btn btn-lg btn-warning" style="border-radius: 0px; font-weight: 500; padding: 14px 18px;">Learn More <i class="icon-line-arrow-right"></i></a>
+                    </div>
+                @endif
+
             </div>
-
-            <!-- Image
-            ============================================= -->
-            <div class="col-lg-6 p-0 hidden-right">
-                <img src="{{ asset('/images/services/hyd1.jpg') }}" style="box-shadow: -20px 20px 0px -5px rgb(0 0 0 / 14%); max-width: 560px; max-height: 350px;">
-            </div>
-        </div>
-
-        <div class="row topmargin-lg clearfix" style="padding-bottom: 30px;">
-
-            <!-- Image
-            ============================================= -->
-            <div class="col-lg-6 p-0 hidden-left">
-                <img src="{{ asset('/images/services/hyd2.jpg') }}" style="box-shadow: -20px 20px 0px -5px rgb(0 0 0 / 14%); max-width: 560px; max-height: 350px;">
-            </div>
-
-            <!-- Image Texts
-            ============================================= -->
-            <div class="col-lg-6 hidden-right" style="padding-right: 80px;">
-                <div class="heading-block topmargin-sm bottommargin-sm border-0">
-                    <p class="mb-0 faded-text">Services</p>
-                    <h3 class="nott" style="font-size: 36px; font-weight: 500; text-align: left;">Troubleshooting of Hydraulics</h3>
-                </div>
-                <p class="fw-normal faded-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim. Pellentesque ornare, augue maximus finibus congue, nisl nunc gravida sem, a venenatis massa quam id nisl. Fusce eleifend ullamcorper lacinia.</p>
-
-                <button class="btn btn-lg btn-warning" style="border-radius: 0px; font-weight: 500; padding: 14px 18px;">
-                    Learn More <i class="icon-line-arrow-right"></i>
-                </button>
-            </div>
-
-        </div>
-
-        <div class="row topmargin-lg clearfix" style="padding-bottom: 30px;">
-            <!-- Image Texts
-            ============================================= -->
-            <div class="col-lg-6 hidden-left" style="padding-right: 80px;">
-                <div class="heading-block topmargin-sm bottommargin-sm border-0">
-                    <p class="mb-0 faded-text">Services</p>
-                    <h3 class="nott" style="font-size: 36px; font-weight: 500; text-align: left;">Repair of Hydraulics and Design  Fabrication</h3>
-                </div>
-                <p class="fw-normal faded-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim. Pellentesque ornare, augue maximus finibus congue, nisl nunc gravida sem, a venenatis massa quam id nisl. Fusce eleifend ullamcorper lacinia.</p>
-
-                <button class="btn btn-lg btn-warning" style="border-radius: 0px; font-weight: 500; padding: 14px 18px;">
-                    Learn More <i class="icon-line-arrow-right"></i>
-                </button>
-            </div>
-
-            <!-- Image
-            ============================================= -->
-            <div class="col-lg-6 p-0 hidden-right">
-                <img src="{{ asset('/images/services/hyd3.jpg') }}" style="box-shadow: -20px 20px 0px -5px rgb(0 0 0 / 14%); max-width: 560px; max-height: 350px;">
-            </div>
-        </div>
-
-        <div class="row topmargin-lg clearfix" style="padding-bottom: 30px;">
-
-            <!-- Image
-            ============================================= -->
-            <div class="col-lg-6 p-0 hidden-left">
-                <img src="{{ asset('/images/services/hyd4.jpg') }}" style="box-shadow: -20px 20px 0px -5px rgb(0 0 0 / 14%); max-width: 560px; max-height: 350px;">
-            </div>
-
-            <!-- Image Texts
-            ============================================= -->
-            <div class="col-lg-6 hidden-right" style="padding-right: 80px;">
-                <div class="heading-block topmargin-sm bottommargin-sm border-0">
-                    <p class="mb-0 faded-text">Services</p>
-                    <h3 class="nott" style="font-size: 36px; font-weight: 500; text-align: left;">Failure & Damage Analysis Repair of Hydraulics</h3>
-                </div>
-                <p class="fw-normal faded-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim. Pellentesque ornare, augue maximus finibus congue, nisl nunc gravida sem, a venenatis massa quam id nisl. Fusce eleifend ullamcorper lacinia.</p>
-
-                <button class="btn btn-lg btn-warning" style="border-radius: 0px; font-weight: 500; padding: 14px 18px;">
-                    Learn More <i class="icon-line-arrow-right"></i>
-                </button>
-            </div>
-
-        </div>
+        @empty
+            {{-- Fallback: show nothing --}}
+        @endforelse
 
     </div>
 
