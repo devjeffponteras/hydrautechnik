@@ -15,9 +15,11 @@
 			</ol>
 		</nav>
 
-        		<div class="mb-4">
-					<h2 class="mb-2">Service</h2>
-				</div>
+		<div class="d-flex justify-content-between align-items-center mb-3">
+			<h2 class="mb-0">Service</h2>
+			<a href="{{ route('company-capabilities') }}" class="btn btn-sm btn-outline-secondary">Back</a>
+		</div>
+
 		<div class="row">
 			<div class="col-12">
 				<div class="card shadow-sm border-0">
@@ -31,14 +33,7 @@
 						</div>
 						<div class="col-md-7">
 							<div class="card-body">
-								<div class="d-flex justify-content-between align-items-start mb-2">
-									<div>
-										<h2 class="card-title">{{ $service->name }}</h2>
-									</div>
-									<div>
-										<a href="{{ route('company-capabilities') }}" class="btn btn-sm btn-outline-secondary">Back</a>
-									</div>
-								</div>
+								<h2 class="card-title mb-3">{{ $service->name }}</h2>
 
 								<div class="service-content mt-3">
 									{!! $service->description !!}

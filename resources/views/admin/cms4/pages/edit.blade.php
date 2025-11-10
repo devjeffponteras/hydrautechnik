@@ -42,7 +42,7 @@
             <h4 class="mg-b-0 tx-spacing--1">Edit a Page</h4>
         </div>
         <div>
-            <a class="btn btn-outline-primary btn-sm" href="/{{$page->get_url()}}" target="_blank">Preview Page</a>
+            <a class="btn btn-outline-primary btn-sm" href="{{ url($page->get_url()) }}" target="_blank">Preview Page</a>
         </div>
     </div>
     <form id="editForm" action="{{ route('pages.update',$page->id) }}" method="post" enctype="multipart/form-data">
@@ -57,7 +57,7 @@
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
 
-                    <small id="page_slug"><a target="_blank" href="/{{$page->slug}}">{{env('APP_URL')}}/{{$page->slug}}</a></small>
+                    <small id="page_slug"><a target="_blank" href="{{ url($page->slug) }}">{{ url($page->slug) }}</a></small>
                     @error('slug')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror

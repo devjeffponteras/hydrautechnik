@@ -29,6 +29,36 @@
 @media (max-width: 576px) {
 	.pagination .page-link { padding: .28rem .48rem; font-size: .88rem; }
 }
+
+/* Equipment card alignment */
+.equipment-card-wrapper {
+	display: flex;
+	margin-bottom: 1.5rem;
+}
+.equipment-card-wrapper .card {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	width: 100%;
+}
+.equipment-card-wrapper .card-header {
+	flex-shrink: 0;
+}
+.equipment-card-wrapper .card-header img {
+	width: 100%;
+	height: 200px;
+	object-fit: cover;
+}
+.equipment-card-wrapper .card-body {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+}
+.equipment-card-wrapper .grid-info {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+}
 </style>
 @endsection
 
@@ -44,7 +74,7 @@
 		<div class="row col-12">
 
 			@forelse($equipments ?? collect() as $equipment)
-				<div class="col-md-3">
+				<div class="col-md-3 equipment-card-wrapper">
 					<div class="card">
 						<div class="card-header p-3 shadow bg-white">
 							@php
@@ -76,12 +106,14 @@
 
 		</div>
 
-		{{-- Pagination links for equipments (5 per page) --}}
-		<div class="row">
-			<div class="col-12 d-flex justify-content-center mt-4">
-				{!! $equipments->links('pagination::bootstrap-4') !!}
+		{{-- Simple pagination links for equipments (10 per page) - only show if more than 10 items --}}
+		@if($equipments->total() > 10)
+			<div class="row">
+				<div class="col-12 d-flex justify-content-center mt-4">
+					{!! $equipments->links('pagination::simple-bootstrap-4') !!}
+				</div>
 			</div>
-		</div>
+		@endif
 
 	</div>
 </div>
