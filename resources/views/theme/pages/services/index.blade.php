@@ -90,11 +90,11 @@ document.addEventListener('DOMContentLoaded', function () {
 						</div>
 
 						<nav class="nav-tree mb-0 mt-2 card shadow p-3" style="min-height: 160px;">
-							@if($services->count())
+							@if($allServices->count())
 								<ul>
 									<li><a href="#">Services</a>
 										<ul>
-											@foreach($services as $s)
+											@foreach($allServices as $s)
 												<li><a href="{{ route('company-capabilities.show', $s->id) }}">{{ $s->name }}</a></li>
 											@endforeach
 										</ul>
@@ -195,12 +195,14 @@ document.addEventListener('DOMContentLoaded', function () {
 					@endif
 				</div>
 
-					{{-- Pagination links for services --}}
-					<div class="row">
-						<div class="col-12 d-flex justify-content-center mt-4">
-							{!! $services->links('pagination::bootstrap-4') !!}
+					{{-- Simple pagination links for services - only show if more than 5 items --}}
+					@if($services->total() > 5)
+						<div class="row">
+							<div class="col-12 d-flex justify-content-center mt-4">
+								{!! $services->links('pagination::simple-bootstrap-4') !!}
+							</div>
 						</div>
-					</div>
+					@endif
 
 				<!-- shop like -->
 				<!-- <div id="oc-posts" class="owl-carousel posts-carousel carousel-widget posts-md" data-pagi="false" data-items-xs="1" data-items-sm="2" data-items-md="3" data-items-lg="4">

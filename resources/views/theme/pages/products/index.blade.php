@@ -1,6 +1,41 @@
 @extends('theme.main')
 
 @section('pagecss')
+<style>
+/* Product card alignment */
+.product-card-wrapper {
+	display: flex;
+	margin-bottom: 1.5rem;
+}
+.product-card-wrapper .card {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	width: 100%;
+}
+.product-card-wrapper .card-header {
+	flex-shrink: 0;
+}
+.product-card-wrapper .card-header img {
+	width: 100%;
+	height: 200px;
+	object-fit: cover;
+}
+.product-card-wrapper .card-body {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+}
+.product-card-wrapper .grid-info {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+.product-card-wrapper .grid-info .btn {
+	margin-top: auto;
+}
+</style>
 @endsection
 
 @section('content')
@@ -43,7 +78,7 @@
 					@if(isset($subCategories) && $subCategories->count() > 0)
 						<div class="row col-12 mt-2">
 							@foreach($subCategories as $sub)
-								<div class="col-md-3 mb-4">
+								<div class="col-md-3 product-card-wrapper">
 									<div class="card">
 										<div class="card-header p-3 shadow bg-white">
 											@if($sub->image)
@@ -100,7 +135,7 @@
 				@if(!isset($selectedCategory) && isset($allProducts) && $allProducts->count() > 0)
 					<div class="row col-12 mt-2">
 						@foreach($allProducts as $product)
-							<div class="col-md-3 mb-4">
+							<div class="col-md-3 product-card-wrapper">
 								<div class="card">
 									<div class="card-header p-3 shadow bg-white">
 										@if($product->image)
@@ -127,9 +162,6 @@
 									<div class="card-body">
 										<div class="grid-info text-center">
 											<h5 class="text-center">{{ $product->name }}</h5>
-											@if($product->description)
-												<p class="text-muted small">{{ Str::limit($product->description, 100) }}</p>
-											@endif
 											<a href="{{ route('view-products', $product->id) }}" class="btn btn-warning btn-sm">View Details</a>
 										</div>
 									</div>

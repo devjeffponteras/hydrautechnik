@@ -153,7 +153,7 @@
                                     <td style="overflow: hidden;text-overflow: ellipsis;" title="{{$page->name}}">
                                         <strong @if($page->trashed()) style="text-decoration:line-through;" @endif title="{{$page->name}}"> {{$page->name}}</strong>
                                         <p class="mg-b-0 tx-gray-500 tx-11">
-                                            <a target="_blank" href="/{{ $page->get_url() }}">{{ $page->get_url() }}</a>
+                                            <a target="_blank" href="{{ url($page->get_url()) }}">{{ $page->get_url() }}</a>
                                         </p>
                                     </td>
                                     <td>{{ $page->label }}</td>
@@ -169,7 +169,7 @@
                                         @else
                                             <nav class="nav table-options justify-content-end flex-nowrap">
                                                 @if(auth()->user()->has_access_to_route('pages.show'))
-                                                    <a class="nav-link" target="_blank" href="/{{ $page->get_url() }}" title="View Page"><i data-feather="eye"></i></a>
+                                                    <a class="nav-link" target="_blank" href="{{ url($page->get_url()) }}" title="View Page"><i data-feather="eye"></i></a>
                                                 @endif
                                                 @if(auth()->user()->has_access_to_route('pages.edit'))
                                                     <a class="nav-link" href="{{route('pages.edit',$page->id)}}" title="Edit Page"><i data-feather="edit"></i></a>

@@ -16,7 +16,7 @@
 
 				@forelse($sideCategories as $cat)
 					<li class="d-flex align-items-center mb-2 {{ $selectedCategory && $selectedCategory->id == $cat->id ? 'fw-bold' : '' }}">
-						<i class="bi-chevron-right" style="margin-right: 8px; flex-shrink: 0;"></i>
+						<i class="bi-circle-fill" style="margin-right: 8px; flex-shrink: 0; font-size: 6px;"></i>
 						<a href="{{ route('products.by-category', $cat->id) }}"
 						   style="text-transform: none !important; text-align: start; font-weight: {{ $selectedCategory && $selectedCategory->id == $cat->id ? '700' : '500' }}; font-size: 14px; text-decoration: none; color: inherit; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;"
 						   title="{{ $cat->name }}">
@@ -40,7 +40,7 @@
 			<ul>
 				@foreach($otherProducts as $otherProduct)
 					<li>
-						<i class="bi-chevron-right" style="margin-right: 8px; flex-shrink: 0;"></i>
+						<i class="bi-circle-fill" style="margin-right: 8px; flex-shrink: 0; font-size: 6px;"></i>
 						<a href="{{ route('view-products', $otherProduct->id) }}"
 						   style="text-transform: capitalize !important; text-align: start; font-weight: 500; font-size: 14px; text-decoration: none; color: inherit; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;">
 							{{ $otherProduct->name }}

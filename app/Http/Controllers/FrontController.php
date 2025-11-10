@@ -435,8 +435,8 @@ class FrontController extends Controller
         $page->name = 'Equipments';
 
         // fetch equipments from database, include category if needed
-        // paginate public equipments listing to 5 items per page
-        $equipments = \App\Models\Equipment::orderBy('name', 'asc')->paginate(5);
+        // paginate public equipments listing to 10 items per page
+        $equipments = \App\Models\Equipment::orderBy('name', 'asc')->paginate(10);
 
         return view('theme.pages.equipments.index', compact('page', 'equipments'));
     }
@@ -447,8 +447,11 @@ class FrontController extends Controller
 
         // load published services to display on the front page; paginate to 5 per page
         $services = \App\Models\Service::where('status', 'PUBLISHED')->orderBy('name', 'asc')->paginate(5);
+        
+        // load all services for the sidebar navigation
+        $allServices = \App\Models\Service::where('status', 'PUBLISHED')->orderBy('name', 'asc')->get();
 
-        return view('theme.pages.services.index', compact('page', 'services'));
+        return view('theme.pages.services.index', compact('page', 'services', 'allServices'));
     }
 
     /**
