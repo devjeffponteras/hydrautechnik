@@ -41,7 +41,7 @@ Manage Projects
                                         <div class="form-text">Enter project name keywords</div>
                                     </div>
 
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-3 mb-3">
                                         <label for="category" class="form-label fw-bold">Category</label>
                                         <select name="category" id="category" class="form-control">
                                             <option value="">All Categories</option>
@@ -63,19 +63,19 @@ Manage Projects
                                         <div class="form-text">Filter by publication status</div>
                                     </div>
 
-                                    <div class="col-md-2 mb-3">
-                                        <label class="form-label">&nbsp;</label>
-                                        <div class="d-grid gap-2">
-                                            <button type="submit" class="btn btn-primary">
-                                                <i data-feather="search" class="me-1"></i>
-                                                Search
-                                            </button>
-                                            <a href="{{ route('projects.index') }}" class="btn btn-outline-secondary">
-                                                <i data-feather="x" class="me-1"></i>
-                                                Clear
-                                            </a>
-                                        </div>
-                                    </div>
+                                            <div class="col-md-3 mb-3">
+                                                <label class="form-label">&nbsp;</label>
+                                                <div class="d-grid gap-2">
+                                                    <button type="submit" class="btn btn-primary">
+                                                        <i data-feather="search" class="me-1"></i>
+                                                        Search
+                                                    </button>
+                                                    <a href="{{ route('projects.index') }}" class="btn btn-outline-secondary">
+                                                        <i data-feather="x" class="me-1"></i>
+                                                        Clear
+                                                    </a>
+                                                </div>
+                                       </div>
                                 </div>
                             </form>
                         </div>
@@ -237,6 +237,34 @@ Manage Projects
         </div>
     </div>
 </div>
+@endsection
+
+@section('pagecss')
+<style>
+    .button-group-search .search-btn {
+        background: #007bff;
+        color: #fff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+    }
+    .button-group-search .clear-btn {
+        background: none;
+        border: none;
+        color: #888;
+        font-size: 16px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        padding: 8px 12px;
+    }
+    .button-group-search {
+        min-width: 160px;
+    }
+</style>
 @endsection
 
 @section('pagejs')

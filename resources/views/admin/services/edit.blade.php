@@ -110,8 +110,8 @@ Edit Service
                         </div>
 
                         <!-- Form Actions -->
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a href="{{ route('services.index') }}" class="btn btn-outline-secondary me-md-2">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end" style="gap: 16px;">
+                            <a href="{{ route('services.index') }}" class="btn btn-outline-secondary">
                                 <i data-feather="x" class="me-1"></i>
                                 Cancel
                             </a>
