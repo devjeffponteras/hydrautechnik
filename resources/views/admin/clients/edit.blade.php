@@ -195,7 +195,7 @@ Edit Client - {{ $client->name }}
                         </div>
 
                         <!-- Action Buttons -->
-                        <div class="d-flex justify-content-end gap-2">
+                         <div class="d-grid gap-2 d-md-flex justify-content-md-end" style="gap: 16px;">
                             <a href="{{ route('clients.index') }}" class="btn btn-outline-secondary">
                                 <i data-feather="x" class="me-1"></i>
                                 Cancel

@@ -25,7 +25,7 @@
 
 {!! $footerContents !!}
 
-<!-- Footer
+{{-- <!-- Footer
 ============================================= -->
 <footer id="footer" class="page-section dark border-0 p-0 clearfix" style="background-color: #252525 !important;">
 	<div class="container clearfix">
@@ -169,4 +169,4 @@
 		</div>
 	</div>
 </div>
-<!-- Subscribe form end modal -->
+<!-- Subscribe form end modal --> --}}

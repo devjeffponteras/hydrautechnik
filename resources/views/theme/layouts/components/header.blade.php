@@ -5,11 +5,29 @@
         <div class="d-flex justify-content-between flex-md-row fw-medium text-center text-white">
             <!-- vertisal content -->
             <div class="social-wrap">
-                <span class="mx-2"><a href="#" class="text-white"><i class="bi-facebook" style="font-size: 18px;"></i></a></span>
-                <span class="mx-2"><a href="#" class="text-white"><i class="bi-instagram" style="font-size: 18px;"></i></a></span>
+                @php
+                    $socialLinks = DB::table('social_media')->limit(optional(App\Helpers\Setting::info())->coupon_limit ?? 5)->get();
+                @endphp
+                @foreach($socialLinks as $link)
+                    @php
+                        $icon = match($link->name) {
+                            'facebook' => 'bi-facebook',
+                            'instagram' => 'bi-instagram',
+                            'twitter' => 'bi-twitter',
+                            'youtube' => 'bi-youtube',
+                        };
+                    @endphp
+                    <span class="mx-2">
+                        <a href="{{ $link->media_account }}" class="text-white" target="_blank" rel="noopener">
+                            <i class="{{ $icon }}" style="font-size: 18px;"></i>
+                        </a>
+                    </span>
+                @endforeach
             </div>
             <div class="header-title d-flex justify-content-end align-items-center">
-                <p class="text-white mb-0">Sales: (02) 8840 4532 &nbsp;&nbsp;&nbsp;&nbsp;|</p>
+                <p class="text-white mb-0">
+                    Telephone: {{ optional(App\Helpers\Setting::info())->tel_no ?? '' }} &nbsp;&nbsp;&nbsp;&nbsp;|
+                </p>
                 <!-- Top Search
                 ============================================= -->
                 <div id="top-search" class="header-misc-icon ps-2">
@@ -61,9 +79,9 @@
 
                 <!-- call us btn -->
                 <div class="d-flex call-us-wide-btn d-flex align-items-center">
-                    <i class="icon-line-arrow-right" style="font-size: 24px"></i>
+                    <i class="icon-line-arrow-right" style="font-size: 20px"></i>
                     <a href="#" class="text-dark ps-1 call-us-header-number" style="font-size: 24px">
-                        Call us: (﻿+632) 917 189 4532
+                        Call us: {{ optional(App\Helpers\Setting::info())->mobile_no ?? '' }}
                     </a>
                 </div>
 
