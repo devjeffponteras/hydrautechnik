@@ -48,10 +48,12 @@
     <!-- add-on css -->
     <!-- main color #144596 -->
     <style type="text/css">
-        .is-expanded-menu .menu-container:not(.mobile-primary-menu) {
-            display: flex !important;
-            flex-wrap: wrap !important;
-            align-items: center !important;
+        @media only screen and (min-width: 994px) {
+            .is-expanded-menu .menu-container:not(.mobile-primary-menu) {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                align-items: center !important;
+            }
         }
         #top-search.header-misc-icon {
 /*            display: none;*/

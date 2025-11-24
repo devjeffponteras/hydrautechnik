@@ -17629,6 +17629,12 @@ body:not(.is-expanded-menu):not(.primary-menu-open) .semi-transparent.transparen
   flex: 0 0 auto;
   flex-grow: 0;
 }
+@media only screen and (min-width: 994px) {
+  .is-expanded-menu .primary-menu {
+    flex: 0 0 auto;
+    flex-grow: 0;
+  }
+}
 .primary-menu + .primary-menu {
   border-top: var(--cnvs-primary-menu-submenu-border);
 }
@@ -18092,10 +18098,12 @@ body:not(.is-expanded-menu) .mobile-menu-overlay .menu-container {
   /* Primary Menu - Overlay Menu
   -----------------------------------------------------------------*/
 }
-.is-expanded-menu .menu-container:not(.mobile-primary-menu) {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+@media only screen and (min-width: 994px) {
+  .is-expanded-menu .menu-container:not(.mobile-primary-menu) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
 }
 .is-expanded-menu .full-header .primary-menu .menu-container {
   padding-right: 0.5rem;
@@ -33599,4 +33607,66 @@ nav.primary-menu ul.menu-container .menu-item.menu-item.sub-menu ul.sub-menu-con
 
 .card .card-body{
   min-height: 138px;
+}
+
+#header-logo img {
+  min-height: 70px; padding-right: 18px; border-right: 1px solid #d9d9d9;
+}
+
+section#slider.slick-wrapper.clearfix.home-slider-banner {
+  min-height: 460px !important;
+}
+
+@media only screen and (max-width: 993px) {
+  .d-flex.call-us-wide-btn.d-flex.align-items-center {
+    display: none !important;
+  }
+
+  .is-expanded-menu.primary-menu-open #header-logo {
+    display: none !important;
+  }
+
+  .header-row.d-flex {
+    justify-content: space-between !important;
+  }
+
+  .d-flex.justify-content-start {
+    width: 100%;
+    justify-content: space-between !important;
+  }
+
+  #header-logo a img {
+    border: none !important;
+    max-height: 38px;
+    min-height: 38px;
+  }
+
+  #top-bar {
+    display: none;
+  }
+
+  .is-expanded-menu:not(.primary-menu-open) .header-row.d-flex .d-flex.justify-content-start {
+    align-items: center;
+  }
+
+  .header-title.d-flex.justify-content-end.align-items-center {
+    display: none !important;
+  }
+
+  .is-expanded-menu.primary-menu-open header#header .menu-container > .menu-item > .menu-link {
+    font-size: 12px;
+  }
+
+  div#wrapper section#slider {
+    min-height: 100% !important;
+  }
+
+  #website-content .d-flex.align-items-center.justify-content-center > p.text-center.topmargin-lg.faded-text {
+    margin-top: 2rem !important;
+  }
+
+  section#slider.slick-wrapper.clearfix.home-slider-banner {
+    min-height: 100% !important;
+  }
+
 }
