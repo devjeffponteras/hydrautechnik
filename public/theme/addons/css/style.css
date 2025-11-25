@@ -33721,4 +33721,19 @@ section#slider.slick-wrapper.clearfix.home-slider-banner {
   div#i0k3mo {
     padding-top: 36px;
   }
+
+  div#wrapper.slick-wrapper section#slider {
+    min-height: 100% !important;
+    max-height: unset !important;
+    min-height: unset !important;
+    height: unset !important;
+  }
+
+  p#iee8 {
+    font-size: 12px;
+  }
+
+  section#ij0e {
+      padding-bottom: 0px;
+  }
 }
