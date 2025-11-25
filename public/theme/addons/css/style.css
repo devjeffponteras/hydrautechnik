@@ -33681,11 +33681,11 @@ section#slider.slick-wrapper.clearfix.home-slider-banner {
     font-size: 20px;
   }
 
-  section#website-content .container .d-flex .row.topmargin-lg.clearfix .col-lg-6 a.btn.btn-lg.btn-warning {
+  section#website-content .container .row.topmargin-lg.clearfix .col-lg-6 a.btn.btn-lg.btn-warning {
     font-size: 14px !important;
   }
 
-  section#website-content .container .d-flex .row.topmargin-lg.clearfix .col-lg-6 img {
+  section#website-content .container .row.topmargin-lg.clearfix .col-lg-6.p-0 img {
     width: 100%;
     margin-top: 18px;
   }
