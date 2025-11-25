@@ -19,9 +19,17 @@
     $keywords   = ['{Social Media Icons}'];
     $variables  = [$socmedHTML];
 
-    $footerContents = str_replace($keywords,$variables,$contents);
+	$footerContents = str_replace($keywords,$variables,$contents);
+
+	// expose footer page for optional styles
+	$footerPage = Setting::getFooter();
 @endphp
 
+@if(!empty($footerPage->styles ?? ''))
+	<style>
+		{!! $footerPage->styles !!}
+	</style>
+@endif
 
 {!! $footerContents !!}
 
@@ -79,8 +87,11 @@
 									<span title="emails"><strong>Email us:</strong></span>
 									<br />
 									<small>rolanropal@hydrautechnik.com</small>
+                                    <br>
 									<small>sales@hydrautechnik.com</small>
+                                    <br>
 									<small>jmjuanillo@hydrautechnik.com</small>
+                                    <br>
 									<small>info@hydrautechnik.com</small>
 								</div>
 							</div>
@@ -136,7 +147,7 @@
 
 		</div>
 	</div><!-- #copyrights end -->
-</footer><!-- #footer end -->
+</footer><!-- #footer end --> --}}
 
 
 <!-- Subscribe Form modal
@@ -169,4 +180,4 @@
 		</div>
 	</div>
 </div>
-<!-- Subscribe form end modal --> --}}
+<!-- Subscribe form end modal -->

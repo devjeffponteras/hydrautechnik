@@ -447,7 +447,7 @@ class FrontController extends Controller
 
         // load published services to display on the front page; paginate to 5 per page
         $services = \App\Models\Service::where('status', 'PUBLISHED')->orderBy('name', 'asc')->paginate(5);
-        
+
         // load all services for the sidebar navigation
         $allServices = \App\Models\Service::where('status', 'PUBLISHED')->orderBy('name', 'asc')->get();
 

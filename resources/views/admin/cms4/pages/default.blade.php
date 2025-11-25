@@ -36,7 +36,7 @@
                 <h4 class="mg-b-0 tx-spacing--1">Edit a Page</h4>
             </div>
             <div>
-                <a class="btn btn-outline-primary btn-sm" href="{{$page->get_url()}}" target="_blank">Preview Page</a>
+                <a class="btn btn-outline-primary btn-sm" href="{{ url($page->get_url()) }}" target="_blank">Preview Page</a>
             </div>
         </div>
         <form id="editForm" action="{{ route('pages.update-default', $page->id) }}" method="post" enctype="multipart/form-data">
@@ -49,7 +49,7 @@
                         <label class="d-block">{{ $page->name }}</label>
                         <label>
                             <small id="page_slug">
-                                <a target="_blank" href="{{ $page->get_url() }}">{{ $page->get_url() }}</a>
+                                <a target="_blank" href="{{ url($page->get_url()) }}">{{ url($page->get_url()) }}</a>
                             </small>
                         </label>
                     </div>
@@ -74,7 +74,7 @@
                                 </small>
                             </p>
                         @endif
-          
+
 
                     <div class="grid h-100 overflow-hidden" id="editor-area">
                         <div class="grid-item grid-item--behavior-fixed" style="flex-basis: 275px;margin-left:-275px" id="layers">
@@ -148,7 +148,7 @@
                                                 <i class="lnr lnr-enter-down font-16px"></i>
                                             </span>
                                         </button>
-                                        
+
                                         <button type="button" class="btn btn-hsm btn-link device-type" id="edit-code" data-toggle="tooltip" data-placement="bottom" title="Edit Code" type="button">
                                             <span class="btn-wrapper--icon d-flex align-items-center">
                                                 <i class="lnr lnr-pencil4 font-16px"></i>
@@ -180,7 +180,7 @@
                                 </div>
                             </div>
                             <div id="gjs">
-                                
+
                             </div>
 
                             <!-- Export-modal -->
@@ -446,7 +446,7 @@
     <script src="{{ asset('lib/custom-grapesjs/ckeditor/ckeditor.js') }}"></script>
     <script src="{{ asset('lib/custom-grapesjs/assets/js/custom-grapesjs.js') }}"></script>
     <script src="{{ asset('lib/custom-grapesjs/assets/js/bamburgh.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.0/typed.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.0/typed.min.js"></script>
 @endsection
 
 

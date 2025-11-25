@@ -112,7 +112,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 							$projectsByCategory = collect();
 							if (Schema::hasTable('projects')) {
-								$projectsByCategory = Project::orderByDesc('created_at')->get()->groupBy(function($p){ return $p->category ?? 'OTHER'; });
+								// Only include published projects in public side panels
+								$projectsByCategory = Project::where('status', 'PUBLISHED')->orderByDesc('created_at')->get()->groupBy(function($p){ return $p->category ?? 'OTHER'; });
 							}
 							@endphp
 
