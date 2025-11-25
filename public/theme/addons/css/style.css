@@ -33677,7 +33677,7 @@ section#slider.slick-wrapper.clearfix.home-slider-banner {
     margin-top: 0px !important;
   }
 
-  section#website-content .container .d-flex .row.topmargin-lg.clearfix .heading-block h3.nott {
+  section#website-content .container .row.topmargin-lg.clearfix .heading-block h3.nott {
     font-size: 20px;
   }
 
@@ -33704,15 +33704,15 @@ section#slider.slick-wrapper.clearfix.home-slider-banner {
     min-width: 90px;
   }
 
-  section#website-content .section.home-bot-prallax.parallax.skrollable.skrollable-between .heading-block.center.mb-2 h3 {
+  section#website-content .section.home-bot-prallax.parallax .heading-block.center.mb-2 h3 {
     font-size: 22px;
   }
 
-  section#website-content .section.home-bot-prallax.parallax.skrollable.skrollable-between .heading-block.center.mb-2 p {
+  section#website-content .section.home-bot-prallax.parallax .heading-block.center.mb-2 p {
     font-size: 9px;
   }
 
-  section#website-content .section.home-bot-prallax.parallax.skrollable.skrollable-between {
+  section#website-content .section.home-bot-prallax.parallax {
     padding: 40px 0px;
     background-position: unset; 
     padding-bottom: 0px;
