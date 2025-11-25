@@ -33736,4 +33736,8 @@ section#slider.slick-wrapper.clearfix.home-slider-banner {
   section#ij0e {
       padding-bottom: 0px;
   }
+
+  section#website-content .section.mt-0.pt-0 .feature-box.fbox-effect .fbox-content h2 {
+    font-size: 20px;
+  }
 }
