@@ -76,11 +76,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 @section('content')
 <div class="section mt-0 pt-0" style="background-color: white;">
-	<div class="container-fluid px-4 mx-4">
+	<div class="container-fluid px-sm-4 mx-sm-4">
 
-		<div class="d-flex">
+		<div class="d-flex flex-column flex-md-row">
 
-			<div class="col-2">
+			<div class="col col-md-2">
 				<div class="side-panel-wrap">
 
 					<div class="widget">
@@ -156,9 +156,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 				</div>
 			</div>
-			<div class="col-10" style="padding: 0px 7%;">
+			<div class="col col-md-10" style="padding: 0px 7%;">
 
-				<div class="mb-4">
+				<div class="mt-4 mb-4">
 					<h3 class="mb-2">Our Services</h3>
 					<p class="text-muted" style="line-height:1.6; text-align:justify;">
 						Hydrautechnik provides comprehensive hydraulic and mechanical engineering services tailored to industrial and mobile applications. Our expertise includes system design and integration, fabrication and installation of hydraulic systems, troubleshooting and repair of hydraulic components, preventive maintenance, and customized hydraulic power units. We combine experienced engineers with on-site support to deliver reliable, efficient, and safe solutions that minimize downtime and extend equipment life.
