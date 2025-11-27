@@ -33731,9 +33731,9 @@ section#slider.slick-wrapper.clearfix.home-slider-banner {
   }
 
   section#website-content .section.home-bot-prallax.parallax {
-    padding: 40px 0px;
-    background-position: unset; 
-    padding-bottom: 0px;
+    padding: 40px 0px !important;
+    background-position: unset !important;
+    padding-bottom: 0px !important;
   }
 
   div#i0k3mo {
@@ -33757,5 +33757,11 @@ section#slider.slick-wrapper.clearfix.home-slider-banner {
 
   section#website-content .section.mt-0.pt-0 .feature-box.fbox-effect .fbox-content h2 {
     font-size: 20px;
+  }
+}
+
+@media only screen and (max-width: 426px) {
+  section#website-content .d-flex[style] div#oc-clients-full {
+    width: 60% !important;
   }
 }
