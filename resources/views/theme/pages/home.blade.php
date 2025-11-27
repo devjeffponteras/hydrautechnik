@@ -153,11 +153,11 @@
     </div>
 
     <!-- Clients Carousel -->
-    <div class="d-flex" style="margin-top: 120px;">
+    <div class="d-flex" style="margin-top: 120px; overflow: hidden;">
         <div class="col-2 title-tile d-flex justify-content-center align-items-center">
             Our Clients
         </div>
-        <div id="oc-clients-full" class="col-10 owl-carousel owl-carousel-full image-carousel carousel-widget" data-margin="30" data-nav="true" data-pagi="false" data-autoplay="5000" data-items-xs="3" data-items-sm="3" data-items-md="5" data-items-lg="6" data-items-xl="7" style="width: 83.33333333%;">
+        <div id="oc-clients-full" class="col-10 owl-carousel owl-carousel-full image-carousel carousel-widget" data-margin="30" data-nav="true" data-pagi="false" data-autoplay="5000" data-items-xs="3" data-items-sm="3" data-items-md="5" data-items-lg="6" data-items-xl="7" style="width: 83.3%;">
 
             @php
                 // Fallback: if controller didn't pass $clients, try to fetch here to avoid empty carousel
