@@ -33731,9 +33731,9 @@ section#slider.slick-wrapper.clearfix.home-slider-banner {
   }
 
   section#website-content .section.home-bot-prallax.parallax {
-    padding: 40px 0px;
-    background-position: unset; 
-    padding-bottom: 0px;
+    padding: 40px 0px !important;
+    background-position: unset !important;
+    padding-bottom: 0px !important;
   }
 
   div#i0k3mo {
