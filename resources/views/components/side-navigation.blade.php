@@ -1,6 +1,6 @@
 @props(['selectedCategory' => null, 'mainCategories' => null, 'otherProducts' => []])
 
-<div class="col-12 col-md-2 p-2">
+<div class="col-12 col-md-2 p-2 mb-4">
 	<div class="position-sticky" style="top: 20px;">
 		<div class="card shadow side-panel-nav d-flex align-items-center mb-2">
 			<h5 class="mt-2 mb-0 pb-2">Main Poducts</h5>

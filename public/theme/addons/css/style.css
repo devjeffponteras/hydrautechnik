@@ -33758,4 +33758,17 @@ section#slider.slick-wrapper.clearfix.home-slider-banner {
   section#website-content .section.mt-0.pt-0 .feature-box.fbox-effect .fbox-content h2 {
     font-size: 20px;
   }
+
+  .equipment-page-sm p {
+    font-size: 12px;
+  }
+
+  .equipment-page-sm h5 a {
+    font-size: 14px;
+  }
+
+  .equipment-page-sm .card .card-body p {
+
+    margin-bottom: 0px;
+  }
 }
