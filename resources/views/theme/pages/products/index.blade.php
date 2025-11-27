@@ -124,7 +124,7 @@
 				@else
 					{{-- Show page title for all products --}}
 					<div class="mb-3">
-						<h4>All Products</h4>
+						<h4 class="mb-0">All Products</h4>
 						<p class="pb-2 text-muted">
 							<small>Browse all available products in our catalog</small>
 						</p>

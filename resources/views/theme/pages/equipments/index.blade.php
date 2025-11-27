@@ -63,8 +63,8 @@
 @endsection
 
 @section('content')
-<div class="section sub-pages-hyd-container mt-0 pt-0" style="background-color: white;">
-	<div class="container-fluid px-4 mx-4">
+<div class="section sub-pages-hyd-container equipment-page-sm mt-0 pt-0" style="background-color: white;">
+	<div class="container-fluid px-2 px-sm-4 mx-sm-4">
 
 		<h3>Equipments</h3>
 		<p class="text-muted" style="line-height:1.6; text-align:justify;">
