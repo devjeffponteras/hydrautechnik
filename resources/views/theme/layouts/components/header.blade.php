@@ -1,6 +1,6 @@
 <!-- Top Bar
 ============================================= -->
-<div id="top-bar" class="py-3 px-4">
+<div id="top-bar" class="p-2 py-sm-3 px-sm-4">
     <div class="container-fluid">
         <div class="d-flex justify-content-between flex-md-row fw-medium text-center text-white">
             <!-- vertisal content -->
@@ -17,7 +17,7 @@
                             'youtube' => 'bi-youtube',
                         };
                     @endphp
-                    <span class="mx-2">
+                    <span class="mx-1 mx-md-2">
                         <a href="{{ $link->media_account }}" class="text-white" target="_blank" rel="noopener">
                             <i class="{{ $icon }}" style="font-size: 18px;"></i>
                         </a>
