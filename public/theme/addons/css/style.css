@@ -33617,7 +33617,15 @@ section#slider.slick-wrapper.clearfix.home-slider-banner {
   min-height: 460px !important;
 }
 
+.call-us-wide-btn-sm {
+  display:  none !important;
+}
+
 @media only screen and (max-width: 993px) {
+  .call-us-wide-btn-sm {
+    display:  block !important;
+  }
+
   .d-flex.call-us-wide-btn.d-flex.align-items-center {
     display: none !important;
   }
@@ -33642,7 +33650,17 @@ section#slider.slick-wrapper.clearfix.home-slider-banner {
   }
 
   #top-bar {
-    display: none;
+    /*display: none;*/
+  }
+
+  #top-bar .social-wrap .mx-md-2 a i,
+  #top-bar .header-title a i {
+    font-size: 12px !important;
+    margin: 0px;
+  }
+
+   #top-bar .header-title p.text-white.mb-0 {
+    font-size: 10px;
   }
 
   .is-expanded-menu:not(.primary-menu-open) .header-row.d-flex .d-flex.justify-content-start {
@@ -33650,7 +33668,7 @@ section#slider.slick-wrapper.clearfix.home-slider-banner {
   }
 
   .header-title.d-flex.justify-content-end.align-items-center {
-    display: none !important;
+    /*display: none !important;*/
   }
 
   .is-expanded-menu.primary-menu-open header#header .menu-container > .menu-item > .menu-link {
