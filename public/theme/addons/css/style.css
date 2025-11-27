@@ -33759,9 +33759,3 @@ section#slider.slick-wrapper.clearfix.home-slider-banner {
     font-size: 20px;
   }
 }
-
-@media only screen and (max-width: 426px) {
-  section#website-content .d-flex[style] div#oc-clients-full {
-    width: 60% !important;
-  }
-}
