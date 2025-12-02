@@ -471,25 +471,53 @@
 
     <style>
         @php
-            $jsStyle = str_replace(array("'", "&#039;"), "", old('styles', $page->styles) );
+            // Ensure $page is available; fallback to empty styles when not provided (some views don't pass $page)
+            $pageStylesRaw = isset($page) && isset($page->styles) ? $page->styles : '';
+            $jsStyle = str_replace(array("'", "&#039;"), "", old('styles', $pageStylesRaw) );
             echo $jsStyle;
         @endphp
     </style>
     <!-- Document Title
     ============================================= -->
-    @if (isset($page->name) && $page->name == 'Home')
-        <title>{{ Setting::info()->company_name }}</title>
-    @else
-        <title>{{ (empty($page->meta_title) ? $page->name:$page->meta_title) }} | {{ Setting::info()->company_name }}</title>
-    @endif
+        @php
+            $hasPage = isset($page) && is_object($page);
+            $pageName = $hasPage && isset($page->name) ? $page->name : null;
+            $pageMetaTitle = $hasPage && isset($page->meta_title) ? $page->meta_title : null;
+            $pageMetaDescription = $hasPage && isset($page->meta_description) ? $page->meta_description : null;
+            $pageMetaKeyword = $hasPage && isset($page->meta_keyword) ? $page->meta_keyword : null;
+        @endphp
 
-    @if(!empty($page->meta_description))
-        <meta name="description" content="{{ $page->meta_description }}">
-    @endif
+        @if ($pageName === 'Home')
+            <title>{{ Setting::info()->company_name }}</title>
+        @else
+            <title>{{ ($pageMetaTitle ? $pageMetaTitle : ($pageName ?: '')) }} | {{ Setting::info()->company_name }}</title>
+        @endif
 
-    @if(!empty($page->meta_keyword))
-        <meta name="keywords" content="{{ $page->meta_keyword }}">
-    @endif
+        @if(!empty($pageMetaDescription))
+            <meta name="description" content="{{ $pageMetaDescription }}">
+        @endif
+
+        @if(!empty($pageMetaKeyword))
+            <meta name="keywords" content="{{ $pageMetaKeyword }}">
+        @endif
+
+    <style>
+        /* Ensure search input becomes interactive and text is black when opened/typed */
+        .top-search-open .top-search-form {
+            pointer-events: auto !important;
+            z-index: 11000 !important;
+        }
+        .top-search-open .top-search-form input {
+            pointer-events: auto !important;
+            color: #000 !important;
+            caret-color: #000 !important;
+        }
+        .top-search-open .top-search-form input:focus,
+        .top-search-open .top-search-form input:not(:placeholder-shown) {
+            color: #000 !important;
+            caret-color: #000 !important;
+        }
+    </style>
 
     @yield('pagecss')
 </head>

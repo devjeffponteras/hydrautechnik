@@ -133,7 +133,7 @@
                 {{-- You can add more product-related links here --}}
             </ul>
         </li>
-        <li class="nav-item with-sub @if (request()->routeIs('equipments*')) active show @endif">
+        {{-- <li class="nav-item with-sub @if (request()->routeIs('equipments*')) active show @endif">
             <a href="#" class="nav-link"><i data-feather="cpu"></i> <span>Equipments</span></a>
             <ul>
                 <li @if (request()->routeIs('equipments.index')) class="active" @endif>
@@ -143,8 +143,8 @@
                     <a href="{{ route('equipments.create') }}">Create Equipment</a>
                 </li>
             </ul>
-        </li>
-        <li class="nav-item with-sub @if (request()->routeIs('clients*')) active show @endif">
+        </li> --}}
+        {{-- <li class="nav-item with-sub @if (request()->routeIs('clients*')) active show @endif">
             <a href="#" class="nav-link"><i data-feather="users"></i> <span>Clients</span></a>
             <ul>
                 <li @if (request()->routeIs('clients.index')) class="active" @endif>
@@ -154,7 +154,7 @@
                     <a href="{{ route('clients.create') }}">Create Client</a>
                 </li>
             </ul>
-        </li>
+        </li> --}}
 
         <li class="nav-label mg-t-25">Services</li>
         <li class="nav-item with-sub @if (request()->routeIs('services*')) active show @endif">

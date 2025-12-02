@@ -158,11 +158,13 @@ document.addEventListener('DOMContentLoaded', function () {
 			</div>
 			<div class="col col-md-10" style="padding: 0px 7%;">
 
+				@php
+					// Provide contents from CMS page if available
+					$contents = $page->contents ?? '';
+				@endphp
+
 				<div class="mt-4 mb-4">
-					<h3 class="mb-2">Our Services</h3>
-					<p class="text-muted" style="line-height:1.6; text-align:justify;">
-						Hydrautechnik provides comprehensive hydraulic and mechanical engineering services tailored to industrial and mobile applications. Our expertise includes system design and integration, fabrication and installation of hydraulic systems, troubleshooting and repair of hydraulic components, preventive maintenance, and customized hydraulic power units. We combine experienced engineers with on-site support to deliver reliable, efficient, and safe solutions that minimize downtime and extend equipment life.
-					</p>
+					{!! $contents !!}
 				</div>
 
 				<div class="row align-items-center">

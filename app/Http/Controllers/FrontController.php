@@ -16,6 +16,7 @@ use App\Mail\InquiryMail;
 use App\Models\Article;
 use App\Models\Page;
 use App\Models\User;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Models\ResourceCategory;
 use App\Models\Resource;
@@ -408,6 +409,79 @@ class FrontController extends Controller
         return view('theme.pages.products.sub-index', compact('page', 'mainCategories', 'selectedSubcategory', 'selectedCategory', 'otherProducts'));
     }
 
+    /**
+     * Search results (route name: search.result)
+     */
+    public function seach_result(Request $request)
+    {
+        $q = trim($request->get('searchtxt', ''));
+        session(['searchtxt' => $q]);
+
+        if (empty($q)) {
+            $empty = collect();
+            $paginator = new LengthAwarePaginator($empty, 0, 10, 1, [
+                'path' => $request->url(),
+                'query' => $request->query(),
+            ]);
+            return view('theme.pages.search-result', ['searchResult' => $paginator, 'totalItems' => 0]);
+        }
+
+        // Search across common models: articles, pages, products, resources
+                $articles = Article::where(function($s) use ($q){
+                        // Article uses 'contents' column for body text
+                        $s->where('name', 'LIKE', "%{$q}%")
+                            ->orWhere('teaser', 'LIKE', "%{$q}%")
+                            ->orWhere('contents', 'LIKE', "%{$q}%");
+                })->get();
+
+        $pages = Page::where(function($s) use ($q){
+            $s->where('name', 'LIKE', "%{$q}%")
+              ->orWhere('contents', 'LIKE', "%{$q}%");
+        })->get();
+
+        $products = [];
+        if (class_exists('\App\Models\Ecommerce\Product')) {
+            $products = \App\Models\Ecommerce\Product::where(function($s) use ($q){
+                $s->where('name', 'LIKE', "%{$q}%")
+                  ->orWhere('description', 'LIKE', "%{$q}%");
+            })->get();
+        }
+
+        $resources = [];
+        if (class_exists('\App\Models\Resource')) {
+            $resources = \App\Models\Resource::where(function($s) use ($q){
+                $s->where('name', 'LIKE', "%{$q}%")
+                  ->orWhere('description', 'LIKE', "%{$q}%");
+            })->get();
+        }
+
+        // Merge results preserving model types
+        $results = collect();
+        if ($articles) $results = $results->concat($articles);
+        if ($pages) $results = $results->concat($pages);
+        if ($products) $results = $results->concat($products);
+        if ($resources) $results = $results->concat($resources);
+
+        // Optional: unique by table+id to avoid duplicates
+        $unique = $results->map(function($item){
+            return [$item->getTable(), $item->id, $item];
+        })->unique(function($v){ return $v[0].'-'.$v[1]; })->map(function($v){ return $v[2]; });
+
+        $all = $unique->values();
+        $totalItems = $all->count();
+
+        // Paginate collection results
+        $perPage = 10;
+        $page = LengthAwarePaginator::resolveCurrentPage();
+        $slice = $all->slice(($page - 1) * $perPage, $perPage)->values();
+        $paginator = new LengthAwarePaginator($slice, $totalItems, $perPage, $page, [
+            'path' => $request->url(),
+            'query' => $request->query(),
+        ]);
+
+        return view('theme.pages.search-result', ['searchResult' => $paginator, 'totalItems' => $totalItems]);
+    }
+
     public function viewProducts(Request $request, $id) {
         $page = new Page();
         $page->name = 'View Product';
@@ -431,19 +505,36 @@ class FrontController extends Controller
     }
 
     public function equipments() {
-        $page = new Page();
-        $page->name = 'Equipments';
+        // Try to load a CMS page for equipments so editors can set `contents` via CMS
+        if (Auth::guest()) {
+            $page = Page::where('slug', 'equipments')->where('status', 'PUBLISHED')->first();
+        } else {
+            $page = Page::where('slug', 'equipments')->first();
+        }
 
-        // fetch equipments from database, include category if needed
-        // paginate public equipments listing to 10 items per page
+        if ($page == null) {
+            $page = new Page();
+            $page->name = 'Equipments';
+        }
+
+        // fetch equipments from database and paginate
         $equipments = \App\Models\Equipment::orderBy('name', 'asc')->paginate(10);
 
         return view('theme.pages.equipments.index', compact('page', 'equipments'));
     }
 
     public function services() {
-        $page = new Page();
-        $page->name = 'Company Capabilities';
+        // Try to load a CMS page for services so editors can set `contents` via CMS
+        if (Auth::guest()) {
+            $page = Page::where('slug', 'company-capabilities')->where('status', 'PUBLISHED')->first();
+        } else {
+            $page = Page::where('slug', 'company-capabilities')->first();
+        }
+
+        if ($page == null) {
+            $page = new Page();
+            $page->name = 'Company Capabilities';
+        }
 
         // load published services to display on the front page; paginate to 5 per page
         $services = \App\Models\Service::where('status', 'PUBLISHED')->orderBy('name', 'asc')->paginate(5);
