@@ -68,14 +68,26 @@
     $variables  = [$featuredArticlesHTML];
     $contents = str_replace($keywords,$variables,$contents);
 
+    // Allow splitting the CMS contents into top/bottom using <!-- split --> marker
+    $rawContents = $contents;
+    $splitMarker = '<!-- split -->';
+    $splitMarkerAlt = '<!-- SPLIT -->';
+    $topContents = $rawContents;
+    $bottomContents = '';
+    if (strpos($rawContents, $splitMarker) !== false) {
+        [$topContents, $bottomContents] = explode($splitMarker, $rawContents, 2);
+    } elseif (strpos($rawContents, $splitMarkerAlt) !== false) {
+        [$topContents, $bottomContents] = explode($splitMarkerAlt, $rawContents, 2);
+    }
+
 @endphp
 
 @section('content')
 
     <div class="container">
-        <div class="d-flex align-items-center justify-content-center">
-            <p class="text-center topmargin-lg faded-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium, dui vel efficitur elementum, dui massa venenatis sapien, non luctus neque nibh at enim. Pellentesque ornare, augue maximus finibus congue, nisl nunc gravida sem, a venenatis massa quam id nisl. Fusce eleifend ullamcorper lacinia..</p>
-        </div>
+
+             {!! $topContents !!}
+
 
         <!-- row per services (dynamic from DB; preserve design and alternation) -->
         @php
@@ -120,7 +132,7 @@
                         </div>
                         <p class="fw-normal faded-text">{{ $desc }}</p>
 
-                        <a href="{{ url('/about-us') }}" class="btn btn-lg btn-warning" style="border-radius: 0px; font-weight: 500; padding: 14px 18px;">Learn More <i class="icon-line-arrow-right"></i></a>
+                        <a href="{{ route('company-capabilities.show', $service->id) }}" class="btn btn-lg btn-warning service-learn-more" data-id="{{ $service->id }}" data-url="{{ route('company-capabilities.show', $service->id) }}" style="border-radius: 0px; font-weight: 500; padding: 14px 18px;">Learn More <i class="icon-line-arrow-right"></i></a>
                     </div>
 
                     <!-- Image (right) -->
@@ -141,7 +153,7 @@
                         </div>
                         <p class="fw-normal faded-text">{{ $desc }}</p>
 
-                        <a href="{{ url('/about-us') }}" class="btn btn-lg btn-warning" style="border-radius: 0px; font-weight: 500; padding: 14px 18px;">Learn More <i class="icon-line-arrow-right"></i></a>
+                        <a href="{{ route('company-capabilities.show', $service->id) }}" class="btn btn-lg btn-warning service-learn-more" data-id="{{ $service->id }}" data-url="{{ route('company-capabilities.show', $service->id) }}" style="border-radius: 0px; font-weight: 500; padding: 14px 18px;">Learn More <i class="icon-line-arrow-right"></i></a>
                     </div>
                 @endif
 
@@ -152,97 +164,28 @@
 
     </div>
 
-    <!-- Clients Carousel -->
-    <div class="d-flex" style="margin-top: 120px; overflow: hidden;">
-        <div class="col-2 title-tile d-flex justify-content-center align-items-center">
-            Our Clients
-        </div>
-        <div id="oc-clients-full" class="col-10 owl-carousel owl-carousel-full image-carousel carousel-widget" data-margin="30" data-nav="true" data-pagi="false" data-autoplay="5000" data-items-xs="3" data-items-sm="3" data-items-md="5" data-items-lg="6" data-items-xl="7" style="width: 83.3%;">
-
-            @php
-                // Fallback: if controller didn't pass $clients, try to fetch here to avoid empty carousel
-                if (!isset($clients)) {
-                    try {
-                        $clients = \App\Models\Client::whereNotNull('logo')->where('logo', '<>', '')->orderBy('company')->get();
-                    } catch (\Throwable $e) {
-                        $clients = collect();
-                    }
-                }
-            @endphp
-
-            @forelse(($clients ?? collect()) as $client)
-                @php
-                    $logo = isset($client->logo) ? trim($client->logo) : '';
-                    $src = '';
-                    if ($logo !== '') {
-                        if (preg_match('#^https?://#i', $logo)) {
-                            $src = $logo;
-                        } else {
-                            // Normalize possible stored values
-                            // 1) public/clients/... -> storage/clients/...
-                            $logo = preg_replace('#^/?public/#', 'storage/', $logo);
-                            // 2) clients/... -> storage/clients/...
-                            if (preg_match('#^/?clients/#', $logo)) {
-                                $src = asset('storage/' . ltrim($logo, '/'));
-                            } elseif (preg_match('#^/?storage/#', $logo)) {
-                                $src = asset(ltrim($logo, '/'));
-                            } else {
-                                $src = asset(ltrim($logo, '/'));
-                            }
-                        }
-                    }
-                @endphp
-
-                @if(!empty($src))
-                    <div class="oc-item">
-                        <a href="#">
-                            <img src="{{ $src }}" alt="{{ $client->company ?? $client->name ?? 'Client' }}" style="width: 85%; padding-left: 30px;" onerror="
-                                if(!this.dataset.retry){
-                                    this.dataset.retry = '1';
-                                    // If path accidentally ends with .pn, try .png automatically
-                                    if(this.src.toLowerCase().endsWith('.pn')){ this.src = this.src + 'g'; return; }
-                                }
-                                this.onerror=null; this.src='{{ asset('images/clients/lg1.png') }}';
-                            " loading="lazy">
-                        </a>
-                    </div>
-                @endif
-            @empty
-
-            @endforelse
-
-        </div>
-    </div>
-
-    <!-- Parallax Area
-    ============================================= -->
-    <div class="section home-bot-prallax parallax dark mb-0 mt-0" style="background-image: url({{ asset('/theme/images/banners/footer-hero.jpeg')}}); padding: 100px 0; background-size: cover;" data-bottom-top="background-position:0px 0px;" data-top-bottom="background-position:0px -300px;">
-
-        <div class="heading-block center mb-2">
-            <h3 style="font-size: 50px; font-weight: 400;">Got Questions?</h3>
-        </div>
-
-        <div class="fslider testimonial testimonial-full" data-animation="fade" data-arrows="false">
-            <div class="flexslider">
-                <div class="slider-wrap">
-                    <div class="slide">
-                        <p class="text-center" style="font-weight: 300; font-size: 24px;">Contact Us about our services by sending us an inquiry.</p>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
+    <div class="container-fluid p-0">
+        {{-- CMS-managed content for clients/carousel/parallax (full width).
+             Render bottom content only when editor added a <!-- split --> marker
+             and when bottom content is not identical to the top content. --}}
+        @php
+            $topTrim = trim($topContents ?? '');
+            $bottomTrim = trim($bottomContents ?? '');
+        @endphp
+        @if(!empty($bottomTrim) && $bottomTrim !== $topTrim)
+            {!! $bottomContents !!}
+        @endif
     </div>
 
 
-    {!! $contents !!}
+
 
 @endsection
 
 
 @section('pagejs')
 <script>
+
     const observerLeft = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -261,5 +204,22 @@
 
     document.querySelectorAll('.hidden-left').forEach((el) => observerLeft.observe(el));
     document.querySelectorAll('.hidden-right').forEach((el) => observerRight.observe(el));
+
+    // Client logos animation speed controls
+    let animationSpeed = 20;
+    const logosElement = document.getElementById('clientsLogos');
+
+    function slowDownAnimation() {
+        if (!logosElement) return;
+        animationSpeed = Math.min(40, animationSpeed + 5);
+        logosElement.style.animationDuration = animationSpeed + 's';
+    }
+
+    function speedUpAnimation() {
+        if (!logosElement) return;
+        animationSpeed = Math.max(10, animationSpeed - 5);
+        logosElement.style.animationDuration = animationSpeed + 's';
+    }
 </script>
+
 @endsection
