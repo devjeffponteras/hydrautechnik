@@ -5,7 +5,7 @@
         {{ str_replace(array("'", "&#039;"), "", $page->styles ) }}
     </style>
 @endsection
- 
+
 @section('content')
 
 @php
@@ -17,7 +17,7 @@
         @if($parentPage)
             {{-- <div class="col-lg-3">
                 <span onclick="openNav()" class="d-lg-none mb-4 btn btn-primary btn-bg"><i class="icon-list-alt"></i></span>
-                
+
                 <div id="mySidenav">
                     <a href="javascript:void(0)" class="closebtn d-lg-none" onclick="closeNav()">&times;</a>
 
@@ -54,18 +54,18 @@
                             </ul>
                         </div>
                     </div>
-                    
+
                     <div class="heading-block">
                         <h3>{{ $page->name }}</h3>
                     </div>
-                    
+
                     <ul class="quicklinks mb-3">
-                        <li @if($parentPage->id == $page->id) class="active" @endif>{{-- style="background-color: #287f31;" 
+                        <li @if($parentPage->id == $page->id) class="active" @endif>{{-- style="background-color: #287f31;"
                             <a @if($parentPage->id == $page->id) class="active" @endif href="{{ $parentPage->get_url() }}"><div>{{ $parentPage->name }}</div></a>
                         </li>
                         @foreach($parentPage->sub_pages as $subPage)
                             <li @if($subPage->id == $page->id || Str::contains(url()->current(), $subPage->get_url())) class="active" @endif>
-                                <a @if($subPage->id == $page->id) class="active" @endif href="{{ $subPage->get_url() }}"><div>{{ $subPage->name }}</div></a>{{-- style="color: #ffc107!important;" 
+                                <a @if($subPage->id == $page->id) class="active" @endif href="{{ $subPage->get_url() }}"><div>{{ $subPage->name }}</div></a>{{-- style="color: #ffc107!important;"
                                 @if ($subPage->has_sub_pages())
                                     <ul>
                                         @foreach ($subPage->sub_pages as $subSubPage)
@@ -89,7 +89,7 @@
                     </ul>
                 </div>
             </div> --}}
-            
+
             <div class="col-lg-12">
                 {!! $page->contents !!}
             </div>

@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function () {
 							}
 							@endphp
 
-							<ul class="mt-3">
+							<ul class="mt-2">
 								<li><a href="#">Projects</a>
 									<ul>
 										<li><a href="#">Completed Projects</a>

@@ -197,7 +197,7 @@
                                                 @endif
                                             </nav>
                                         @endif
-                                        
+
                                     </td>
                                 </tr>
                             @empty

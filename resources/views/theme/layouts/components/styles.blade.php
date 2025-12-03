@@ -84,10 +84,10 @@
         }
         header#header .menu-container > .menu-item > .menu-link,
         header#header .menu-container > .menu-item:hover > .menu-link {
-/*            color: #144596 !important;*/
+    /*            color: #144596 !important;*/
             font-size: 16px;
             font-family: Roboto, sans-serif !important;
-            font-weight: 500 !important;
+            font-weight: 700 !important;
             text-transform: capitalize;
         }
 
@@ -516,6 +516,33 @@
         .top-search-open .top-search-form input:not(:placeholder-shown) {
             color: #000 !important;
             caret-color: #000 !important;
+        }
+    </style>
+
+    <style>
+        /* Override top bar color to yellow and ensure readable text/icons */
+        #top-bar { background-color: #FFC107 !important; }
+        #top-bar, #top-bar p, #top-bar a, #top-bar i { color: #222 !important; }
+        #top-bar a.text-white { color: #222 !important; }
+        /* Bold telephone label and call-us number in the top-bar */
+        #top-bar p, #top-bar .call-us-header-number { font-weight: 700 !important; }
+        /* Ensure the call-us number keeps its font-size but gains bold weight */
+        #top-bar .call-us-header-number { font-size: 24px; }
+        /* Make the topbar address and phone text bold (target spans) */
+        #topbar-address span, #topbar-phone span { font-weight: 700 !important; }
+    </style>
+
+    <style>
+        /* Mobile: make top-bar address/phone smaller and replace search input with icon */
+        @media (max-width: 767.98px) {
+            #topbar-address span, #topbar-phone span { font-size: 0.85rem !important; }
+            /* hide the search text input and show only the button/icon */
+            .topbar-search-form input { display: none !important; width: 0 !important; padding: 0 !important; border: 0 !important; }
+            .topbar-search-form button { display: inline-block !important; }
+            /* reduce padding so the topbar is compact */
+            #top-bar { padding-top: 8px !important; padding-bottom: 8px !important; }
+            /* shrink icons slightly */
+            #top-bar i { font-size: 18px !important; }
         }
     </style>
 

@@ -39,10 +39,10 @@
 @endsection
 
 @section('content')
-<div class="section sub-pages-hyd-container mt-0 pt-0" style="background-color: white;">
+<div class="section mt-0 pt-0" style="background-color: white;">
 	<div class="container-fluid">
 
-		<div class="row col-12 px-3">
+			<div class="d-flex flex-column flex-md-row">
 
 			<!-- left side nav -->
 			<x-side-navigation
@@ -52,7 +52,7 @@
 			/>
 
 			<!-- main content -->
-			<div class="col-12 col-md-10">
+			<div class="col-12 col-md-10 px-0 px-md-4">
 
 				@php
 					// Only get subcategories when a specific category is selected
@@ -76,9 +76,9 @@
 
 					{{-- Show subcategories when category is selected --}}
 					@if(isset($subCategories) && $subCategories->count() > 0)
-						<div class="row col-12 mt-2">
+						<div class="row mt-2">
 							@foreach($subCategories as $sub)
-								<div class="col-md-3 product-card-wrapper">
+								<div class="col-12 col-md-3 product-card-wrapper">
 									<div class="card">
 										<div class="card-header p-3 shadow bg-white">
 											@if($sub->image)
@@ -113,7 +113,7 @@
 							@endforeach
 						</div>
 					@else
-						<div class="row col-12 mt-2">
+						<div class="row mt-2">
 							<div class="col-12 text-center py-5">
 								<h5 class="text-muted">No Subcategories Available</h5>
 								<p class="text-muted">No subcategories found for {{ $selectedCategory->name }}.</p>
@@ -133,9 +133,9 @@
 
 				{{-- Display All Products Section --}}
 				@if(!isset($selectedCategory) && isset($allProducts) && $allProducts->count() > 0)
-					<div class="row col-12 mt-2">
+					<div class="row mt-2">
 						@foreach($allProducts as $product)
-							<div class="col-md-3 product-card-wrapper">
+							<div class="col-12 col-md-3 product-card-wrapper">
 								<div class="card">
 									<div class="card-header p-3 shadow bg-white">
 										@if($product->image)
@@ -170,7 +170,7 @@
 						@endforeach
 					</div>
 				@elseif(!isset($selectedCategory))
-					<div class="row col-12 mt-2">
+					<div class="row mt-2">
 						<div class="col-12 text-center py-5">
 							<h5 class="text-muted">No Products Available</h5>
 							<p class="text-muted">Please check back later for new products.</p>
