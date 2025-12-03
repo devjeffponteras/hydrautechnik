@@ -2,20 +2,42 @@
 
 @section('pagecss')
 <style>
-    .title-tile {
-        background-color: #252525;
-        color: white;
-        font-size: 28px;
-        font-weight: 600;
-        min-height: 150px;
-        padding: 10px;
+    /* Prevent horizontal page overflow and make images responsive */
+    html, body { overflow-x: hidden; }
+    *{ box-sizing: border-box; }
+    img{ max-width:100%; height:auto; display:block; }
+    .clients-logos-wrapper{ overflow:hidden; max-width:100vw; }
+    .clients-logos{ will-change:transform; }
+    /* Service row spacing and mobile centering */
+    .service-row{ padding-bottom:30px; }
+    /* Desktop gutters: make left/right padding symmetric inside each column so edges align */
+    @media (min-width: 769px) {
+        .service-row { padding-left: 10px; padding-right: 10px; }
+        .service-row > .col-lg-6 { padding-left: 10px !important; padding-right: 10px !important; }
+        .service-row .col-lg-6 img { display:block; margin:0 auto; }
     }
-    .owl-carousel .owl-stage-outer .owl-stage {
-        display: flex;
-        align-items: center;
-        gap: 30px;
+    @media (max-width: 768px){
+        .service-row{ padding-bottom:18px; padding-left:20px; padding-right:20px; display:flex; flex-direction:column; }
+        .service-row > .col-lg-6{ width:100% !important; max-width:100% !important; float:none !important; margin:0 auto; display:block; padding-left:8px !important; padding-right:8px !important; }
+
+        /* Force image-first column on mobile regardless of desktop alternation */
+        .service-row > .p-0{ order: -1 !important; }
+        .service-row > .hidden-left, .service-row > .hidden-right{ order: 0 !important; }
+        /* Keep internal text flow: label/title then description then button */
+        .service-row p.fw-normal{ order: 1; text-align:justify; text-justify:inter-word; margin:0.75rem 0; max-width:100%; }
+        .service-row .service-learn-more{ order: 2; display:inline-block; margin-top:12px; }
+
+        /* Keep inner heading and button left-aligned on mobile */
+        .service-row .heading-block, .service-row .service-learn-more{ text-align:left; }
+        .service-row .heading-block h3{ text-align:left; }
+
+        .service-row img{ margin:0 0 14px 0; width:100%; height:auto; box-shadow:none !important; }
+        /* Hide the desktop-positioned image on mobile to avoid duplicates; show the mobile-only image above */
+        .service-row > .p-0 img{ display:none !important; }
+        .service-row .service-image-mobile img{ display:block !important; }
     }
 </style>
+
 @endsection
 
 @php
@@ -121,7 +143,12 @@
                 $reverse = ($i % 2 == 1);
             @endphp
 
-            <div class="row topmargin-lg clearfix" style="padding-bottom: 30px;">
+            <div class="row topmargin-lg clearfix service-row">
+
+                {{-- Mobile-only image placed at top to guarantee image-first stacking on phones --}}
+                <div class="col-12 d-block d-md-none service-image-mobile" style="padding-left:8px;padding-right:8px;">
+                    <img src="{{ $img }}" style="width:100%; height:auto; box-shadow:none !important; margin-bottom:14px;">
+                </div>
 
                 @if(!$reverse)
                     <!-- Image Texts (left text, right image) -->
@@ -220,6 +247,71 @@
         animationSpeed = Math.max(10, animationSpeed - 5);
         logosElement.style.animationDuration = animationSpeed + 's';
     }
+
+    // Mobile autoplay fallback (requestAnimationFrame) with touch/pointer pause
+    (function(){
+        try{
+            if (typeof window === 'undefined') return;
+            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+            var wrapper = document.querySelector('.clients-logos-wrapper');
+            var logos = document.getElementById('clientsLogos') || (wrapper && wrapper.querySelector('.clients-logos'));
+            if(!wrapper || !logos) return;
+
+            // Only run autoplay on small screens (mobile). Desktop uses CSS animation.
+            if(!window.matchMedia('(max-width: 768px)').matches) return;
+
+            // Use transform-based autoplay to avoid expanding page width
+            wrapper.style.overflowX = 'hidden';
+            logos.style.willChange = 'transform';
+
+            try{
+                if(logos.children.length && logos.scrollWidth <= wrapper.clientWidth * 1.1){
+                    var clone = logos.cloneNode(true);
+                    logos.appendChild(clone);
+                }
+            } catch(e){ /* ignore */ }
+
+            var speed = 60; // px per second
+            var rafId = null; var lastTs = null; var paused = false; var pos = 0;
+
+            function step(ts){
+                if(!lastTs) lastTs = ts;
+                var dt = (ts - lastTs) / 1000;
+                lastTs = ts;
+                if(!paused){
+                    pos += speed * dt;
+                    var trackWidth = logos.scrollWidth / 2 || logos.scrollWidth || 1;
+                    if(pos >= trackWidth) pos = 0;
+                    logos.style.transform = 'translateX(' + (-pos) + 'px)';
+                }
+                rafId = requestAnimationFrame(step);
+            }
+
+            function start(){ if(!rafId){ lastTs = null; rafId = requestAnimationFrame(step); } }
+            function stop(){ if(rafId){ cancelAnimationFrame(rafId); rafId = null; lastTs = null; } }
+
+            var pauseTimeout = null; var resumeDelay = 700;
+            function setPausedYes(){ paused = true; if(pauseTimeout) clearTimeout(pauseTimeout); }
+            function setPausedNo(){ if(pauseTimeout) clearTimeout(pauseTimeout); pauseTimeout = setTimeout(function(){ paused = false; }, resumeDelay); }
+
+            wrapper.addEventListener('pointerdown', function(){ setPausedYes(); }, {passive:true});
+            wrapper.addEventListener('pointerup', function(){ setPausedNo(); }, {passive:true});
+            wrapper.addEventListener('touchstart', function(){ setPausedYes(); }, {passive:true});
+            wrapper.addEventListener('touchend', function(){ setPausedNo(); }, {passive:true});
+            wrapper.addEventListener('mouseenter', function(){ setPausedYes(); }, {passive:true});
+            wrapper.addEventListener('mouseleave', function(){ setPausedNo(); }, {passive:true});
+
+            var existingSlow = window.slowDownAnimation;
+            var existingFast = window.speedUpAnimation;
+            window.slowDownAnimation = function(){ try{ if(typeof existingSlow === 'function') existingSlow(); }catch(e){} speed = Math.max(10, speed - 20); };
+            window.speedUpAnimation = function(){ try{ if(typeof existingFast === 'function') existingFast(); }catch(e){} speed = Math.min(600, speed + 20); };
+
+            setTimeout(start, 200);
+            setTimeout(start, 1200);
+
+        }catch(e){ console && console.warn && console.warn('clients mobile autoplay error', e); }
+    })();
 </script>
 
 @endsection

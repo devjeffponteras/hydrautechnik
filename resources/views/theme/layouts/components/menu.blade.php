@@ -9,9 +9,11 @@
         @include('theme.layouts.components.menu-item', ['item' => $item])
     @endforeach
 
-    <!-- small screen call us btn -->
+    <!-- small screen call us btn removed per request -->
+    {{--
     <a href="#" class="call-us-wide-btn-sm btn btn-sm btn-warning text-dark d-flex align-items-center mb-2 gap-2" style="font-size: 12px">
         <i class="icon-line-arrow-right mr-2" style="font-size: 12px"></i>
         Call us: {{ optional(App\Helpers\Setting::info())->mobile_no ?? '' }}
     </a>
+    --}}
 </ul>

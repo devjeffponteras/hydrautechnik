@@ -143,7 +143,7 @@ class Setting {
         $setting = \App\Models\Setting::first();
 
         $hoursAgo = now()->subHours($setting->cart_notification_duration);
-    
+
         $isLeftOnCart = Cart::where('created_at', '<', $hoursAgo )->where('user_id', auth()->user()->id ?? -1)->exists();
 
         return $isLeftOnCart;
@@ -151,18 +151,18 @@ class Setting {
 
     public static function hasItemThreeDaysOnCart(){
         $threeDaysAgo = now()->subDays(3);
-    
+
         $isThreeDaysOnCart = Cart::where('created_at', '<', $threeDaysAgo)->where('user_id', auth()->user()->id ?? -1)->exists();
         return $isThreeDaysOnCart;
     }
 
     public static function isThreeDaysOnCart($id){
         $threeDaysAgo = now()->subDays(3);
-    
+
         $isThreeDaysOnCart = Cart::where('id', $id)->where('created_at', '<', $threeDaysAgo)->where('user_id', auth()->user()->id)->exists();
         return $isThreeDaysOnCart;
     }
-    
+
 
     public static function bannerTransition($id)
     {
@@ -174,14 +174,14 @@ class Setting {
     public static function paynamics_merchant()
     {
         // if (env('APP_ENV') == 'production') {
-           
+
         //     return [
         //         'id' => '00000019121943FC3BD7',
         //         'key' => '6B1198B811715D83148DB4E7FC981A54',
         //         'url' => 'https://testpti.payserv.net/webpayment/Default.aspx'
         //     ];
-            
-            
+
+
         // } else {
             return [
                 'id' => '00000019121943FC3BD7',
