@@ -336,7 +336,7 @@ class FrontController extends Controller
                 $q->whereNull('tag')->orWhere('tag', '!=', 2);
             })
             ->orderBy('name', 'asc')
-            ->get();
+            ->paginate(12);
         $otherProducts = Product::where('tag', 2)->where('status', 'PUBLISHED')->get();
 
         // Debug: Log the actual count
@@ -521,6 +521,26 @@ class FrontController extends Controller
         $equipments = \App\Models\Equipment::orderBy('name', 'asc')->paginate(10);
 
         return view('theme.pages.equipments.index', compact('page', 'equipments'));
+    }
+
+    public function about_us()
+    {
+        // Try to load a CMS page for equipments so editors can set `contents` via CMS
+        if (Auth::guest()) {
+            $page = Page::where('slug', 'about-us')->where('status', 'PUBLISHED')->first();
+        } else {
+            $page = Page::where('slug', 'about-us')->first();
+        }
+
+        if ($page == null) {
+            $page = new Page();
+            $page->name = 'About Us';
+        }
+
+        // fetch equipments from database and paginate
+        $equipments = \App\Models\Equipment::orderBy('name', 'asc')->paginate(10);
+
+        return view('theme.pages.about', compact('page'));
     }
 
     public function services() {
