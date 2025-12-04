@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html dir="ltr" lang="en-US">
 
@@ -6,7 +7,7 @@
 
 
  <body class="stretched is-expanded-menu">
-	
+
 	<!-- Cart Panel Background
 	============================================= -->
 	<div class="body-overlay"></div>
@@ -14,7 +15,7 @@
 	<!-- Document Wrapper
 	============================================= -->
 	<div id="wrapper" class="clearfix">
-		
+
 		<!-- Header
 		============================================= -->
 		@include('theme.layouts.components.header')<!-- #header end -->
@@ -22,7 +23,7 @@
 		<!-- Slider
 		============================================= -->
 		@include('theme.layouts.components.banner')
-		
+
 		<!-- #slider end -->
 
 		<!-- Content
@@ -30,7 +31,7 @@
 		<section id="website-content">
 
 			@yield('content')
-			
+
 		</section><!-- #content end -->
 
 		<!-- Footer

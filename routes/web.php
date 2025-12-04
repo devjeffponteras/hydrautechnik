@@ -92,7 +92,7 @@ Route::get('/phpinfo', function () {
         return redirect()->route('products');
     });
     Route::get('/view-products/{id}', [FrontController::class, 'viewProducts'])->name('view-products');
-    Route::get('/equipments', [FrontController::class, 'equipments'])->name('equipments');
+    Route::get('/about-us', [FrontController::class, 'about_us'])->name('about-us');
     Route::get('/company-capabilities', [FrontController::class, 'services'])->name('company-capabilities');
     // Service detail page
     Route::get('/company-capabilities/{id}', [FrontController::class, 'serviceShow'])->name('company-capabilities.show');

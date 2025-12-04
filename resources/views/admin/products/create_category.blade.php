@@ -110,8 +110,15 @@ Product Categories Management
                             @php
                                 // Get subcategories count for each category
                                 $subcategories = \App\Models\ProductSubcategory::all();
+                                // Count categories that have products either directly (category_id)
+                                // or via subcategories (products linked to a subcategory)
                                 $categoriesWithProducts = $categories->filter(function($cat) {
-                                    return $cat->products()->count() > 0;
+                                    return \App\Models\Product::where(function($q) use ($cat){
+                                        $q->where('category_id', $cat->id)
+                                          ->orWhereHas('subcategory', function($q2) use ($cat){
+                                              $q2->where('category_id', $cat->id);
+                                          });
+                                    })->exists();
                                 });
                                 $categoriesWithSubcategories = $categories->filter(function($cat) use ($subcategories) {
                                     return $subcategories->where('category_id', $cat->id)->count() > 0;
@@ -162,7 +169,13 @@ Product Categories Management
                                     @foreach($categories as $category)
                                     @php
                                         $subCount = $subcategories->where('category_id', $category->id)->count();
-                                        $productCount = $category->products()->count();
+                                        // Count products directly assigned to this category OR assigned to any of its subcategories
+                                        $productCount = \App\Models\Product::where(function($q) use ($category){
+                                            $q->where('category_id', $category->id)
+                                              ->orWhereHas('subcategory', function($q2) use ($category){
+                                                  $q2->where('category_id', $category->id);
+                                              });
+                                        })->count();
                                     @endphp
                                     <tr>
                                         <td class="fw-bold text-muted">#{{ $category->id }}</td>

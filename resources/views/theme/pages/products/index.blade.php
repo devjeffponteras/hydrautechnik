@@ -169,6 +169,13 @@
 							</div>
 						@endforeach
 					</div>
+
+					{{-- pagination for all products --}}
+					<div class="row mt-3">
+						<div class="col-12 d-flex justify-content-center">
+							{!! $allProducts->appends(request()->input())->links('pagination::simple-bootstrap-4') !!}
+						</div>
+					</div>
 				@elseif(!isset($selectedCategory))
 					<div class="row mt-2">
 						<div class="col-12 text-center py-5">
