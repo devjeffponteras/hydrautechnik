@@ -13,7 +13,19 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'smtp'),
+    /*
+    |--------------------------------------------------------------------------
+    | Default Mailer
+    |--------------------------------------------------------------------------
+    |
+    | By default the mailer will come from the `MAIL_MAILER` env variable.
+    | If the configured host looks like a Mailtrap sandbox (commonly used
+    | for development), automatically use the 'failover' mailer so that
+    | failed SMTP attempts fall back to the `log` driver instead of
+    | throwing uncaught TransportExceptions in production-like setups.
+    |
+    */
+    'default' => (strpos(env('MAIL_HOST', ''), 'mailtrap') !== false) ? 'failover' : env('MAIL_MAILER', 'smtp'),
 
     /*
     |--------------------------------------------------------------------------

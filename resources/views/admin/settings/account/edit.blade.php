@@ -53,11 +53,23 @@
                             @csrf
                             @method('PUT')
                             <div class="media mg-b-30 mg-t-20">
-                                @if(Auth::user()->avatar == '')
-                                    <img src="{{ asset('images/user.png') }}" id="userLogo" class="wd-100 rounded-circle mg-r-20" alt="">
-                                @else
-                                    <img src="{{ $user->avatar }}" id="userLogo" class="wd-100 rounded-circle mg-r-20" alt="">
-                                @endif
+                                @php
+                                    use Illuminate\Support\Str;
+
+                                    $avatar = $user->avatar ?? '';
+                                    if (empty($avatar)) {
+                                        $avatar_url = asset('images/user.png');
+                                    } elseif (Str::startsWith($avatar, ['http://', 'https://'])) {
+                                        $avatar_url = $avatar;
+                                    } elseif (Str::startsWith($avatar, ['/storage', 'storage'])) {
+                                        $avatar_url = asset(ltrim($avatar, '/'));
+                                    } else {
+                                        // avatar may be stored as filename only
+                                        $avatar_url = asset('storage/avatars/' . $avatar);
+                                    }
+                                @endphp
+
+                                <img src="{{ $avatar_url }}" id="userLogo" class="wd-100 rounded-circle mg-r-20" alt="">
                                 <div class="media-body pd-t-30">
                                     <h5 class="mg-b-0 tx-inverse tx-bold">{{ $user->fullname }}</h5>
                                     <p>{{ User::userRole($user->role_id) }}</p>

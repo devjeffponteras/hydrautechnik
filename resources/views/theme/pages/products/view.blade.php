@@ -159,11 +159,10 @@
 					</div>
 					<div class="col-12 col-md-6">
 						<div class="card side-panel-nav rounded bg-white shadow p-4">
-							@if(!empty($product->image))
-								<img src="{{ asset($product->image) }}" alt="{{ $product->name }}" style="width:100%; height:600px; object-fit:cover;">
-							@else
-								<img src="{{ asset('storage/products/prd1.jpg') }}" alt="{{ !empty($product->name) ? $product->name : 'Product Image' }}" style="width:100%; height:300px; object-fit:cover;">
-							@endif
+							@php $img = $product->image ? asset($product->image) : asset('storage/products/prd1.jpg'); @endphp
+							<div class="product-image-wrap">
+								<img src="{{ $img }}" alt="{{ $product->name ?? 'Product Image' }}" class="w-100 product-image-cover">
+							</div>
 						</div>
 					</div>
 				</div>
@@ -180,3 +179,5 @@
 
 </script>
 @endsection
+
+<!-- Product image styles removed from push; include in global CSS or the `pagecss` section if needed -->

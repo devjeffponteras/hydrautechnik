@@ -111,28 +111,40 @@
             <ul>
                 <li @if (request()->routeIs('role*')) class="active" @endif><a href="{{ route('role.index') }}">Roles</a></li>
                 <li @if (request()->routeIs('access*')) class="active" @endif><a href="{{ route('access.index') }}">Access Rights</a></li>
-                <li @if (request()->routeIs('permission*')) class="active" @endif><a href="{{ route('permission.index') }}">Permissions</a></li>
+                {{-- <li @if (request()->routeIs('permission*')) class="active" @endif><a href="{{ route('permission.index') }}">Permissions</a></li> --}}
             </ul>
         </li>
-                   <li class="nav-label mg-t-25">Products</li>
+
+    @endif
+
+    @if (auth()->user()->is_an_admin() || auth()->user()->has_access_to_product_module())
+        <li class="nav-label mg-t-25">Products</li>
         <li class="nav-item with-sub @if (request()->routeIs('products*')) active show @endif">
             <a href="#" class="nav-link"><i data-feather="package"></i> <span>Products</span></a>
             <ul>
-                <li @if (request()->routeIs('products.index')) class="active" @endif>
-                    <a href="{{ route('products.index') }}">Manage Products</a>
-                </li>
-                <li @if (request()->routeIs('products.create')) class="active" @endif>
-                    <a href="{{ route('products.create') }}">Create Products</a>
-                </li>
-                <li @if (request()->routeIs('products.create_category')) class="active" @endif>
-                    <a href="{{ route('products.create_category') }}">Create Categories</a>
-                </li>
-                <li @if (request()->routeIs('products.create_subcategory')) class="active" @endif>
-                    <a href="{{ route('products.create_subcategory') }}">Create Subcategories</a>
-                </li>
-                {{-- You can add more product-related links here --}}
+                @if(auth()->user()->has_access_to('products') || auth()->user()->is_an_admin())
+                    <li @if (request()->routeIs('products.index')) class="active" @endif>
+                        <a href="{{ route('products.index') }}">Manage Products</a>
+                    </li>
+                @endif
+                @if(auth()->user()->has_access_to_route('products.create') || auth()->user()->is_an_admin())
+                    <li @if (request()->routeIs('products.create')) class="active" @endif>
+                        <a href="{{ route('products.create') }}">Create Products</a>
+                    </li>
+                @endif
+                @if(auth()->user()->has_access_to_route('products.create_category') || auth()->user()->is_an_admin())
+                    <li @if (request()->routeIs('products.create_category')) class="active" @endif>
+                        <a href="{{ route('products.create_category') }}">Create Categories</a>
+                    </li>
+                @endif
+                @if(auth()->user()->has_access_to_route('products.create_subcategory') || auth()->user()->is_an_admin())
+                    <li @if (request()->routeIs('products.create_subcategory')) class="active" @endif>
+                        <a href="{{ route('products.create_subcategory') }}">Create Subcategories</a>
+                    </li>
+                @endif
             </ul>
         </li>
+    @endif
         {{-- <li class="nav-item with-sub @if (request()->routeIs('equipments*')) active show @endif">
             <a href="#" class="nav-link"><i data-feather="cpu"></i> <span>Equipments</span></a>
             <ul>
@@ -156,33 +168,44 @@
             </ul>
         </li> --}}
 
+    @if (auth()->user()->is_an_admin() || auth()->user()->has_access_to_services_module())
         <li class="nav-label mg-t-25">Services</li>
         <li class="nav-item with-sub @if (request()->routeIs('services*')) active show @endif">
             <a href="#" class="nav-link"><i data-feather="settings"></i> <span>Services</span></a>
             <ul>
-                <li @if (request()->routeIs('services.index')) class="active" @endif>
-                    <a href="{{ route('services.index') }}">Manage Services</a>
-                </li>
-                <li @if (request()->routeIs('services.create')) class="active" @endif>
-                    <a href="{{ route('services.create') }}">Create Service</a>
-                </li>
+                @if(auth()->user()->has_access_to_services_module() || auth()->user()->is_an_admin())
+                    <li @if (request()->routeIs('services.index')) class="active" @endif>
+                        <a href="{{ route('services.index') }}">Manage Services</a>
+                    </li>
+                @endif
+                @if(auth()->user()->has_access_to_services_module() || auth()->user()->is_an_admin())
+                    <li @if (request()->routeIs('services.create')) class="active" @endif>
+                        <a href="{{ route('services.create') }}">Create Service</a>
+                    </li>
+                @endif
             </ul>
         </li>
+    @endif
 
 
+    @if (auth()->user()->is_an_admin() || auth()->user()->has_access_to_projects_module())
         <li class="nav-label mg-t-25">Projects</li>
         <li class="nav-item with-sub @if (request()->routeIs('projects*')) active show @endif">
             <a href="#" class="nav-link"><i data-feather="briefcase"></i> <span>Projects</span></a>
             <ul>
-                <li @if (request()->routeIs('projects.index')) class="active" @endif>
-                    <a href="{{ route('projects.index') }}">Manage Projects</a>
-                </li>
-                <li @if (request()->routeIs('projects.create')) class="active" @endif>
-                    <a href="{{ route('projects.create') }}">Create Project</a>
-                </li>
+                @if(auth()->user()->has_access_to_projects_module() || auth()->user()->is_an_admin())
+                    <li @if (request()->routeIs('projects.index')) class="active" @endif>
+                        <a href="{{ route('projects.index') }}">Manage Projects</a>
+                    </li>
+                @endif
+                @if(auth()->user()->has_access_to_projects_module() || auth()->user()->is_an_admin())
+                    <li @if (request()->routeIs('projects.create')) class="active" @endif>
+                        <a href="{{ route('projects.create') }}">Create Project</a>
+                    </li>
+                @endif
             </ul>
         </li>
-
-
     @endif
+
+
 </ul>

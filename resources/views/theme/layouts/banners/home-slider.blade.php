@@ -19,7 +19,7 @@
 								<div class="hero-slide dark">
 									<img src="{{ $banner->image_path }}" alt="{{ $banner->title }}">
 									<div class="banner-caption">
-										{{ $banner->url }}
+										{{-- Banner URL hidden on front-end --}}
 										<div class="container">
 											<div class="row align-items-center">
 												<div class="col-lg-12">

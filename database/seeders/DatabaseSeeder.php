@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
             SettingSeeder::class,
             ArticleSeeder::class,
         ]);
-        
+
     }
 
     private function user()

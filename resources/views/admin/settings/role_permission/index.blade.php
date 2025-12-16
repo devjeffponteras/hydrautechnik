@@ -69,8 +69,8 @@
                                         @if ($role->is_not_admin())
                                             <td>
                                                 <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input access module_{{$role->id}}_{{$module->module_code()}}" data-role="{{$role->id}}" data-module="{{$module->module_code()}}" id="{{$module->module}}_{{ $loop->iteration }}">
-                                                    <label class="custom-control-label" for="{{$module->module}}_{{ $loop->iteration }}"></label>
+                                                    <input type="checkbox" class="custom-control-input access module_{{$role->id}}_{{$module->module_code()}}" data-role="{{$role->id}}" data-module="{{$module->module_code()}}" id="module_{{$role->id}}_{{$module->module_code()}}">
+                                                    <label class="custom-control-label" for="module_{{$role->id}}_{{$module->module_code()}}"></label>
                                                 </div>
                                             </td>
                                         @endif
@@ -85,16 +85,16 @@
                                                 @if ($role->is_not_admin())
                                                     <td>
                                                         <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" class="custom-control-input trigger_view access_{{$role->id}}_{{$module->module_code()}} @if($permission->is_view_page) view_permission view_{{$role->id}}_{{$module->module_code()}} @endif"
-                                                                   @php
-                                                                       $var = $role->id."_".$permission->id;
-                                                                       if(in_array($var,$access)){
-                                                                           echo ' checked="checked" ';
-                                                                       }
+                                                                    <input type="checkbox" class="custom-control-input trigger_view access_{{$role->id}}_{{$module->module_code()}} @if($permission->is_view_page) view_permission view_{{$role->id}}_{{$module->module_code()}} @endif"
+                                                                           @php
+                                                                               $var = $role->id."_".$permission->id;
+                                                                               if(in_array($var,$access)){
+                                                                                   echo ' checked="checked" ';
+                                                                               }
 
-                                                                   @endphp
-                                                                   name="cb['{{$permission->id}}_{{$role->id}}']" id="{{$permission->name}}_{{ $loop->iteration }}" data-role="{{$role->id}}" data-module="{{$module->module_code()}}">
-                                                            <label class="custom-control-label" for="{{$permission->name}}_{{ $loop->iteration }}"></label>
+                                                                           @endphp
+                                                                           name="cb[{{$permission->id}}_{{$role->id}}]" id="perm_{{$permission->id}}_role_{{$role->id}}" data-role="{{$role->id}}" data-module="{{$module->module_code()}}">
+                                                                    <label class="custom-control-label" for="perm_{{$permission->id}}_role_{{$role->id}}"></label>
                                                         </div>
                                                     </td>
                                                 @endif

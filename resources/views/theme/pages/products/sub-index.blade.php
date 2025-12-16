@@ -1,6 +1,41 @@
 @extends('theme.main')
 
 @section('pagecss')
+<style>
+/* Product card alignment (same as products index) */
+.product-card-wrapper {
+	display: flex;
+	margin-bottom: 1.5rem;
+}
+.product-card-wrapper .card {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	width: 100%;
+}
+.product-card-wrapper .card-header {
+	flex-shrink: 0;
+}
+.product-card-wrapper .card-header img {
+	width: 100%;
+	height: 200px;
+	object-fit: cover;
+}
+.product-card-wrapper .card-body {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+}
+.product-card-wrapper .grid-info {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+.product-card-wrapper .grid-info .btn {
+	margin-top: auto;
+}
+</style>
 @endsection
 
 @section('content')
@@ -32,7 +67,7 @@
 @endphp
 <div class="section sub-pages-hyd-container mt-0 pt-0" style="background-color: rgb(255, 255, 255);">
 	<div class="container-fluid">
-		<div class="row col-12 px-3">
+		<div class="d-flex flex-column flex-md-row">
 
 			<!-- left side nav -->
 			<x-side-navigation
@@ -81,21 +116,36 @@
 					@endif
 				@endif
 
-				<div class="row col-12 mt-4">
+				<div class="row mt-2">
 					@forelse($products as $product)
-						<div class="col-md-3 mb-4">
+						<div class="col-12 col-md-3 product-card-wrapper">
 							<div class="card">
 								<div class="card-header p-3 shadow bg-white">
 									@if($product->image)
-										<img src="{{ asset($product->image) }}" alt="{{ $product->name }}" style="width:100%; height:200px; object-fit:cover;">
+										@php
+											$rawPath = str_replace('\\', '/', $product->image ?? '');
+											$isFull = \Illuminate\Support\Str::startsWith($rawPath, ['http://', 'https://', '//']);
+											if (!$isFull) {
+												if (\Illuminate\Support\Str::startsWith($rawPath, 'public/')) {
+													$rawPath = 'storage/' . substr($rawPath, 7);
+												} elseif (!\Illuminate\Support\Str::startsWith($rawPath, 'storage/')) {
+													$rawPath = ltrim($rawPath, '/');
+													$rawPath = 'storage/' . $rawPath;
+												}
+												$finalUrl = asset($rawPath);
+											} else {
+												$finalUrl = $rawPath;
+											}
+										@endphp
+										<img src="{{ $finalUrl }}" alt="{{ $product->name }}" style="width:100%; height:200px; object-fit:cover;">
 									@else
-										<img src="{{ asset('storage/products/prd' . (($loop->index % 4) + 1) . '.jpg') }}" alt="{{ $product->name }}" style="width:100%; height:200px; object-fit:cover;">
+										<img src="{{ asset('images/products/prd' . (($loop->index % 4) + 1) . '.jpg') }}" alt="{{ $product->name }}" style="width:100%; height:200px; object-fit:cover;">
 									@endif
 								</div>
 								<div class="card-body">
 									<div class="grid-info text-center">
 										<h5 class="text-center">{{ $product->name }}</h5>
-										<a href="{{ route('view-products', ['id' => $product->id]) }}" class="btn btn-warning btn-sm mt-2">View Details</a>
+										<a href="{{ route('view-products', $product->id) }}" class="btn btn-warning btn-sm">View Details</a>
 									</div>
 								</div>
 							</div>

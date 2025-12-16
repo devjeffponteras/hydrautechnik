@@ -118,7 +118,8 @@ class AccessController extends Controller
             foreach($roles as $role){
 
                 $allowed = 0;
-                if(isset($request->cb["'".$permission->id."_".$role->id."'"])){
+                $key = $permission->id . '_' . $role->id;
+                if(isset($request->cb[$key])){
                     $allowed = 1;
                 }
 

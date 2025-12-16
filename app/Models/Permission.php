@@ -80,9 +80,10 @@ class Permission extends Model
             'coupons' => 'Coupons',
             'banner_ads' => 'Banner Ads',
             'ecommerce' => 'E-Commerce',
-            'reports' => 'Reports',
             'mobile_banner' => 'Mobile Banners',
             'page_modals' => 'Page Modals',
+            'services' => 'Services',
+            'projects' => 'Projects',
             'reports' => 'Reports',
         ];
     }
