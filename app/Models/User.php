@@ -23,7 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'email_verified_at', 'password', 'role_id', 'is_active', 'remember_token', 'firstname', 'lastname', 'avatar', 'user_id', 'isDeleted','mobile','phone','address_street','address_city','address_municipality', 'address_province', 'address_zip', 'department_id', 'company', 'ecredits', 'provider', 'provider_id', 
+        'name', 'email', 'email_verified_at', 'password', 'role_id', 'is_active', 'remember_token', 'firstname', 'lastname', 'avatar', 'user_id', 'isDeleted','mobile','phone','address_street','address_city','address_municipality', 'address_province', 'address_zip', 'department_id', 'company', 'ecredits', 'provider', 'provider_id',
     ];
 
     /**
@@ -131,7 +131,7 @@ class User extends Authenticatable implements MustVerifyEmail
                 $depts .= '<small class="badge badge-secondary">'.$category->title.'</small>&nbsp;';
             }
         }
-        
+
 
         return $depts;
     }
@@ -197,12 +197,33 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function has_access_to_product_category_module()
     {
-        return $this->has_access_to_module(array_keys(Permission::modules())[9]);
+        return $this->has_access_to_module('product_categories');
     }
 
     public function has_access_to_product_module()
     {
-        return $this->has_access_to_module(array_keys(Permission::modules())[10]);
+        // primary check: route-based view permissions
+        if ($this->has_access_to_module('products')) {
+            return true;
+        }
+
+        // fallback: check role_permission records for any permission in the 'products' module
+        $productPermissionIds = \App\Models\Permission::where('module', 'products')->pluck('id')->toArray();
+
+        return \App\Models\Rolepermission::where('role_id', $this->role_id)
+            ->whereIn('permission_id', $productPermissionIds)
+            ->where('isAllowed', 1)
+            ->exists();
+    }
+
+    public function has_access_to_services_module()
+    {
+        return $this->has_access_to_module('services');
+    }
+
+    public function has_access_to_projects_module()
+    {
+        return $this->has_access_to_module('projects');
     }
 
     public function has_access_to_subscriber_group_module()
@@ -260,7 +281,19 @@ class User extends Authenticatable implements MustVerifyEmail
             }
         }
 
-        return false;
+        // Fallback: if there are any role_permission records for this role
+        // that map to permissions in the given module and are allowed,
+        // treat the module as accessible. This covers cases where the
+        // view-route mapping isn't present but the admin already assigned
+        // permissions via the Access Rights form.
+        $exists = \App\Models\Rolepermission::where('role_id', $this->role_id)
+            ->where('isAllowed', 1)
+            ->whereIn('permission_id', function($query) use ($module) {
+                $query->select('id')->from('permission')->where('module', $module);
+            })
+            ->exists();
+
+        return $exists;
     }
 
     public function has_access_to($route_address)
@@ -398,7 +431,7 @@ class User extends Authenticatable implements MustVerifyEmail
                     'reference' => $model->id
                 ]);
             }
-            
+
         });
 
         self::updating(function($model) {

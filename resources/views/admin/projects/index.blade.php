@@ -165,75 +165,7 @@ Manage Projects
                 </div>
             </div>
 
-            <!-- Delete confirmation modal -->
-            <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
-              <div class="modal-dialog modal-sm modal-dialog-centered">
-                <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="confirmDeleteLabel">Confirm delete</h5>
-                            <!-- Support both Bootstrap 5 (data-bs-dismiss) and Bootstrap 4 (data-dismiss) -->
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                  <div class="modal-body">
-                    <p id="confirmDeleteMessage">Are you sure you want to delete this item?</p>
-                  </div>
-                  <div class="modal-footer">
-                <!-- Support both Bootstrap 5 and 4 dismissal attributes -->
-                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger btn-sm" id="confirmDeleteButton">Delete</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <script>
-                (function(){
-                    var formToSubmit = null;
-                    var deleteModalEl = document.getElementById('confirmDeleteModal');
-                    var deleteModal = null;
-                    try {
-                        if (typeof bootstrap !== 'undefined' && deleteModalEl) {
-                            deleteModal = new bootstrap.Modal(deleteModalEl);
-                        }
-                    } catch(e) {
-                        // bootstrap not present, will fallback to native confirm
-                        deleteModal = null;
-                    }
-
-                    function onConfirmButtonClick(e) {
-                        if (formToSubmit) {
-                            formToSubmit.submit();
-                            formToSubmit = null;
-                        }
-                    }
-
-                    document.querySelectorAll('.btn-confirm-delete').forEach(function(btn){
-                        btn.addEventListener('click', function(ev){
-                            ev.preventDefault();
-                            var form = btn.closest('form.confirm-delete-form');
-                            if (!form) return;
-                            var name = form.dataset.name || 'this item';
-                            var message = "Are you sure you want to delete '" + name + "'? This action cannot be undone.";
-
-                            if (deleteModal) {
-                                document.getElementById('confirmDeleteMessage').textContent = message;
-                                formToSubmit = form;
-                                deleteModal.show();
-                            } else {
-                                // fallback
-                                if (window.confirm(message)) {
-                                    form.submit();
-                                }
-                            }
-                        });
-                    });
-
-                    var confirmBtn = document.getElementById('confirmDeleteButton');
-                    if (confirmBtn) confirmBtn.addEventListener('click', onConfirmButtonClick);
-                })();
-            </script>
+            {{-- Delete modal and handler moved to pagejs to match services index structure --}}
         </div>
     </div>
 </div>
@@ -270,4 +202,70 @@ Manage Projects
 @section('pagejs')
 <script src="https://unpkg.com/feather-icons"></script>
 <script>document.addEventListener('DOMContentLoaded', function(){ if(window.feather) feather.replace(); });</script>
+
+<!-- Delete confirmation modal -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteLabel">Confirm delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+      <div class="modal-body">
+        <p id="confirmDeleteMessage">Are you sure you want to delete this item?</p>
+      </div>
+      <div class="modal-footer">
+    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger btn-sm" id="confirmDeleteButton">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    (function(){
+        var formToSubmit = null;
+        var deleteModalEl = document.getElementById('confirmDeleteModal');
+        var deleteModal = null;
+        try {
+            if (typeof bootstrap !== 'undefined' && deleteModalEl) {
+                deleteModal = new bootstrap.Modal(deleteModalEl);
+            }
+        } catch(e) {
+            deleteModal = null;
+        }
+
+        function onConfirmButtonClick(e) {
+            if (formToSubmit) {
+                formToSubmit.submit();
+                formToSubmit = null;
+            }
+        }
+
+        document.querySelectorAll('.btn-confirm-delete').forEach(function(btn){
+            btn.addEventListener('click', function(ev){
+                ev.preventDefault();
+                var form = btn.closest('form.confirm-delete-form');
+                if (!form) return;
+                var name = form.dataset.name || 'this item';
+                var message = "Are you sure you want to delete '" + name + "'? This action cannot be undone.";
+
+                if (deleteModal) {
+                    document.getElementById('confirmDeleteMessage').textContent = message;
+                    formToSubmit = form;
+                    deleteModal.show();
+                } else {
+                    if (window.confirm(message)) {
+                        form.submit();
+                    }
+                }
+            });
+        });
+
+        var confirmBtn = document.getElementById('confirmDeleteButton');
+        if (confirmBtn) confirmBtn.addEventListener('click', onConfirmButtonClick);
+    })();
+</script>
 @endsection
