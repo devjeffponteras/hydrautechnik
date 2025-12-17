@@ -5,11 +5,23 @@
 
 <div class="dropdown dropdown-profile">
     <a href="" class="dropdown-link" data-toggle="dropdown" data-display="static">
-        @if(Auth::user()->avatar == '')
-            <div class="avatar avatar-sm"><img src="{{ asset('images/user.png') }}" class="rounded-circle" alt=""></div>
-        @else
-            <div class="avatar avatar-sm"><img src="/{{ Auth::user()->avatar }}" class="rounded-circle" alt=""></div>
-        @endif
+        @php
+            use Illuminate\Support\Str;
+
+            $avatar = Auth::user()->avatar ?? '';
+            if (empty($avatar)) {
+                $avatar_url = asset('images/user.png');
+            } elseif (Str::startsWith($avatar, ['http://', 'https://'])) {
+                $avatar_url = $avatar;
+            } elseif (Str::startsWith($avatar, ['/storage', 'storage'])) {
+                $avatar_url = asset(ltrim($avatar, '/'));
+            } else {
+                // avatar may be stored as filename only
+                $avatar_url = asset('storage/avatars/' . $avatar);
+            }
+        @endphp
+
+        <div class="avatar avatar-sm"><img src="{{ $avatar_url }}" class="rounded-circle" alt=""></div>
     </a>
     <!-- dropdown-link -->
     <div class="dropdown-menu dropdown-menu-right tx-13">

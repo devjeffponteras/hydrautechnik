@@ -8,15 +8,17 @@ Manage Services
 <div class="container">
     <div class="row mb-4">
         <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <h3 class="mb-1">Service Management</h3>
                     <p class="text-muted mb-0">Manage services offered by the company</p>
                 </div>
-                <a href="{{ route('services.create') }}" class="btn btn-success">
-                    <i data-feather="plus" class="me-1"></i>
-                    Add New Service
-                </a>
+                    @if(auth()->check() && auth()->user()->has_permission('create_service'))
+                        <a href="{{ route('services.create') }}" class="btn btn-success">
+                            <i data-feather="plus" class="me-1"></i>
+                            Add New Service
+                        </a>
+                    @endif
             </div>
         </div>
     </div>
@@ -128,13 +130,20 @@ Manage Services
                                         </td>
                                         <td class="px-4 py-3 text-center">
                                             <div class="btn-group" role="group">
-                                                <a href="{{ route('company-capabilities.show', $service->id) }}" class="btn btn-sm btn-primary me-1" target="_blank" title="View on site"><i data-feather="eye"></i></a>
-                                                <a href="{{ route('services.edit', $service->id) }}" class="btn btn-sm btn-info me-1"><i data-feather="edit"></i></a>
-                                                <form action="{{ route('services.destroy', $service->id) }}" method="POST" style="display:inline;" class="confirm-delete-form" data-name="{{ $service->name }}">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="button" class="btn btn-sm btn-danger btn-confirm-delete"><i data-feather="trash-2"></i></button>
-                                                </form>
+                                                @if(auth()->check() && auth()->user()->has_permission('view_services'))
+                                                    <a href="{{ route('company-capabilities.show', $service->id) }}" class="btn btn-sm btn-primary me-1" target="_blank" title="View on site"><i data-feather="eye"></i></a>
+                                                @endif
+
+                                                @if(auth()->check() && auth()->user()->has_permission('edit_service'))
+                                                    <a href="{{ route('services.edit', $service->id) }}" class="btn btn-sm btn-info me-1"><i data-feather="edit"></i></a>
+                                                @endif
+                                                @if(auth()->check() && auth()->user()->has_permission('delete_service') )
+                                                    <form action="{{ route('services.destroy', $service->id) }}" method="POST" style="display:inline;" class="confirm-delete-form" data-name="{{ $service->name }}">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="button" class="btn btn-sm btn-danger btn-confirm-delete"><i data-feather="trash-2"></i></button>
+                                                    </form>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>
@@ -147,7 +156,9 @@ Manage Services
                             <div class="mb-3"><i data-feather="settings" style="width:48px; height:48px;" class="text-muted"></i></div>
                             <h5 class="text-muted">No Services Found</h5>
                             <p class="text-muted mb-4">You haven't added any services yet.</p>
-                            <a href="{{ route('services.create') }}" class="btn btn-success"><i data-feather="plus" class="me-1"></i>Add Your First Service</a>
+                            @if(auth()->check() && auth()->user()->has_permission('create_service'))
+                                <a href="{{ route('services.create') }}" class="btn btn-success"><i data-feather="plus" class="me-1"></i>Add Your First Service</a>
+                            @endif
                         </div>
                     @endif
                 </div>

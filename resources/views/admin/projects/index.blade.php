@@ -12,7 +12,9 @@ Manage Projects
                 <h3 class="mb-1">Projects</h3>
                 <p class="text-muted mb-0">Manage projects on the website</p>
             </div>
-            <a href="{{ route('projects.create') }}" class="btn btn-success"><i data-feather="plus"></i> Add Project</a>
+            @if(auth()->check() && auth()->user()->has_permission('create_project'))
+                <a href="{{ route('projects.create') }}" class="btn btn-success"><i data-feather="plus"></i> Add Project</a>
+            @endif
         </div>
     </div>
 
@@ -138,13 +140,21 @@ Manage Projects
                                                 <td class="px-4 py-3">{{ \Illuminate\Support\Str::limit(strip_tags($project->description ?? ''), 100) }}</td>
                                                 <td class="px-4 py-3 text-center">
                                                     <div class="btn-group" role="group">
-                                                        <a href="{{ url('/projects/'.$project->id) }}" class="btn btn-sm btn-primary me-1" target="_blank" title="View on site"><i data-feather="eye"></i></a>
-                                                        <a href="{{ route('projects.edit', $project->id) }}" class="btn btn-sm btn-info me-1"><i data-feather="edit"></i></a>
-                                                        <form action="{{ route('projects.destroy', $project->id) }}" method="POST" style="display:inline;" class="confirm-delete-form" data-name="{{ $project->name }}">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="button" class="btn btn-sm btn-danger btn-confirm-delete"><i data-feather="trash-2"></i></button>
-                                                        </form>
+                                                        @if(auth()->check() && auth()->user()->has_permission('view_projects'))
+                                                            <a href="{{ url('/projects/'.$project->id) }}" class="btn btn-sm btn-primary me-1" target="_blank" title="View on site"><i data-feather="eye"></i></a>
+                                                        @endif
+
+                                                        @if(auth()->check() && auth()->user()->has_permission('edit_project'))
+                                                            <a href="{{ route('projects.edit', $project->id) }}" class="btn btn-sm btn-info me-1"><i data-feather="edit"></i></a>
+                                                        @endif
+
+                                                        @if(auth()->check() && auth()->user()->has_permission('delete_project'))
+                                                            <form action="{{ route('projects.destroy', $project->id) }}" method="POST" style="display:inline;" class="confirm-delete-form" data-name="{{ $project->name }}">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="button" class="btn btn-sm btn-danger btn-confirm-delete"><i data-feather="trash-2"></i></button>
+                                                            </form>
+                                                        @endif
                                                     </div>
                                                 </td>
                                             </tr>
@@ -157,7 +167,9 @@ Manage Projects
                                     <div class="mb-3"><i data-feather="settings" style="width:48px; height:48px;" class="text-muted"></i></div>
                                     <h5 class="text-muted">No projects found</h5>
                                     <p class="text-muted">You can add a new project using the button above.</p>
-                                    <a href="{{ route('projects.create') }}" class="btn btn-success"><i data-feather="plus" class="me-1"></i>Add Project</a>
+                                    @if(auth()->check() && auth()->user()->has_permission('create_project'))
+                                        <a href="{{ route('projects.create') }}" class="btn btn-success"><i data-feather="plus" class="me-1"></i>Add Project</a>
+                                    @endif
                                 </div>
                             @endif
                         </div>

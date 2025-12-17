@@ -131,10 +131,12 @@ Manage Products
                     <p class="text-muted mb-0">Manage your hydraulic products, categories, and subcategories</p>
                 </div>
                 <div class="btn-group" role="group">
-                    <a href="{{ route('products.create') }}" class="btn btn-success">
-                        <i data-feather="plus" class="me-1"></i>
-                        Add Product
-                    </a>
+                    @if(auth()->check() && auth()->user()->has_permission('create_products'))
+                        <a href="{{ route('products.create') }}" class="btn btn-success">
+                            <i data-feather="plus" class="me-1"></i>
+                            Add Product
+                        </a>
+                    @endif
                 </div>
             </div>
         </div>
@@ -290,19 +292,27 @@ Manage Products
                                 </td>
                                 <td class="text-center">
                                     <div class="btn-group" role="group">
-                                        <a class="btn btn-sm btn-primary" title="View Details" href="{{ route('products.show', $product->id) }}">
-                                            <i data-feather="eye"></i>
-                                        </a>
-                                        <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-info" title="Edit">
-                                            <i data-feather="edit"></i>
-                                        </a>
-                                        <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline;" class="confirm-delete-form" data-name="{{ $product->name }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="button" class="btn btn-sm btn-danger btn-confirm-delete" title="Delete">
-                                                <i data-feather="trash-2"></i>
-                                            </button>
-                                        </form>
+                                        @if(auth()->check() && auth()->user()->has_permission('view_products'))
+                                            <a class="btn btn-sm btn-primary" title="View Details" href="{{ route('products.show', $product->id) }}">
+                                                <i data-feather="eye"></i>
+                                            </a>
+                                        @endif
+
+                                        @if(auth()->check() && auth()->user()->has_permission('edit_products'))
+                                            <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-info" title="Edit">
+                                                <i data-feather="edit"></i>
+                                            </a>
+                                        @endif
+
+                                        @if(auth()->check() && auth()->user()->has_permission('delete_products'))
+                                            <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline;" class="confirm-delete-form" data-name="{{ $product->name }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button" class="btn btn-sm btn-danger btn-confirm-delete" title="Delete">
+                                                    <i data-feather="trash-2"></i>
+                                                </button>
+                                            </form>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
@@ -324,10 +334,12 @@ Manage Products
                     </div>
                     <h6 class="text-muted mb-2">No Main Products Yet</h6>
                     <p class="text-muted mb-3">Start by adding your first main product to the catalog.</p>
-                    <a href="{{ route('products.create') }}" class="btn btn-success">
-                        <i data-feather="plus" class="me-1"></i>
-                        Add First Main Product
-                    </a>
+                    @if(auth()->check() && auth()->user()->has_permission('create_products'))
+                        <a href="{{ route('products.create') }}" class="btn btn-success">
+                            <i data-feather="plus" class="me-1"></i>
+                            Add First Main Product
+                        </a>
+                    @endif
                 </div>
             @endif
         </div>
@@ -419,19 +431,27 @@ Manage Products
                                 </td>
                                 <td class="text-center">
                                     <div class="btn-group" role="group">
-                                        <a class="btn btn-sm btn-primary" title="View Details" href="{{ route('products.show', $product->id) }}">
-                                            <i data-feather="eye"></i>
-                                        </a>
-                                        <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-info" title="Edit">
-                                            <i data-feather="edit"></i>
-                                        </a>
-                                        <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline;" class="confirm-delete-form" data-name="{{ $product->name }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="button" class="btn btn-sm btn-danger btn-confirm-delete" title="Delete">
-                                                <i data-feather="trash-2"></i>
-                                            </button>
-                                        </form>
+                                        @if(auth()->check() && auth()->user()->has_permission('view_products'))
+                                            <a class="btn btn-sm btn-primary" title="View Details" href="{{ route('products.show', $product->id) }}">
+                                                <i data-feather="eye"></i>
+                                            </a>
+                                        @endif
+
+                                        @if(auth()->check() && auth()->user()->has_permission('edit_products'))
+                                            <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-info" title="Edit">
+                                                <i data-feather="edit"></i>
+                                            </a>
+                                        @endif
+
+                                        @if(auth()->check() && auth()->user()->has_permission('delete_products'))
+                                            <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline;" class="confirm-delete-form" data-name="{{ $product->name }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button" class="btn btn-sm btn-danger btn-confirm-delete" title="Delete">
+                                                    <i data-feather="trash-2"></i>
+                                                </button>
+                                            </form>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
@@ -453,10 +473,12 @@ Manage Products
                     </div>
                     <h6 class="text-muted mb-2">No Other Products Yet</h6>
                     <p class="text-muted mb-3">Other products will appear here when you create products with tag = 2.</p>
-                    <a href="{{ route('products.create') }}" class="btn btn-info">
-                        <i data-feather="plus" class="me-1"></i>
-                        Add Other Product
-                    </a>
+                    @if(auth()->check() && auth()->user()->has_permission('create_products'))
+                        <a href="{{ route('products.create') }}" class="btn btn-info">
+                            <i data-feather="plus" class="me-1"></i>
+                            Add Other Product
+                        </a>
+                    @endif
                 </div>
             @endif
         </div>

@@ -15,10 +15,12 @@
                     <p class="text-muted mb-0">View complete information for this hydraulic product</p>
                 </div>
                 <div class="d-flex gap-2">
-                    <a href="{{ route('products.edit', $product->id) }}" class="btn btn-outline-primary">
-                        <i data-feather="edit-2" class="me-1"></i>
-                        Edit Product
-                    </a>
+                    @if(auth()->check() && auth()->user()->has_permission('edit_products'))
+                        <a href="{{ route('products.edit', $product->id) }}" class="btn btn-outline-primary">
+                            <i data-feather="edit-2" class="me-1"></i>
+                            Edit Product
+                        </a>
+                    @endif
                     <a href="{{ route('products.index') }}" class="btn btn-outline-secondary">
                         <i data-feather="arrow-left" class="me-1"></i>
                         Back to Products

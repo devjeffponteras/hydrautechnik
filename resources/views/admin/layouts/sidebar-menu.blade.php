@@ -117,27 +117,27 @@
 
     @endif
 
-    @if (auth()->user()->is_an_admin() || auth()->user()->has_access_to_product_module())
+    @if (auth()->user()->is_an_admin() || auth()->user()->has_access_to_product_module() || auth()->user()->has_permission('view_products') || auth()->user()->has_permission('create_products') || auth()->user()->has_permission('edit_products') || auth()->user()->has_permission('delete_products') || auth()->user()->has_permission('create_categories') || auth()->user()->has_permission('create_subcategories'))
         <li class="nav-label mg-t-25">Products</li>
         <li class="nav-item with-sub @if (request()->routeIs('products*')) active show @endif">
             <a href="#" class="nav-link"><i data-feather="package"></i> <span>Products</span></a>
             <ul>
-                @if(auth()->user()->has_access_to('products') || auth()->user()->is_an_admin())
+                @if(auth()->user()->has_permission('view_products') || auth()->user()->has_access_to('products') || auth()->user()->is_an_admin())
                     <li @if (request()->routeIs('products.index')) class="active" @endif>
                         <a href="{{ route('products.index') }}">Manage Products</a>
                     </li>
                 @endif
-                @if(auth()->user()->has_access_to_route('products.create') || auth()->user()->is_an_admin())
+                @if(auth()->user()->has_permission('create_products') || auth()->user()->has_access_to_route('products.create') || auth()->user()->is_an_admin())
                     <li @if (request()->routeIs('products.create')) class="active" @endif>
                         <a href="{{ route('products.create') }}">Create Products</a>
                     </li>
                 @endif
-                @if(auth()->user()->has_access_to_route('products.create_category') || auth()->user()->is_an_admin())
+                @if(auth()->user()->has_permission('create_categories') || auth()->user()->has_access_to_route('products.create_category') || auth()->user()->is_an_admin())
                     <li @if (request()->routeIs('products.create_category')) class="active" @endif>
                         <a href="{{ route('products.create_category') }}">Create Categories</a>
                     </li>
                 @endif
-                @if(auth()->user()->has_access_to_route('products.create_subcategory') || auth()->user()->is_an_admin())
+                @if(auth()->user()->has_permission('create_subcategories') || auth()->user()->has_access_to_route('products.create_subcategory') || auth()->user()->is_an_admin())
                     <li @if (request()->routeIs('products.create_subcategory')) class="active" @endif>
                         <a href="{{ route('products.create_subcategory') }}">Create Subcategories</a>
                     </li>
@@ -178,7 +178,7 @@
                         <a href="{{ route('services.index') }}">Manage Services</a>
                     </li>
                 @endif
-                @if(auth()->user()->has_access_to_services_module() || auth()->user()->is_an_admin())
+                    @if(auth()->check() && auth()->user()->has_permission('create_service'))
                     <li @if (request()->routeIs('services.create')) class="active" @endif>
                         <a href="{{ route('services.create') }}">Create Service</a>
                     </li>
@@ -198,7 +198,7 @@
                         <a href="{{ route('projects.index') }}">Manage Projects</a>
                     </li>
                 @endif
-                @if(auth()->user()->has_access_to_projects_module() || auth()->user()->is_an_admin())
+                @if(auth()->check() && auth()->user()->has_permission('create_projects'))
                     <li @if (request()->routeIs('projects.create')) class="active" @endif>
                         <a href="{{ route('projects.create') }}">Create Project</a>
                     </li>
