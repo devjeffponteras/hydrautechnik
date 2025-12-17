@@ -109,11 +109,7 @@
                                 class="grid-inner row g-0 p-0 bg-transparent shadow-sm h-shadow all-ts h-translatey-sm card border">
                                 <div class="w-100">
                                     <a href="{{ route('news.front.show',$article->slug) }}">
-                                        @if($article->thumbnail_url)
-                                            <img class="w-100" src="{{ $article->thumbnail_url }}" alt="{{ $article->name }}">
-                                        @else
-                                            <img class="w-100" src="{{ asset('storage/news_image/news_thumbnail/No_Image_Available.jpg')}}" alt="{{ $article->name }}">
-                                        @endif
+                                        <img class="w-100" src="{{ $article->thumbnail_url ? $article->thumbnail_url : asset('images/no-image.jpg') }}" alt="{{ $article->name }}">
                                     </a>
                                 </div>
                                 <div class="p-4">
@@ -143,11 +139,7 @@
                         <div class="grid-inner row g-0">
                             <div class="col-md-5">
                                 <div class="news-imag">
-                                    @if($article->thumbnail_url)
-                                        <img class="w-100 h-100 position-relative position-lg-absolute inset-0 object-position-center object-fit-cover" src="{{ $article->thumbnail_url }}" alt="{{ $article->name }}">
-                                    @else
-                                        <img class="w-100 h-100 position-relative position-lg-absolute inset-0 object-position-center object-fit-cover" src="{{ asset('storage/news_image/news_thumbnail/No_Image_Available.jpg')}}" alt="{{ $article->name }}">
-                                    @endif
+                                    <img class="w-100 h-100 position-relative position-lg-absolute inset-0 object-position-center object-fit-cover" src="{{ $article->thumbnail_url ? $article->thumbnail_url : asset('images/no-image.jpg') }}" alt="{{ $article->name }}">
                                 </div>
                             </div>
                             <div class="col-md-7 ps-md-4">

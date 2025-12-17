@@ -334,6 +334,81 @@ class User extends Authenticatable implements MustVerifyEmail
         return false;
     }
 
+    /**
+     * Check if the user has a specific permission by permission name or description or id.
+     * Accepts permission name (eg. 'delete_service'), description (eg. 'User can delete services') or id (int).
+     */
+    public function has_permission($permissionIdentifier)
+    {
+        if ($this->is_an_admin()) {
+            return true;
+        }
+
+        $query = \App\Models\Permission::query();
+
+        if (is_int($permissionIdentifier) || ctype_digit((string)$permissionIdentifier)) {
+            $query->where('id', (int)$permissionIdentifier);
+        } else {
+            $query->where(function($q) use ($permissionIdentifier) {
+                $q->where('name', $permissionIdentifier)
+                  ->orWhere('description', $permissionIdentifier);
+            });
+        }
+
+        $permission = $query->first();
+
+        // If exact lookup failed and the identifier is a string like 'action_resource'
+        // try a simple name-variant: toggle singular/plural on the resource part
+        if (!$permission && !is_int($permissionIdentifier) && !ctype_digit((string)$permissionIdentifier)) {
+            if (strpos($permissionIdentifier, '_') !== false) {
+                [$actionPart, $resourcePart] = explode('_', $permissionIdentifier, 2);
+                // Build alternative name by toggling trailing 's'
+                if (substr($resourcePart, -1) === 's') {
+                    $altResource = rtrim($resourcePart, 's');
+                } else {
+                    $altResource = $resourcePart . 's';
+                }
+                $altName = $actionPart . '_' . $altResource;
+                $permAlt = \App\Models\Permission::where('name', $altName)->first();
+                if ($permAlt) {
+                    $permission = $permAlt;
+                }
+            }
+        }
+
+        // Fallback: try to resolve common naming differences (singular/plural, description text)
+        if (!$permission) {
+            if (!is_int($permissionIdentifier) && !ctype_digit((string)$permissionIdentifier)) {
+                // try to parse action and resource from a name like 'edit_project' or 'delete_services'
+                $parts = explode('_', $permissionIdentifier);
+                if (count($parts) >= 2) {
+                    $action = $parts[0];
+                    $resource = implode(' ', array_slice($parts, 1));
+                    $resourceVariants = [ucfirst($resource), ucfirst($resource).'s', ucwords(str_replace('_',' ',$resource))];
+
+                    foreach ($resourceVariants as $rv) {
+                        $perm = \App\Models\Permission::where('module', 'like', "%{$rv}%")
+                            ->where('description', 'like', "%{$action}%")
+                            ->first();
+                        if ($perm) {
+                            $permission = $perm;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (!$permission) {
+                return false;
+            }
+        }
+
+        return \App\Models\Rolepermission::where('role_id', $this->role_id)
+            ->where('permission_id', $permission->id)
+            ->where('isAllowed', 1)
+            ->exists();
+    }
+
     public function get_assigned_routes()
     {
         $permission = $this->assign_role->permissions;

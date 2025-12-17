@@ -153,7 +153,7 @@
                                     <td style="overflow: hidden;text-overflow: ellipsis;" title="{{$page->name}}">
                                         <strong @if($page->trashed()) style="text-decoration:line-through;" @endif title="{{$page->name}}"> {{$page->name}}</strong>
                                         <p class="mg-b-0 tx-gray-500 tx-11">
-                                            <a target="_blank" href="{{ url($page->get_url()) }}">{{ $page->get_url() }}</a>
+                                            <a target="_blank" href="{{ url($page->get_url()) }}">{{ url($page->get_url()) }}</a>
                                         </p>
                                     </td>
                                     <td>{{ $page->label }}</td>

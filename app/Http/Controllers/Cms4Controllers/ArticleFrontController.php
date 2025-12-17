@@ -23,6 +23,7 @@ use Response;
 use Storage;
 use Auth;
 use DB;
+use Illuminate\Support\Facades\Schema;
 
 class ArticleFrontController extends Controller
 {
@@ -71,12 +72,12 @@ class ArticleFrontController extends Controller
                     $articles = Article::where(function($query){
                         $query->where('name','like','%'.$_GET['criteria'].'%')
                         ->orWhere('contents','like','%'.$_GET['criteria'].'%');
-                    })->whereStatus('Published'); 
+                    })->whereStatus('Published');
                 }
-                
+
                 session(['search_value' => $_GET['criteria']]);
 
-            } 
+            }
             elseif($_GET['type'] == 'category'){
                 if($_GET['criteria'] == 0)
                     $articles = Article::where(function($query){
@@ -85,31 +86,31 @@ class ArticleFrontController extends Controller
                                 ->whereStatus('Published');
                 else
                     $articles = Article::where('category_id','=',$_GET['criteria'])->whereStatus('Published');
-            } 
+            }
             elseif($_GET['type'] == 'month'){
                 list($year, $month) = explode('-', $_GET['criteria']);
 
                 $articles = Article::whereYear('date', '=', $year)
                                     ->whereMonth('date', '=', $month)
                                     ->whereStatus('Published');
-            } 
+            }
             elseif($_GET['type'] == 'archives'){
                 $articles = Article::whereYear('date', $year)->whereStatus('Published');
-            } 
+            }
             else {
                 $articles = Article::whereStatus('Published');
             }
 
             $articles = $articles->orderBy('date', 'desc')->paginate($pageLimit);
-            
+
             $totalSearchedArticle = $articles->count();
 
             if($criteria){
                 $categories = $this->categories($_GET['criteria']);
             } else {
                 $categories = $this->categories(0);
-            }           
-            
+            }
+
         } else {
             $articles = Article::whereStatus('Published');
 
@@ -124,7 +125,7 @@ class ArticleFrontController extends Controller
             $articles = $articles->paginate($pageLimit);
 
             $totalSearchedArticle = $articles->count();
-            
+
             $categories = $this->categories(0);
         }
 
@@ -138,11 +139,18 @@ class ArticleFrontController extends Controller
         $search = ($request->has('criteria')) ? $request->criteria : "";
 
         $latestArticles = Article::whereStatus('Published')->orderBy('date', 'desc')->take(5)->get();
-        
-        //FOR BANNER ADS
-        $used_page = BannerAdPage::where('page_id', 4)->first();
-        $banner_ads = BannerAd::where('id', $used_page->banner_ad_id ?? 0)->where('status', 1)->where('expiration_date', '>', now())->get();
-        //END BANNER ADS
+
+        // FOR BANNER ADS - guard against missing table (e.g. migrations not run)
+        $used_page = null;
+        $banner_ads = collect();
+        if (Schema::hasTable('banner_ad_pages')) {
+            $used_page = BannerAdPage::where('page_id', 4)->first();
+            $banner_ads = BannerAd::where('id', $used_page->banner_ad_id ?? 0)
+                ->where('status', 1)
+                ->where('expiration_date', '>', now())
+                ->get();
+        }
+        // END BANNER ADS
 
         return view('theme.pages.news-list',compact('page', 'articles','breadcrumb','categories', 'dates', 'search','totalSearchedArticle', 'latestArticles', 'type', 'criteria', 'banner_ads'))->withShortcodes();
     }
